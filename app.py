@@ -4,6 +4,7 @@ import sqlite3
 import ast
 import random
 import sympy
+import os
 
 app = Flask(__name__, template_folder='.')
 
@@ -656,4 +657,5 @@ def use_combo():
 
 if __name__ == "__main__":
     initialize_db()
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug = True, host='0.0.0.0', port=port)
