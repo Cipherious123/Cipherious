@@ -6,7 +6,7 @@ import random
 import sympy
 import os
 
-app = Flask(__name__, template_folder='.')
+app = Flask(__name__, template_folder='templates')
 
 app.secret_key = 'your_secret_key'  # Needed to use sessions in Flask
 DATABASE = 'users.db'
@@ -657,5 +657,5 @@ def use_combo():
 
 if __name__ == "__main__":
     initialize_db()
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 10000))
     app.run(debug = True, host='0.0.0.0', port=port)
