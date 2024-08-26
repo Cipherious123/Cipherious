@@ -1,0 +1,43 @@
+<html> 
+
+    <head>
+        <meta charset="UTF-8">
+        <title>View Accounts</title>
+    </head>
+    <body>
+        <h1>Registered Users</h1>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Logged in</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user[0] }}</td>
+                <td>{{ user[1] }}</td>
+                <td>{{ user[2] }}</td>
+                <td>{{ user[3] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Combo name</th>
+                <th>Combo</th>
+            </tr>
+            {% for val in combos %}
+            <tr>
+                <td>{{ val[0] }}</td>
+                <td>{{ val[1] }}</td>
+                <td>{{ val[2] }}</td>
+                <td>{{ val[3] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+    </html>
