@@ -5,15 +5,26 @@ import ast
 import random
 import sympy
 import os
+import psycopg2
 
 app = Flask(__name__, template_folder='templates')
 
 app.secret_key = 'your_secret_key'  # Needed to use sessions in Flask
 DATABASE = 'users.db'
 
+def send_cursor():   
+    conn = psycopg2.connect( # Connect to your PostgreSQL database
+        dbname="users_fyua",
+        user="nishant",
+        password="IXDc7f1HciHowfPicbb9g1kLwt8eGZwM",
+        host="dpg-cqs2gq3qf0us738sm1mg-a",
+        port="5432"
+    )
+    cursor = conn.cursor()
+    return cursor, conn
+
 def initialize_db():
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
+    c, conn = send_cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS users
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
                   username TEXT UNIQUE NOT NULL,
@@ -28,6 +39,7 @@ def initialize_db():
     
     conn.commit()
     conn.close()  
+ 
 
 def int_check(s):
     try:
@@ -48,10 +60,8 @@ def int_check(s):
 alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
    
 def usernow():
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-    c.execute("SELECT username FROM users WHERE logged = ?",(1,))
-    return c.fetchone()[0]
+    user = db_session.query(User).filter_by(logged=1).first()
+    return user.username if user else None
 
 def refiner(raw):
     raw=list(raw)
@@ -129,7 +139,7 @@ class err:
 def index():
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
-    c.execute('SELECT logged from users')
+    c('SELECT logged from users')
     logged=c.fetchall()
     conn.close()
     session.clear()
