@@ -159,6 +159,7 @@ def index():
         curr_user = session['user']
     else:
         session['user'] = None
+        curr_user = session['user']
     session['step1'] = True
 
     if curr_user != None:
