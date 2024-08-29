@@ -23,24 +23,46 @@ def send_cursor():
     cursor = conn.cursor()
     return cursor, conn
 
+from flask import Flask, render_template, request, redirect, url_for, session
+from combo_conv import combination, inp_check, alphagreat
+import ast
+import random
+import sympy
+import os
+import psycopg2
+
+app = Flask(__name__, template_folder='templates')
+
+app.secret_key = 'your_secret_key'  # Needed to use sessions in Flask
+DATABASE = 'users.db'
+
+def send_cursor():   
+    conn = psycopg2.connect( # Connect to your PostgreSQL database
+        dbname="users_fyua",
+        user="nishant",
+        password="IXDc7f1HciHowfPicbb9g1kLwt8eGZwM",
+        host="dpg-cqs2gq3qf0us738sm1mg-a",
+        port="5432"
+    )
+    cursor = conn.cursor()
+    return cursor, conn
+
 def initialize_db():
     c, conn = send_cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS users
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                  username TEXT UNIQUE NOT NULL,
-                  password TEXT NOT NULL,
-                  logged INTEGER)''')
+                  username VARCHAR(20) UNIQUE NOT NULL,
+                  password VARCHAR(50) UNIQUE NOT NULL)''')
     
     c.execute('''CREATE TABLE IF NOT EXISTS combinations
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                  username TEXT NOT NULL,
-                  comboname TEXT NOT NULL,
+                  username VARCHAR(20) NOT NULL,
+                  comboname TEXT(20) NOT NULL,
                   combo TEXT NOT NULL)''')
     
     conn.commit()
     conn.close()  
  
-
 def int_check(s):
     try:
         int(s)
@@ -59,10 +81,6 @@ def int_check(s):
         return False   
 alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
    
-def usernow():
-    user = db_session.query(User).filter_by(logged=1).first()
-    return user.username if user else None
-
 def refiner(raw):
     raw=list(raw)
     for count in range(len(raw)):
@@ -137,15 +155,13 @@ class err:
 
 @app.route('/')
 def index():
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-    c('SELECT logged from users')
-    logged=c.fetchall()
-    conn.close()
-    session.clear()
+    if 'user' in session:
+        curr_user = session['user']
+    else:
+        session['user'] = None
     session['step1'] = True
 
-    if any(log[0] == 1 for log in logged):
+    if curr_user != None:
         return redirect(url_for('cipherious'))
     else:
         return redirect(url_for('create_account'))
@@ -153,9 +169,8 @@ def index():
 @app.route('/my_acc', methods=['GET', 'POST'])
 def my_acc():
     output={}
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-    curr_user=usernow()
+    c, conn = send_cursor()
+    curr_user=session['user']
 
     c.execute('SELECT comboname, combo FROM combinations WHERE username = ?', (curr_user,))
     all_combos = c.fetchall()
@@ -169,9 +184,8 @@ def my_acc():
 @app.route('/del_combo', methods=['GET', 'POST'])
 def del_combo():
     output=""
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-    curr_user=usernow()
+    c, conn = send_cursor()
+    curr_user=session['user']
 
     if request.method == 'POST':
         req_combo = request.form['combo']
@@ -193,10 +207,9 @@ def del_combo():
 def change_password():
     output=""
     if request.method == 'POST':
-        conn = sqlite3.connect(DATABASE)
-        c = conn.cursor()
+        c, conn = send_cursor()
 
-        curr_user=usernow()
+        curr_user=session['user']
         old_password= request.form['old_password']
         new_password = request.form['new_password']
 
@@ -219,10 +232,9 @@ def change_password():
 def del_acc():
     output=""
     if request.method=='POST':
-        conn = sqlite3.connect(DATABASE)
-        c = conn.cursor()
+        c, conn = send_cursor()
         password = request.form['password']
-        curr_user=usernow()
+        curr_user=session['user']
         c.execute('SELECT password FROM users WHERE username = ?', (curr_user,))
         right_pword=c.fetchone()[0]
 
@@ -238,11 +250,6 @@ def del_acc():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-    c.execute("UPDATE users SET logged = 0 WHERE logged = 1")
-    conn.commit()
-    conn.close()
     session.clear()
     return redirect(url_for('create_account'))
 
@@ -487,20 +494,22 @@ def create_account():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        terms = request.form.get('terms') 
-        
-        conn = sqlite3.connect(DATABASE)
-        c = conn.cursor()
+        terms = request.form.get('terms')     
+        c, conn = send_cursor()
         
         if terms:
-            try:
-                c.execute("INSERT INTO users (username, password, logged) VALUES (?, ?, ?)", (username, password, 1))
+            c.execute("SELECT username FROM users")
+            alluser = c.fetchall()
+
+            if not any(username == x[0] for x in alluser) :
+                c.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
                 conn.commit()
+                session['user'] = username
                 return redirect(url_for('cipherious'))
-            except sqlite3.IntegrityError:
+            
+            else:
                 issues.raise_issue("Username already taken")
-            finally:
-                conn.close()
+            conn.close()
 
         else:
             c.execute("SELECT username FROM users")
@@ -511,7 +520,7 @@ def create_account():
                 result=c.fetchone()
 
                 if password==result[0]:
-                    c.execute("UPDATE users set logged = 1 where username = ?", (username,) )
+                    session['user'] = username
                     conn.commit()
                     return redirect(url_for('cipherious'))
                 else:
@@ -525,9 +534,8 @@ def create_account():
 
 @app.route('/viewdata')
 def viewdata():
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-    c.execute("SELECT id, username, password, logged FROM users")
+    c, conn = send_cursor()
+    c.execute("SELECT id, username, password FROM users")
     users = c.fetchall()
 
     c.execute("SELECT id, username, comboname, combo FROM combinations")
@@ -537,7 +545,7 @@ def viewdata():
 
 @app.route('/cipherious', methods=['GET', 'POST'])
 def cipherious():
-    curr_user=usernow()
+    curr_user=session['user']
     return render_template('HOME.html',curr_user=curr_user)
 
 @app.route('/create_combo', methods=['GET', 'POST'])
@@ -593,9 +601,8 @@ def set_name():
         session['errorr']['name'] = "Comboname not given"
         return 
 
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-    curr_user = usernow()
+    c, conn = send_cursor()
+    curr_user = session['user']
 
     c.execute('SELECT comboname FROM combinations WHERE username = ?', (curr_user,))
     all_names = c.fetchall()
@@ -623,10 +630,9 @@ def submit():
         session['combo'] = combo
 
 def completed():
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
+    c, conn = send_cursor()
 
-    curr_user = usernow()
+    curr_user = session['user']
     combo = str(session['combo'])
     comboname = session.get('comboname', "")
     c.execute('INSERT INTO combinations (username, comboname, combo) VALUES (?, ?, ?)', (curr_user, comboname, combo))
@@ -644,9 +650,8 @@ def use_combo():
         inp = request.form['inptext']
         ende = request.form['ende']
         
-        conn=sqlite3.connect(DATABASE)
-        c=conn.cursor()
-        curr_user=usernow()
+        c, conn = send_cursor()
+        curr_user=session['user']
 
         c.execute('SELECT combo FROM combinations WHERE username=? AND comboname=?', (curr_user, combo_name))
         combo_ = c.fetchone()
