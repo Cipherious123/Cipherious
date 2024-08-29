@@ -50,14 +50,14 @@ def send_cursor():
 def initialize_db():
     c, conn = send_cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS users
-                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                 (id SERIAL PRIMARY KEY,
                   username VARCHAR(20) UNIQUE NOT NULL,
                   password VARCHAR(50) UNIQUE NOT NULL)''')
     
     c.execute('''CREATE TABLE IF NOT EXISTS combinations
-                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                 (id SERIAL PRIMARY KEY,
                   username VARCHAR(20) NOT NULL,
-                  comboname TEXT(20) NOT NULL,
+                  comboname VARCHAR(20) NOT NULL,
                   combo TEXT NOT NULL)''')
     
     conn.commit()
