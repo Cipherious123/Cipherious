@@ -55,8 +55,9 @@
 <div class="w3-top">
   <div class="w3-bar w3-theme-d2 w3-left-align">
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-    <a href="{{url_for('logout')}}" class="w3-bar-item w3-button w3-teal w3-hover-red"><i class="fa fa-home w3-margin-right"></i>Logout</a>
-    <form method="POST" action="/my_acc"><a href="{{url_for('my_acc')}}" class="w3-bar-item w3-button w3-hide-small w3-hover-red">Hi {{curr_user}}</a></form>
+    <form method="POST" action="/logout">
+      <a href=# class="w3-bar-item w3-button w3-teal w3-hover-red"><i class="fa fa-home w3-margin-right"></i>Logout</a></form>
+    <a href="{{url_for('my_acc')}}" class="w3-bar-item w3-button w3-hide-small w3-hover-red">Hi {{curr_user}}</a>
 
     <div class="w3-dropdown-hover w3-hide-small ">
       <button class="w3-button" title="Notifications">Dropdown <i class="fa fa-caret-down"></i></button>     
@@ -97,31 +98,31 @@
   <div class="w3-row"><br>
 
     <div class="w3-quarter">
-      <img src="{{ url_for('static', filename='logo.png') }}" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity">
+      <img src="{{ url_for('static', filename='logo.PNG') }}" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity">
       <h3>Rishi Ritesh Parekh</h3>
       <p>Chief Executive Officer, Web Designer</p>
     </div>
 
     <div class="w3-quarter">
-      <img src="{{ url_for('static', filename='logo.png') }}" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity">
+      <img src="{{ url_for('static', filename='logo.PNG') }}" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity">
       <h3>Nishant Jagatap</h3>
       <p>Cipher expert</p>
     </div>
 
     <div class="w3-quarter">
-      <img src="{{ url_for('static', filename='logo.png') }}" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity">
+      <img src="{{ url_for('static', filename='logo.PNG') }}" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity">
       <h3>Bhiman Nirmala Bhanu Prakash</h3>
-      <p>Boss man</p>
+      <p>Chief Operations Officer</p>
     </div>
     
     <div class="w3-quarter">
-      <img src="{{ url_for('static', filename='logo.png') }}" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity">
+      <img src="{{ url_for('static', filename='logo.PNG') }}" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity">
       <h3>Nithyanth Senthil Kumar</h3>
       <p>Marketing Head</p>
     </div>
 
     <div class="w3-quarter">
-      <img src="{{ url_for('static', filename='logo.png') }}" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity">
+      <img src="{{ url_for('static', filename='logo.PNG') }}" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity">
       <h3>Rounak Thomas James</h3>
       <p>Marketing Head</p>
     </div>
