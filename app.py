@@ -130,6 +130,7 @@ class err:
 
 @app.route('/')
 def index():
+    initialize_db()
     if 'user' in session:
         curr_user = session['user']
     else:
