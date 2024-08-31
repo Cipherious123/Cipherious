@@ -138,7 +138,7 @@ def index():
         session['user'] = None
         curr_user = session['user']
     session['step1'] = True
-
+    print(session['step1'])
     if curr_user != None:
         return redirect(url_for('cipherious'))
     else:
