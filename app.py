@@ -336,7 +336,7 @@ def dif_hel():
 
             if not int_check(priv_key):
                 output = "Private key must be a number"
-                return render_template('Dif_hel1.html', output=output)
+                return render_template('dif_hel1.html', output=output)
             
             priv_key = int(priv_key)
 
@@ -377,7 +377,7 @@ def dif_hel():
             action = request.form['action']
             if action == "step1":
                 session['step1'] = True
-                return render_template('Dif_hel1.html', output="")
+                return render_template('dif_hel1.html', output="")
             
             o_superkey = request.form['o_superkey']
             if int_check(o_superkey):
@@ -390,9 +390,9 @@ def dif_hel():
                 output = "Error: Partner's superkey must be a positive integer."
 
     if session['step1']:
-        return render_template('Dif_hel1.html', output=output)
+        return render_template('dif_hel1.html', output=output)
     else:
-        return render_template('Dif_hel2.html', output=output)
+        return render_template('dif_hel2.html', output=output)
         
 @app.route('/BYOCone', methods=['GET', 'POST'])
 def BYOCone():
