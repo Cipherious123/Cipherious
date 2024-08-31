@@ -24,11 +24,13 @@ def send_cursor():
 
 def initialize_db():
     c, conn = send_cursor()
+    print("crrating table")
     c.execute('''CREATE TABLE IF NOT EXISTS users
                  (id SERIAL PRIMARY KEY,
                   username VARCHAR(20) UNIQUE NOT NULL,
                   password VARCHAR(50) UNIQUE NOT NULL)''')
-    
+    c.execute('SELECT * from users')
+    print(c.fetchall())
     c.execute('''CREATE TABLE IF NOT EXISTS combinations
                  (id SERIAL PRIMARY KEY,
                   username VARCHAR(20) NOT NULL,
