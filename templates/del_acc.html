@@ -1,51 +1,89 @@
-<html> 
-    <head> 
-        <title> Delete account </title>
-        
-        <style>
-            .button {
-                background-color: rgb(6, 177, 6);
-                border: 5px solid black;
-                color: rgb(27, 5, 5);
-                padding: 5px 10px;
-                text-align: center;
-                display: inline-block;
-                font-size: 20px;
-                font-family: Agency FB, sans-serif;
-                margin: 10px 30px;
-                cursor: pointer;
-            }
-            .body {
-                border: solid 5px;
-            }
-            .header {
-                text-align: center;
-                padding: 20px;
-                font-size: 50px;
-            }
-        </style>
-        <style>
-           input {
-                width: 20%;
-                height: 30px;
-                border: 2px solid rgb(0, 0, 0);
-                background-color: rgb(6, 177, 6);
-                font-size: 16px;
-            }
-        </style></head> 
-    <body bgcolor="black", text="lime"> <font face="Agency FB" size="4" color="#0FFF50">
-        <h1><center>Delete your account</center></h1>
-        <form method="post" action="/del_acc">
-            
-            <label for="password">Password</label><br>
-            <input type="password" id="password" name="password" required><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <style>
+        body {
+            background-color: #000000;
+            color: #0FFF50;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007BFF;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        .input-field {
+            width: calc(100% - 24px);
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            background-color: #333;
+            color: #fff;
+        }
+        .input-field::placeholder {
+            color: #888;
+        }
+        .button {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.3s;
+            text-align: center;
+            display: inline-block;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .warning-text {
+            color: #FF4C4C;
+            font-size: 16px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
 
-        
-            <input type="submit" value="Delete Account"><br>
-        </form>
-        <p>  Deleting your account is an irreversible process. You will lose all combos stored. </p>
-        <p> {{output}} </p>
+<div class="container">
+    <h1>Delete Your Account</h1>
+    <form method="post" action="/del_acc">
+        <label for="password" class="input-label">Password</label>
+        <input type="password" id="password" name="password" class="input-field" placeholder="Enter your password" required>
+        <button type="submit" class="button">Delete Account</button>
+    </form>
+    <p class="warning-text">Deleting your account is an irreversible process. You will lose all combos stored.</p>
+    <p>{{output}}</p>
+    <form method="post" action="/">
+        <button type="submit" class="button">Home</button>
+    </form>
+</div>
 
-        <form method="post" action="/index">
-        <button type="submit" class="button">Home</button></form>
-    </font></body></html>
+</body>
+</html>

@@ -1,50 +1,108 @@
-<html>
-    <head>
-        <style>
-            .button {
-                background-color: rgb(6, 177, 6);
-                border: 5px solid black;
-                color: rgb(27, 5, 5);
-                padding: 5px 10px;
-                text-align: center;
-                display: inline-block;
-                font-size: 20px;
-                font-family: Agency FB, sans-serif;
-                margin: 10px 30px;
-                cursor: pointer;
-            }
-            .body {
-                border: solid 5px;
-            }
-            .header {
-                text-align: center;
-                padding: 20px;
-                font-size: 50px;
-            }
-        </style>
-        <style>
-           input {
-                width: 80%;
-                height: 60px;
-                border: 2px solid rgb(0, 0, 0);
-                background-color: rgb(6, 177, 6);
-                font-size: 16px;
-            }
-        </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Combination</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <style>
+        body {
+            background-color: #000;
+            color: #0FFF50;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007BFF;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        .input-field {
+            width: calc(100% - 24px);
+            height: 60px;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            background-color: #333;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        .input-field::placeholder {
+            color: #888;
+        }
+        .button {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .output-container {
+            background-color: #333;
+            border: 1px solid #444;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            min-height: 50px;
+            font-size: 16px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #ddd;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #ddd;
+        }
+    </style>
+</head>
+<body>
 
-          <title>Delete combination</title></head>
-    <body bgcolor="black" text="#0FFF50"> <font face="Agency FB" size="4" color="#0FFF50">
-        <h1><center><b>Delete combo</b></center></h1></font>
-        <form method="post" action="/del_combo">
+<div class="container">
+    <h1>Delete Combo</h1>
+    <form method="post" action="/del_combo">
+        <div class="form-group">
+            <label for="combo">Name of Combo</label>
+            <input type="text" id="combo" name="combo" class="input-field" placeholder="Enter combo name" required>
+        </div>
+        <button type="submit" class="button">Delete Combo Forever</button>
+    </form>
+    <div class="output-container">
+        {{output}}
+    </div>
+    <a href="{{ url_for('viewdata') }}" class="button">Admin Only</a>
+    <br><br>
+    <a href="{{ url_for('cipherious') }}" class="button">Home Page</a>
+</div>
 
-            <label for="combo"> Name of combo </label><br>
-            <input type="text" id="combo" name="combo"  ><br><br>
-
-            <input type="submit" value="Delete combo forever"> <br><br>
-        </form>
-        <p>
-            {{output}}
-        </p>
-        <a href="{{ url_for('viewdata')}}"><button class="button">Admin only</button></a><br><br>
-        <a href="{{ url_for('cipherious')}}"><button class="button">Home page</button></a>
-     </body> </html>
+</body>
+</html>
