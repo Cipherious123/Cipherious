@@ -24,13 +24,12 @@ def send_cursor():
 
 def initialize_db():
     c, conn = send_cursor()
-    print("crrating table")
+
     c.execute('''CREATE TABLE IF NOT EXISTS users
                  (id SERIAL PRIMARY KEY,
                   username VARCHAR(20) UNIQUE NOT NULL,
                   password VARCHAR(50) UNIQUE NOT NULL)''')
-    c.execute('SELECT * from users')
-    print(c.fetchall())
+
     c.execute('''CREATE TABLE IF NOT EXISTS combinations
                  (id SERIAL PRIMARY KEY,
                   username VARCHAR(20) NOT NULL,
@@ -151,7 +150,7 @@ def my_acc():
     c, conn = send_cursor()
     curr_user=session['user']
 
-    c.execute('SELECT comboname, combo FROM combinations WHERE username = ?', (curr_user,))
+    c.execute('SELECT comboname, combo FROM combinations WHERE username = %s', (curr_user,))
     all_combos = c.fetchall()
 
     for comboname, combo_str in all_combos:
@@ -168,12 +167,12 @@ def del_combo():
 
     if request.method == 'POST':
         req_combo = request.form['combo']
-        c.execute('SELECT comboname FROM combinations WHERE username = ?',(curr_user,))
+        c.execute('SELECT comboname FROM combinations WHERE username = %s',(curr_user,))
         all_combos=c.fetchall()
         all_combos= refiner(all_combos)
 
         if req_combo in all_combos:
-            c.execute('DELETE FROM combinations WHERE comboname = ? AND username = ?', (req_combo, curr_user))
+            c.execute('DELETE FROM combinations WHERE comboname = %s AND username = %s', (req_combo, curr_user))
             conn.commit()
             conn.close()
             output="Deleted the combo" + req_combo
@@ -192,11 +191,11 @@ def change_password():
         old_password= request.form['old_password']
         new_password = request.form['new_password']
 
-        c.execute('SELECT password FROM users WHERE username=?', (curr_user,))
+        c.execute('SELECT password FROM users WHERE username=%s', (curr_user,))
         corr_password=c.fetchone()[0]
         
         if corr_password == old_password:
-            c.execute('UPDATE users SET password = ? WHERE username = ?', (new_password, curr_user))
+            c.execute('UPDATE users SET password = %s WHERE username = %s', (new_password, curr_user))
             output="Your password was changed successfully"
             
         else:
@@ -214,14 +213,14 @@ def del_acc():
         c, conn = send_cursor()
         password = request.form['password']
         curr_user=session['user']
-        c.execute('SELECT password FROM users WHERE username = ?', (curr_user,))
+        c.execute('SELECT password FROM users WHERE username = %s', (curr_user,))
         right_pword=c.fetchone()[0]
 
         if password != right_pword:
             output = "Wrong password"
         else:
-            c.execute('DELETE FROM users WHERE username = ?', (curr_user,))
-            c.execute('DELETE FROM combinations WHERE username = ?', (curr_user,))
+            c.execute('DELETE FROM users WHERE username = %s', (curr_user,))
+            c.execute('DELETE FROM combinations WHERE username = %s', (curr_user,))
             conn.commit()
             output = "Account deleted "
         conn.close()
@@ -481,7 +480,7 @@ def create_account():
             alluser = c.fetchall()
 
             if not any(username == x[0] for x in alluser) :
-                c.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+                c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
                 conn.commit()
                 session['user'] = username
                 return redirect(url_for('cipherious'))
@@ -495,7 +494,7 @@ def create_account():
             alluser = c.fetchall()
 
             if any(username == x[0] for x in alluser) :
-                c.execute("SELECT password FROM users WHERE username = ?", (username,))
+                c.execute("SELECT password FROM users WHERE username = %s", (username,))
                 result=c.fetchone()
 
                 if password==result[0]:
@@ -583,7 +582,7 @@ def set_name():
     c, conn = send_cursor()
     curr_user = session['user']
 
-    c.execute('SELECT comboname FROM combinations WHERE username = ?', (curr_user,))
+    c.execute('SELECT comboname FROM combinations WHERE username = %s', (curr_user,))
     all_names = c.fetchall()
 
     for name in all_names:
@@ -614,7 +613,7 @@ def completed():
     curr_user = session['user']
     combo = str(session['combo'])
     comboname = session.get('comboname', "")
-    c.execute('INSERT INTO combinations (username, comboname, combo) VALUES (?, ?, ?)', (curr_user, comboname, combo))
+    c.execute('INSERT INTO combinations (username, comboname, combo) VALUES (%s, %s, %s)', (curr_user, comboname, combo))
 
     conn.commit()
     conn.close()
@@ -632,7 +631,7 @@ def use_combo():
         c, conn = send_cursor()
         curr_user=session['user']
 
-        c.execute('SELECT combo FROM combinations WHERE username=? AND comboname=?', (curr_user, combo_name))
+        c.execute('SELECT combo FROM combinations WHERE username=%s AND comboname=%s', (curr_user, combo_name))
         combo_ = c.fetchone()
         if combo_ == None:
             output="Error, combination not found"
