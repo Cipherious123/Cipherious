@@ -9,7 +9,7 @@ import psycopg2
 app = Flask(__name__, template_folder='templates')
 
 app.secret_key = 'your_secret_key'  # Needed to use sessions in Flask
-DATABASE = 'users.db'
+DATABASE = 'postgresql://nishant:IXDc7f1HciHowfPicbb9g1kLwt8eGZwM@dpg-cqs2gq3qf0us738sm1mg-a/users_fyua'
 
 def send_cursor():   
     conn = psycopg2.connect( # Connect to your PostgreSQL database
