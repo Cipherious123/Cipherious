@@ -510,17 +510,6 @@ def create_account():
         
     return render_template('create_account.html',error=issues.name)
 
-@app.route('/viewdata')
-def viewdata():
-    c, conn = send_cursor()
-    c.execute("SELECT id, username, password FROM users")
-    users = c.fetchall()
-
-    c.execute("SELECT id, username, comboname, combo FROM combinations")
-    combos = c.fetchall()
-    conn.close()
-    return render_template('viewdata.html', users=users, combos=combos)
-
 @app.route('/cipherious', methods=['GET', 'POST'])
 def cipherious():
     curr_user=session['user']
