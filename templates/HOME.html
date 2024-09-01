@@ -59,15 +59,7 @@
       <button class="w3-bar-item w3-button w3-teal w3-hover-red"><i class="fa fa-home w3-margin-right"></i>Logout</button></form>
     <a href="{{url_for('my_acc')}}" class="w3-bar-item w3-button w3-hide-small w3-hover-red">Hi {{curr_user}}</a>
 
-    <div class="w3-dropdown-hover w3-hide-small ">
-      <button class="w3-button" title="Notifications">Dropdown <i class="fa fa-caret-down"></i></button>     
-      <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-        <a href="#" class="w3-bar-item w3-button">Link</a>
-        <a href="#" class="w3-bar-item w3-button">Link</a>
-        <a href="#" class="w3-bar-item w3-button">Link</a>
-      </div>
-    </div>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Help">?</a>
   </div>
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium">
@@ -178,7 +170,7 @@
 
     <div class="w3-quarter w3-padding-24">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
-        <img src="image_name_here" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <img src="{{ url_for('static', filename='morse.jfif') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">MORSE CODE</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
@@ -191,7 +183,7 @@
 
     <div class="w3-quarter w3-padding-24">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
-        <img src="image_name_here" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <img src="{{ url_for('static', filename='dhkea.jfif') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">DIFFIE-HELLMAN KEY EXCHANGE ALGORITHM</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
@@ -203,7 +195,7 @@
 
     <div class="w3-quarter w3-padding-24">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
-        <img src="image_name_here" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <img src="{{ url_for('static', filename='scrambler.jfif') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">SCRAMBLER CIPHER</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
@@ -216,7 +208,7 @@
 
     <div class="w3-quarter w3-padding-24">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
-        <img src="image_name_here" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <img src="{{ url_for('static', filename='byoc.jpg') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">BUILD YOUR OWN CIPHER</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
