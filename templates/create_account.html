@@ -1,56 +1,116 @@
-<html> 
-    <head> 
-        <title>Create an account or login </title>
-        
-        <style>
-            .button {
-                background-color: rgb(6, 177, 6);
-                border: 5px solid black;
-                color: rgb(27, 5, 5);
-                padding: 5px 10px;
-                text-align: center;
-                display: inline-block;
-                font-size: 20px;
-                font-family: Agency FB, sans-serif;
-                margin: 10px 30px;
-                cursor: pointer;
-            }
-            .body {
-                border: solid 5px;
-            }
-            .header {
-                text-align: center;
-                padding: 20px;
-                font-size: 50px;
-            }
-        </style>
-        <style>
-           input {
-                width: 20%;
-                height: 30px;
-                border: 2px solid rgb(0, 0, 0);
-                background-color: rgb(6, 177, 6);
-                font-size: 16px;
-            }
-        </style></head> 
-    <body bgcolor="black", text="lime"> <font face="Agency FB" size="4" color="#0FFF50">
-        <h1><center>Create an account or login</center></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an Account or Login</title>
+    <style>
+        body {
+            background-color: black;
+            color: lime;
+            font-family: 'Agency FB', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 5px solid #333;
+            border-radius: 10px;
+            background-color: #222;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            font-size: 2.5em;
+            color: #0FFF50;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid rgb(0, 0, 0);
+            background-color: rgb(6, 177, 6);
+            font-size: 1em;
+            color: #fff;
+            border-radius: 5px;
+        }
+        .form-group input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .form-group input[type="submit"] {
+            background-color: rgb(6, 177, 6);
+            border: 2px solid black;
+            color: rgb(27, 5, 5);
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: rgb(5, 157, 5);
+        }
+        .admin-button {
+            display: block;
+            width: 100%;
+            background-color: #555;
+            color: #0FFF50;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1.2em;
+            margin-top: 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .admin-button:hover {
+            background-color: #777;
+        }
+        .error-message {
+            color: red;
+            font-size: 1.2em;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            Create an Account or Login
+        </div>
         <form method="post" action="/create_account">
-            
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" required><br><br>
-
-            <label for="password">Password:</label> <br>
-            <input type="password" id="password" name="password" required><br><br>
-            
-            <label for="terms">Tick to create a new account, leave it to log in</label>
-            <input type="checkbox" id="terms" name="terms" ><br><br><br>
-
-            <input type="submit" value="Submit">
-        
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="terms">Tick to create a new account, leave it to log in</label>
+                <input type="checkbox" id="terms" name="terms">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit">
+            </div>
             {% if error %}
-            <p style="color: red;">{{error}}</p>
+                <div class="error-message">{{ error }}</div>
             {% endif %}
-        </form>  <br>
-    </body> 
+        </form>
+        <a href="{{ url_for('viewdata') }}" class="admin-button">Admin Only</a>
+    </div>
+</body>
 </html>
