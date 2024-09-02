@@ -1,116 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create an Account or Login</title>
-    <style>
-        body {
-            background-color: black;
-            color: lime;
-            font-family: 'Agency FB', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            border: 5px solid #333;
-            border-radius: 10px;
-            background-color: #222;
-        }
-        .header {
-            text-align: center;
-            padding: 20px;
-            font-size: 2.5em;
-            color: #0FFF50;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 1.2em;
-            margin-bottom: 5px;
-        }
-        .form-group input[type="text"],
-        .form-group input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid rgb(0, 0, 0);
-            background-color: rgb(6, 177, 6);
-            font-size: 1em;
-            color: #fff;
-            border-radius: 5px;
-        }
-        .form-group input[type="checkbox"] {
-            margin-right: 10px;
-        }
-        .form-group input[type="submit"] {
-            background-color: rgb(6, 177, 6);
-            border: 2px solid black;
-            color: rgb(27, 5, 5);
-            padding: 10px 20px;
-            font-size: 1.2em;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        .form-group input[type="submit"]:hover {
-            background-color: rgb(5, 157, 5);
-        }
-        .admin-button {
-            display: block;
-            width: 100%;
-            background-color: #555;
-            color: #0FFF50;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 1.2em;
-            margin-top: 20px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-        }
-        .admin-button:hover {
-            background-color: #777;
-        }
-        .error-message {
-            color: red;
-            font-size: 1.2em;
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
+  <title>Create an Account or Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      color: #ffffff;
+      background-color: black;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      text-align: center;
+      padding: 40px;
+      font-size: 50px;
+      color: #007BFF;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #333;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    .container h2 {
+      text-align: center;
+      color: #007BFF;
+    }
+    .container label {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    .container input[type="text"],
+    .container input[type="password"] {
+      width: calc(100% - 20px);
+      height: 40px;
+      border: 2px solid #007BFF;
+      background-color: #333;
+      color: #ffffff;
+      font-size: 16px;
+      padding: 5px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+    .container input[type="checkbox"] {
+      margin: 10px 0;
+    }
+    .container input[type="submit"] {
+      background-color: #007BFF;
+      border: none;
+      color: #ffffff;
+      padding: 10px;
+      text-align: center;
+      display: block;
+      font-size: 18px;
+      font-family: 'Arial', sans-serif;
+      margin: 20px auto;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .container input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    .error {
+      color: red;
+      text-align: center;
+    }
+    .nav-bar {
+      background-color: #333;
+      padding: 10px;
+      text-align: center;
+    }
+    .nav-bar a {
+      color: #007BFF;
+      text-decoration: none;
+      font-size: 18px;
+      margin: 0 15px;
+    }
+    .nav-bar a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            Create an Account or Login
-        </div>
-        <form method="post" action="/create_account">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <label for="terms">Tick to create a new account, leave it to log in</label>
-                <input type="checkbox" id="terms" name="terms">
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Submit">
-            </div>
-            {% if error %}
-                <div class="error-message">{{ error }}</div>
-            {% endif %}
-        </form>
-        <a href="{{ url_for('viewdata') }}" class="admin-button">Admin Only</a>
-    </div>
+
+<!-- Navigation Bar -->
+<div class="nav-bar">
+  <a href="{{ url_for('home') }}">Home</a>
+  <a href="{{ url_for('about') }}">About</a>
+  <a href="{{ url_for('contact') }}">Contact</a>
+</div>
+
+<!-- Header -->
+<div class="header">
+  Create an Account or Login
+</div>
+
+<!-- Container -->
+<div class="container">
+  <form method="post" action="/create_account">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <label for="terms">Tick to create a new account, leave it to log in:</label>
+    <input type="checkbox" id="terms" name="terms">
+
+    <input type="submit" value="Submit">
+
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+  </form>
+  <br>
+  <a href="{{ url_for('viewdata') }}" class="w3-button w3-teal w3-hover-red">Admin only</a>
+</div>
+
 </body>
 </html>
