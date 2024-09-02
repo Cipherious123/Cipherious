@@ -91,13 +91,6 @@
 </head>
 <body>
 
-<!-- Navigation Bar -->
-<div class="nav-bar">
-  <a href="{{ url_for('home') }}">Home</a>
-  <a href="{{ url_for('about') }}">About</a>
-  <a href="{{ url_for('contact') }}">Contact</a>
-</div>
-
 <!-- Header -->
 <div class="header">
   Create an Account or Login
@@ -117,12 +110,9 @@
 
     <input type="submit" value="Submit">
 
-    {% if error %}
     <p class="error">{{ error }}</p>
-    {% endif %}
   </form>
   <br>
-  <a href="{{ url_for('viewdata') }}" class="w3-button w3-teal w3-hover-red">Admin only</a>
 </div>
 
 </body>
