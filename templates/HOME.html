@@ -166,32 +166,183 @@
     Our Work
   </h2>
   
-  <div class="w3-row-padding" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
-    <!-- Work Card Template -->
-    {% for item in work_items %}
-    <div class="w3-quarter w3-padding-24">
-      <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
-        <img src="{{ item.image }}" alt="{{ item.title }}" style="width: 100%; height: 300px; object-fit: cover;">
+<div class="w3-quarter w3-padding-24">
+      <div class="w3-card w3-white " style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
+        <img src="{{ url_for('static', filename='caesar.jpg') }}" alt="Caesar Cipher" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
-          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif;">{{ item.title }}</h3>
-          <p>{{ item.description }}</p>
-          <a href="{{ item.link }}" class="w3-button w3-teal w3-margin-top">Learn More</a>
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">CAESAR CIPHER</h3>
+          <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
+            A Caesar cipher is a simple method of encoding messages.
+            Caesar ciphers use a substitution method where letters in the alphabet are shifted by some fixed number of spaces to yield an encoding alphabet.</p>
+          <a href="{{ url_for('cc_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Learn More</a>
         </div>
       </div>
     </div>
-    {% endfor %}
+
+    <div class="w3-quarter w3-padding-24">
+      <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
+        <img src="{{ url_for('static', filename='viggy.jpeg')}}" alt="Vigenère Cipher" style="width: 100%; height: 300px; object-fit: cover;">
+        <div class="container" style="padding: 24px;">
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">VIGENÈRE CIPHER</h3>
+          <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
+            The Vigenère cipher is a more complex method that uses a keyword to shift letters in the message.
+            Each letter is shifted according to the corresponding letter of the keyword, making it more secure than the Caesar cipher.</p>
+          <a href="{{ url_for('vig_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="w3-quarter w3-padding-24">
+      <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
+        <img src="image_name_here" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <div class="container" style="padding: 24px;">
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">SUBSTITUTION CIPHER</h3>
+          <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
+            Substitution cipher involves each character being given a number.
+            Math operations are performed on it and we substitute each letter with another, depending on an integer password. Made by cipherious</p>
+          <a href="{{ url_for('sub_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional work containers -->
+
+    <div class="w3-quarter w3-padding-24">
+      <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
+        <img src="{{ url_for('static', filename='morse.jfif') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <div class="container" style="padding: 24px;">
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">MORSE CODE</h3>
+          <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
+            The Morse Code is a very well-known cipher, used widely to communicate SOS messages and such.
+            Each letter and number has a certain number of dots and dashes in a certain pattern. It is also widely depicted in media. </p>
+          <a href="{{ url_for('morse_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="w3-quarter w3-padding-24">
+      <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
+        <img src="{{ url_for('static', filename='dhkea.jfif') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <div class="container" style="padding: 24px;">
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">DIFFIE-HELLMAN KEY EXCHANGE ALGORITHM</h3>
+          <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
+            This is a way to send a numeric password between two people who haven’t agreed on one yet. The same process is used in the internet on a larger scale.</p>
+          <a href="{{ url_for('dif_hel')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="w3-quarter w3-padding-24">
+      <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
+        <img src="{{ url_for('static', filename='scrambler.jfif') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <div class="container" style="padding: 24px;">
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">SCRAMBLER CIPHER</h3>
+          <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
+            This scrambles all the letters based on a positive integer superkey and a password made up of letters(case sensitive), numbers, spacebar and underscore
+            Made by cipherious</p>
+          <a href="{{ url_for('scrambler_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="w3-quarter w3-padding-24">
+      <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
+        <img src="{{ url_for('static', filename='byoc.jpg') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <div class="container" style="padding: 24px;">
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">BUILD YOUR OWN CIPHER</h3>
+          <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
+            Unleash your imagination and creativity by designing your own innovative substitution cipher.
+            You decide which letters replace which when encrypting text</p>
+          <a href="{{ url_for('BYOCone')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+<div class="w3-quarter w3-padding-24">
+      <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
+        <img src="image_name_here" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+	<div class="container" style="padding: 24px;">
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">USE YOUR OWN CIPHER</h3>
+          <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
+            Use the cipher which you can create in 'build your own cipher'. Just copy paste the password and enter your text.</p>
+          <a href="{{ url_for('BYOCtwo')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+<div class="w3-quarter w3-padding-24">
+      <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
+        <img src="image_name_here" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <div class="container" style="padding: 24px;">
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">CREATE A COMBINATION OF CIPHERS</h3>
+          <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
+            This cipher utilizes all available ciphers (excluding Diffie-Hellman) to create an exceptionally powerful cipher.
+            You can create your combinations here and view them in your account page (click the Hi {{curr_user}} box).
+            It is a masterful cipher that provides you with a fun and convienient method of secretive communication with your accomplices.</p>
+          <a href="{{ url_for('create_combo')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="w3-quarter w3-padding-24">
+      <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
+        <img src="image_name_here" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <div class="container" style="padding: 24px;">
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">USE YOUR COMBINATION OF CIPHERS</h3>
+          <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
+            Use your combination easily here. </p>
+          <a href="{{ url_for('use_combo')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </div>
 
+<!-- End page content -->
+</div>
+</div>
+</div>
+
+<!-- End page content -->
+</div>
+
+<!-- Container -->
+<div class="container" style="position:relative">
+  <a onclick="w3_open()" class="w3-button w3-xlarge w3-circle w3-teal"
+  style="position:absolute;top:-28px;right:24px">+</a>
+</div>
+
+</div>
+
+<!-- Image of location/map -->
+<img src="/w3images/map.jpg" class="w3-image w3-greyscale-min">
+
+
 <script>
-function openNav() {
-  document.getElementById("mySidebar").style.display = "block";
+// Script for side navigation
+function w3_open() {
+  var x = document.getElementById("mySidebar");
+  x.style.width = "300px";
+  x.style.paddingTop = "10%";
+  x.style.display = "block";
 }
 
+// Close side navigation
 function w3_close() {
   document.getElementById("mySidebar").style.display = "none";
 }
+
+// Used to toggle the menu on smaller screens when clicking on the menu button
+function openNav() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
 </script>
 
-</body>
-</html>
+</body> </html>
