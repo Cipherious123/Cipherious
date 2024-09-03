@@ -76,7 +76,10 @@
     </style>
 </head><body>
         <div class="container">
-            <h1>Create Combination Cipher</h1>
+            <h1>Create Combination Cipher</h1><br>
+            <div class="output-container">
+            {{steps}}
+            </div> <br>
             <form method="post" action="/create_combo">
             <label class="input-label">Input name of combination(leave blank if already saved):</label>
             <input type="text" id="comboname" name="comboname" class="input-field" placeholder="Enter combo name here" />
@@ -94,10 +97,6 @@
             <button type="submit" name= "action" class="button" value="Complete combination">Complete combination</button>
 
         </form>
-
-        <p>
-            {{ steps }}
-        </p>
 
     <a href="{{ url_for('cipherious')}}"><button class="button">Home page</button></a>
     
