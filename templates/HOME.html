@@ -222,37 +222,41 @@
         </div>
       </div>
       </div>
+    </div
+
+<div class="w3-quarter w3-padding-24">
+      <div class="container" style="padding: 14px;">
+      <div class="w3-card w3-white " style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden; padding: 10px">
+        <img src="{{ url_for('static', filename='viggy.jpg') }}" alt="Caesar Cipher" style="width: 100%; height: 300px; object-fit: cover;">
+        <div class="container" style="padding: 24px;">
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">VIGENERE CIPHER</h3>
+          <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
+	The Vigenère cipher is a more complex method that uses a keyword to shift letters in the message.
+	Each letter is shifted according to the corresponding letter of the keyword, making it more secure than the Caesar cipher.</p>
+          <a href="{{ url_for('vig_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
+        </div>
+      </div>
+      </div>
     </div>
 
 <div class="w3-quarter w3-padding-24">
-  <div class="w3-card w3-white w3-round w3-hover-shadow card-container" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden; padding: 10px">
-    <img src="{{ url_for('static', filename='viggy.jpeg')}}" alt="Vigenère Cipher" class="w3-image card-image">
-    <div class="w3-container card-content">
-      <h3 class="w3-center card-title">VIGENÈRE CIPHER</h3>
-      <p class="card-description">
-        The Vigenère cipher is a more complex method that uses a keyword to shift letters in the message.
-        Each letter is shifted according to the corresponding letter of the keyword, making it more secure than the Caesar cipher.
-      </p>
-      <a href="{{ url_for('cc_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
-    </div>
-  </div>
-</div>
-
-<div class="w3-quarter w3-padding-24">
-  <div class="w3-card w3-white w3-round w3-hover-shadow card-container" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden; padding: 10px">
-    <img src="{{ url_for('static', filename='logo.PNG')}}" alt="Sub Cipher" class="w3-image card-image">
-    <div class="w3-container card-content">
-      <h3 class="w3-center card-title">SUBSTITUTION CIPHER</h3>
-      <p class="card-description">
+      <div class="container" style="padding: 14px;">
+      <div class="w3-card w3-white " style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden; padding: 10px">
+        <img src="{{ url_for('static', filename='viggy.jpg') }}" alt="Caesar Cipher" style="width: 100%; height: 300px; object-fit: cover;">
+        <div class="container" style="padding: 24px;">
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">SUBSTITUTION CIPHER</h3>
+          <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
             Substitution cipher involves each character being given a number.
             Math operations are performed on it and we substitute each letter with another, depending on an integer password. Made by cipherious.
       </p>
-      <a href="{{ url_for('sub_func')}}" class="w3-button w3-blue w3-hover-red w3-block card-button">Use</a>
+	<a href="{{ url_for('vig_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
+        </div>
+      </div>
+      </div>
     </div>
-  </div>
-</div>
 
     <div class="w3-quarter w3-padding-24">
+	<div class="container" style="padding: 14px;">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
         <img src="{{ url_for('static', filename='morse.png') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
@@ -263,9 +267,11 @@
           <a href="{{ url_for('morse_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
         </div>
       </div>
+	</div>
     </div>
 
     <div class="w3-quarter w3-padding-24">
+	    <div class="container" style="padding: 14px;">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
         <img src="{{ url_for('static', filename='diff.png') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
@@ -275,9 +281,11 @@
           <a href="{{ url_for('dif_hel')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
         </div>
       </div>
+	    </div>
     </div>
 
     <div class="w3-quarter w3-padding-24">
+         <div class="container" style="padding: 14px;">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
         <img src="{{ url_for('static', filename='scrambler.png') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
@@ -288,9 +296,11 @@
           <a href="{{ url_for('scrambler_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
         </div>
       </div>
+	 </div>
     </div>
 
     <div class="w3-quarter w3-padding-24">
+	<div class="container" style="padding: 14px;">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
         <img src="{{ url_for('static', filename='byoc.jpg') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
@@ -301,9 +311,11 @@
           <a href="{{ url_for('BYOCone')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
         </div>
       </div>
+	</div>
     </div>
 
 <div class="w3-quarter w3-padding-24">
+	<div class="container" style="padding: 14px;">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
         <img src="byoc.jpg" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
 	<div class="container" style="padding: 24px;">
@@ -313,9 +325,11 @@
           <a href="{{ url_for('BYOCtwo')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
         </div>
       </div>
+	</div>
     </div>
 
 <div class="w3-quarter w3-padding-24">
+<div class="container" style="padding: 14px;">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
         <img src="combo2.jpg" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
@@ -327,9 +341,11 @@
           <a href="{{ url_for('create_combo')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
         </div>
       </div>
+</div>
     </div>
 
     <div class="w3-quarter w3-padding-24">
+	<div class="container" style="padding: 14px;">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
         <img src="combo2.jpg" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
@@ -339,6 +355,7 @@
           <a href="{{ url_for('use_combo')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
         </div>
       </div>
+	</div>
     </div>
 
 
