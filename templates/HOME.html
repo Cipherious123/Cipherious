@@ -65,6 +65,49 @@
         height: auto;
       }
     }
+
+	
+	.card-container {
+	  border-radius: 10px;
+	  margin: 16px; /* Adds space between cards */
+	  height: 100%; /* Ensures cards are of equal height */
+	  display: flex;
+	  flex-direction: column;
+	  justify-content: space-between; /* Aligns elements vertically */
+	}
+	
+	/* Image styling */
+	.card-image {
+	  height: 200px; /* Fixed height for consistent image size */
+	  object-fit: cover;
+	}
+	
+	/* Title styling */
+	.card-title {
+	  font-size: 1.8em;
+	  font-family: 'Arial', sans-serif;
+	  color: #007BFF;
+	  margin-bottom: 16px; /* Adds space below the title */
+	}
+	
+	/* Description styling */
+	.card-description {
+	  font-size: 1.1em;
+	  font-family: 'Arial', sans-serif;
+	  color: #555;
+	  line-height: 1.7;
+	  text-align: justify;
+	  margin-top: 20px;
+	  flex-grow: 1; /* Ensures description takes up remaining space */
+	}
+	
+	/* Button styling */
+	.card-button {
+	  margin-top: 20px;
+	  padding: 12px 24px;
+	  border-radius: 5px;
+	  text-align: center;
+	}
   </style>
 </head>
 <body id="myPage">
