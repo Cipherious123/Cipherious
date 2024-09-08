@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from combo_conv import combination, inp_check, alphagreat
 import ast
-import random
 import sympy
 import os
 import psycopg2
+from keygen import new_int, key_gen
 
 app = Flask(__name__, template_folder='templates')
 
@@ -68,8 +68,11 @@ def check_combo(ciphername,password):
     allowed=["csar", "sub", "vig", "byoc", "morse", "scrambler"]
     if ciphername not in allowed:
         errorr.raise_issue("Cipher doesn't exist")
-    
-    if ciphername == "csar":
+     
+    if password == "":
+        errorr.raise_issue("Input password in decryption")
+
+    elif ciphername == "csar":
         if int_check(password) == False:
             errorr.raise_issue("Password must be an integer between 1 and 27")
         else:
@@ -109,10 +112,8 @@ def check_combo(ciphername,password):
             return errorr
         
         s_key = password[0]
-        if int_check(s_key) == False:
-            errorr.raise_issue("Superkey must be an integer between 1 and 100")
-        elif int(s_key) > 100 or int(s_key) < 0:
-            errorr.raise_issue("Superkey must be an integer between 1 and 100")
+        if int_check(s_key) == False or int(s_key) > 250 or int(s_key) < 20:
+            errorr.raise_issue("Superkey must be an integer between 20 and 250")
 
         pword = password[1]
         for char in pword:
@@ -238,6 +239,9 @@ def cc_func():
         text = request.form["text"]
         password = request.form["password"]
 
+        if password == "":
+            password = key_gen('csar')
+
         if password[0] == "-":
             ende = '66'
             password= password[1:]
@@ -269,6 +273,10 @@ def sub_func():
         text = request.form["text"]
         password = request.form["password"]
         ende = request.form["ende"]
+
+        if password == "" and ende == 66:
+            password = key_gen('sub')
+
         combin= [["sub" , password ]]
 
         if inp_check(text,ende,combin) =="true":
@@ -290,6 +298,10 @@ def vig_func():
         text = request.form["text"]
         password = request.form["password"]
         ende = request.form["ende"]
+
+        if password == "" and ende == 66:
+            password = key_gen('vig')
+
         combin= [["vig" , password ]]
 
         if inp_check(text,ende,combin) =="true":
@@ -310,6 +322,9 @@ def morse_func():
     if request.method == 'POST':
         text = request.form["text"]
         ende = request.form["ende"]
+
+        if password == "" :
+            password = key_gen('morse')
         
         combin= [["morse" , 'x' ]]
 
@@ -346,7 +361,7 @@ def dif_hel():
                 base = int(base)
 
             if num == "" and base == "" and 50 < priv_key < 750:  # Generate num and base
-                num = random.randint(10000000000000000000, 1000000000000000000000000)
+                num = new_int(10000000000000000000, 1000000000000000000000000)
                 base = sympy.randprime(50, 300)
                 superkey = base ** priv_key % num
                 output = f"Your superkey is {superkey}, num is {num}, base is {base}. Input your partner's superkey to generate a common final number."
@@ -430,6 +445,10 @@ def BYOCtwo():
         text = request.form["text"]
         password = request.form["password"]
         ende = request.form["ende"]
+
+        if password == "" and ende == 66:
+            password = key_gen('byoc')
+
         combin= [["byoc" , password ]]
 
         if inp_check(text,ende,combin) =="true":
@@ -452,6 +471,10 @@ def scrambler_func():
         superkey = request.form["superkey"]
         password = request.form["password"]
         ende = request.form["ende"]
+
+        if password == "" and ende == 66:
+            superkey, password = key_gen('scrambler')
+
         combin= [["scrambler" , superkey + "," + password ]]
 
         if inp_check(text,ende,combin) =="true":
@@ -586,6 +609,14 @@ def set_name():
 def submit():
     ciphername = request.form['ciphername']
     password = request.form['password']
+
+    if password == "":
+        if ciphername != "scrambler":
+            password = key_gen(ciphername)
+        else:
+            superkey, password = key_gen(ciphername)
+            password = str(superkey) + ","  + password
+        
     prob = check_combo(ciphername, password)
     session['errorr']['true'] = prob.true
     session['errorr']['name'] = prob.name
