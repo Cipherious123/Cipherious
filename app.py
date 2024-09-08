@@ -274,7 +274,7 @@ def sub_func():
         password = request.form["password"]
         ende = request.form["ende"]
 
-        if password == "" and ende == 66:
+        if password == "" and ende == 1:
             password = key_gen('sub')
 
         combin= [["sub" , password ]]
@@ -299,7 +299,7 @@ def vig_func():
         password = request.form["password"]
         ende = request.form["ende"]
 
-        if password == "" and ende == 66:
+        if password == "" and ende == 1:
             password = key_gen('vig')
 
         combin= [["vig" , password ]]
@@ -442,7 +442,7 @@ def BYOCtwo():
         password = request.form["password"]
         ende = request.form["ende"]
 
-        if password == "" and ende == 66:
+        if password == "" and ende == 1:
             password = key_gen('byoc')
 
         combin= [["byoc" , password ]]
@@ -468,7 +468,7 @@ def scrambler_func():
         password = request.form["password"]
         ende = request.form["ende"]
 
-        if password == "" and ende == 66:
+        if password == "" and ende == 1:
             superkey, password = key_gen('scrambler')
 
         combin= [["scrambler" , superkey + "," + password ]]
