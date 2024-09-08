@@ -14,9 +14,9 @@ def new_int(min_val, max_val):
         
 def key_gen(cipher):
     if cipher == 'csar':
-        return new_int(1,27)
+        return str(new_int(1,27))
     elif cipher == 'sub':
-        return new_int(100,999999)
+        return str(new_int(100,999999))
     elif cipher == 'morse':
         return '_'
     elif cipher == 'byoc':
@@ -46,7 +46,7 @@ def key_gen(cipher):
     
     elif cipher == "scrambler":
         length = new_int(20,75)
-        superkey = new_int(20,250)
+        superkey = str(new_int(20,250))
         output =""
         for x in range(length):
             ind = new_int(1,27)
