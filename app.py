@@ -321,11 +321,7 @@ def morse_func():
     output=""
     if request.method == 'POST':
         text = request.form["text"]
-        ende = request.form["ende"]
-
-        if password == "" :
-            password = key_gen('morse')
-        
+        ende = request.form["ende"]   
         combin= [["morse" , 'x' ]]
 
         if inp_check(text,ende,combin) =="true":
