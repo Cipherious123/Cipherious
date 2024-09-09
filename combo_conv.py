@@ -13,46 +13,27 @@ def julian (shiftno, letter):
     return letter
 
 def cc(input, password):
-
-    def is_negative(number):
-        return math.copysign(1, number) == -1
-
-    def encrypt_caesar(inp_list, alphaone, shift):
-        count=0
-        output=""
-        if is_negative(shift):
+    def encrypt_caesar(inp_list, shift):
+        if shift<0:
             shift=shift*-1
             shift=27-shift
-        for x in range(len(inp_list)):
-            count=count+1
-            index=count-1
-            char=inp_list[index]
-            if char in alphaone.keys():
-                char2=julian(shift, alphaone[char])
-                val = [i for i in alphaone if alphaone[i] == (char2)][0]
-            else:
-                return("Error: Only english alphabets and spaces are allowed.")
-            output=output+ str(val)
+            
+        for x in inp_list:
+            shifted_val=julian(shift, alphaone[x]) 
+            out_char = [i for i in alphaone if alphaone[i] == shifted_val][0]
+            output += out_char
         return(output)
 
-    def decrypt_caesar(inp_list, alphaone, shift):
-        count=0
-        output_list=['']*27
-        for __ in range(len(inp_list)):
-            count=count+1
-            index=count-1
-            for _ in range(26):
-                char=inp_list[index]
-                if char in alphaone:
-                    shift= shift + 1
-                    char2=julian(shift, alphaone[char])
-                    val = [i for i in alphaone if alphaone[i] == str(char2)][0]
-                    output_list[shift-1]=output_list[shift-1]+val
+    def decrypt_caesar(inp_list):
+        output_list = []
+        for count in range(25):
+            word = encrypt_caesar(inp_list, count+1)
+            output_list.append(word)
 
-                else:
-                    return("Error: Only english alphabets and spaces are allowed.")
-            shift=0
-        return ("The possible combinations are:", output_list)
+        outstr = ""
+        for x in output_list:
+            out_str += f"{x}, "
+        return ("The possible combinations are:", outputstr[:-2])
         
     def caesar():
         shift=int(password)
