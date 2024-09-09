@@ -30,7 +30,7 @@ def key_gen(cipher):
                 if ind in blacklist:
                     pass
                 else:
-                    ind.append(blacklist)
+                    blacklist.append(ind)
                     clear = True
                     output[ind] = x
         return output
