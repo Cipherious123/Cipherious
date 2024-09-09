@@ -21,7 +21,7 @@ def key_gen(cipher):
         return '_'
     elif cipher == 'byoc':
         blacklist=[]
-        output = "-"*27
+        output = ['']*27
         for x in alphaone.keys():
             clear = False
 
@@ -33,7 +33,11 @@ def key_gen(cipher):
                     blacklist.append(ind)
                     clear = True
                     output[ind] = x
-        return output
+
+        outstr = ""
+        for x in output:
+            output += outstr
+        return outstr
     
     elif cipher == "vig":
         length = new_int(15,75)
