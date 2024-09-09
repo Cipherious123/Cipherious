@@ -74,11 +74,12 @@ def check_combo(ciphername,password):
 
     elif ciphername == "csar":
         if int_check(password) == False:
-            errorr.raise_issue("Password must be an integer between 1 and 27")
+            errorr.raise_issue("Password must be an integer between 1 and 27 or 66 for all possible combinations")
         else:
             password=int(password)
-            if password > 27 or password < 1:
-                errorr.raise_issue("Password must be an integer between 1 and 27")
+            if password != 66
+                if password > 27 or password < 1:
+                    errorr.raise_issue("Password must be an integer between 1 and 27 or 66 for all possible combinations")
     
     elif ciphername == "sub":
         if int_check(password) == False:
@@ -87,10 +88,8 @@ def check_combo(ciphername,password):
     elif ciphername == "vig":
         password = password.lower()
         for x in password:
-            if x == " ":
-                errorr.raise_issue("Password can't have spaces")
-            elif x not in alphaone.keys():
-                errorr.raise_issue("Password must be alphabets only")
+            if x not in alphaone.keys():
+                errorr.raise_issue("Password must contain alphabets or spaces only")
     
     elif ciphername == "byoc":
         already_in=[]
