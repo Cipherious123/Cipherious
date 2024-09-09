@@ -44,7 +44,7 @@ def cc(input, password):
             inp=input
             inp=inp.lower()
             inp_list = list(map(str, inp))
-            return(encrypt_caesar(inp_list, alphaone, shift))
+            return(encrypt_caesar(inp_list, shift))
 
         #All shifts
         elif shift==66:
@@ -52,7 +52,7 @@ def cc(input, password):
             inp=input
             inp=inp.lower()
             inp_list = list(map(str, inp))
-            return(decrypt_caesar(inp_list, alphaone, shift))
+            return(decrypt_caesar(inp_list))
     return caesar()
 
 def morse(input, ende):          
