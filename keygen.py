@@ -32,7 +32,7 @@ def key_gen(cipher):
                 else:
                     blacklist.append(ind)
                     clear = True
-                    output[ind] = x
+                    output[ind-1] = x
 
         outstr = ""
         for x in output:
