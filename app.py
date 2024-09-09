@@ -121,6 +121,12 @@ def check_combo(ciphername,password):
                 errorr.raise_issue("Password can only contain lowercase, uppercase alphabets, spacebar, numbers 0-9, underscore")
     return errorr
 
+def read_combo(combo):
+    output = ""
+    for step in combo:
+        output = output + f"{step[0]} cipher with password '{step[1]}', "
+    return  output
+
 class err:
     def __init__(self, name, true):
         self.name = name
@@ -555,6 +561,9 @@ def create_combo():
         elif action == 'Submit this step':
             if session['errorr']['nameset']:
                 submit()
+                if not session['errorr']['true']:
+                    combo_text = read_combo(session['combo'])
+                    session['errorr']['name'] = f"Your combo is {combo_text} "
             else:
                 session['errorr']['true'] = True
                 session['errorr']['name'] = "Name not set"
@@ -565,7 +574,7 @@ def create_combo():
                 session['errorr']['name'] = "Combo is empty"
             else:
                 session['combo'].pop()
-                combo_text = read_combo()
+                combo_text = read_combo(session['combo'])
                 session['errorr']['name'] = f"Your combo is {combo_text} "
 
         elif action == 'Restart':
@@ -582,10 +591,10 @@ def create_combo():
                 output_message = completed()
                 session['combo'] = []
                 return render_template('create_combo.html', steps=output_message)
-
     
     toreturn = session['errorr']['name']
     return render_template('create_combo.html', steps=toreturn)
+
 
 def set_name():
     comboname = request.form['comboname']
