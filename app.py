@@ -77,7 +77,7 @@ def check_combo(ciphername,password):
             errorr.raise_issue("Password must be an integer between 1 and 27 or 66 for all possible combinations")
         else:
             password=int(password)
-            if password != 66
+            if password != 66:
                 if password > 27 or password < 1:
                     errorr.raise_issue("Password must be an integer between 1 and 27 or 66 for all possible combinations")
     
