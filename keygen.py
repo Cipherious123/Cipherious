@@ -40,7 +40,7 @@ def key_gen(cipher):
         output =""
         for x in range(length):
             ind = new_int(1,27)
-            char = [i for i in alphaone if alphaone[ind] == i][0]
+            char = [i for i in alphaone if alphaone[i] == ind][0]
             output = output + char
         return output
     
@@ -50,6 +50,6 @@ def key_gen(cipher):
         output =""
         for x in range(length):
             ind = new_int(1,65)
-            char = [i for i in alphagreat if alphagreat[ind] == i][0]
+            char = [i for i in alphagreat if alphagreat[i] == ind][0]
             output = output + char
         return superkey, output
