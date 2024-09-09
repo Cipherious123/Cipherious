@@ -17,7 +17,7 @@ def cc(input, password):
         if shift<0:
             shift=shift*-1
             shift=27-shift
-            
+         output=""   
         for x in inp_list:
             shifted_val=julian(shift, alphaone[x]) 
             out_char = [i for i in alphaone if alphaone[i] == shifted_val][0]
