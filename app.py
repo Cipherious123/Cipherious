@@ -539,7 +539,9 @@ def create_combo():
     if 'combo' not in session:
         session['combo'] = []
     if 'errorr' not in session:
-        session['errorr'] = {"name":"" , "true":False, "nameset":False}
+        session['errorr'] = {"name":"Start a combo by setting your combo name" , "true":False, "nameset":False}
+    if 'comboname' not in session:
+        session['comboname'] = ""
 
     if request.method == 'POST':
         action = request.form['action']
@@ -547,6 +549,8 @@ def create_combo():
 
         if action == 'Save name of combination':    
             set_name()
+            if not session['errorr']['true']:
+                session['errorr']['name'] = f"You have set name to {session['comboname']}"
 
         elif action == 'Submit this step':
             if session['errorr']['nameset']:
@@ -561,10 +565,15 @@ def create_combo():
                 session['errorr']['name'] = "Combo is empty"
             else:
                 session['combo'].pop()
+                combo_text = read_combo()
+                session['errorr']['name'] = f"Your combo is {combo_text} "
 
         elif action == 'Restart':
             session['combo'] = []
-
+            session['comboname'] = ""
+            session['nameset'] = False
+            session['errorr']['name'] = f"Your combo is empty now "
+            
         elif action == 'Complete combination':
             if not session['combo']:
                 session['errorr']['true'] = True
@@ -574,10 +583,8 @@ def create_combo():
                 session['combo'] = []
                 return render_template('create_combo.html', steps=output_message)
 
-    if not session['errorr']['true']:
-        toreturn = session['combo']
-    else:
-        toreturn = session['errorr']['name']
+    
+    toreturn = session['errorr']['name']
     return render_template('create_combo.html', steps=toreturn)
 
 def set_name():
