@@ -22,6 +22,7 @@ def key_gen(cipher):
     elif cipher == 'byoc':
         blacklist=[]
         output = ['']*27
+        
         for x in alphaone.keys():
             clear = False
 
@@ -49,11 +50,8 @@ def key_gen(cipher):
         return output
     
     elif cipher == "scrambler":
-        length = new_int(20,75)
-        superkey = str(new_int(20,250))
-        output =""
         for x in range(length):
             ind = new_int(1,65)
             char = [i for i in alphagreat if alphagreat[i] == ind][0]
             output = output + char
-        return superkey, output
+        return output
