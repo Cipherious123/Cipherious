@@ -9,14 +9,13 @@ from keygen import new_int, key_gen
 app = Flask(__name__, template_folder='templates')
 
 app.secret_key = 'your_secret_key'  # Needed to use sessions in Flask
-DATABASE = 'postgresql://nishant:IXDc7f1HciHowfPicbb9g1kLwt8eGZwM@dpg-cqs2gq3qf0us738sm1mg-a/users_fyua'
-
+DATABASE = "postgresql://nishant:sTOc3DUyEtDRKxAyrC9DHU8uph8DEXwq@dpg-crg2d23qf0us73dfg3v0-a/users_hcyh"
 def send_cursor():   
     conn = psycopg2.connect( # Connect to your PostgreSQL database
-        dbname="users_fyua",
+        dbname="users_hcyh",
         user="nishant",
-        password="IXDc7f1HciHowfPicbb9g1kLwt8eGZwM",
-        host="dpg-cqs2gq3qf0us738sm1mg-a",
+        password="sTOc3DUyEtDRKxAyrC9DHU8uph8DEXwq",
+        host="dpg-crg2d23qf0us73dfg3v0-a",
         port="5432"
     )
     cursor = conn.cursor()
@@ -279,7 +278,7 @@ def sub_func():
         password = request.form["password"]
         ende = request.form["ende"]
 
-        if password == "" and ende == 1:
+        if password == "" and ende == "1":
             password = key_gen('sub')
 
         combin= [["sub" , password ]]
@@ -304,7 +303,7 @@ def vig_func():
         password = request.form["password"]
         ende = request.form["ende"]
 
-        if password == "" and ende == 1:
+        if password == "" and ende == "1":
             password = key_gen('vig')
 
         combin= [["vig" , password ]]
@@ -447,7 +446,7 @@ def BYOCtwo():
         password = request.form["password"]
         ende = request.form["ende"]
 
-        if password == "" and ende == 1:
+        if password == "" and ende == "1":
             password = key_gen('byoc')
 
         combin= [["byoc" , password ]]
@@ -473,7 +472,7 @@ def scrambler_func():
         password = request.form["password"]
         ende = request.form["ende"]
 
-        if password == "" and ende == 1:
+        if password == "" and ende == "1":
             superkey, password = key_gen('scrambler')
 
         combin= [["scrambler" , superkey + "," + password ]]
