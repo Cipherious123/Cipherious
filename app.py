@@ -103,18 +103,10 @@ def check_combo(ciphername,password):
                 already_in.append(x) 
 
     elif ciphername == "scrambler":
-        password = password.split(',')
+        if len(password) < 5:
+            errorr.raise_issue("Password must atleast be 5 characters long")
 
-        if len(password)!= 2:
-            errorr.raise_issue("Password have a superkey and a password seperated by a comma")
-            return errorr
-        
-        s_key = password[0]
-        if int_check(s_key) == False or int(s_key) > 250 or int(s_key) < 20:
-            errorr.raise_issue("Superkey must be an integer between 20 and 250")
-
-        pword = password[1]
-        for char in pword:
+        for char in password:
             if char not in alphagreat.keys():
                 errorr.raise_issue("Password can only contain lowercase, uppercase alphabets, spacebar, numbers 0-9, underscore")
     return errorr
@@ -468,17 +460,16 @@ def scrambler_func():
     output=""
     if request.method == 'POST':
         text = request.form["text"]
-        superkey = request.form["superkey"]
         password = request.form["password"]
         ende = request.form["ende"]
 
         if password == "" and ende == "1":
-            superkey, password = key_gen('scrambler')
+            password = key_gen('scrambler')
 
-        combin= [["scrambler" , superkey + "," + password ]]
+        combin= [["scrambler" ,  password ]]
 
         if inp_check(text,ende,combin) =="true":
-            oops = check_combo("scrambler", superkey + "," + password)
+            oops = check_combo("scrambler", password)
             if oops.true == False:
                 ende= int(ende)
                 output = combination(text , ende, combin)
@@ -621,11 +612,7 @@ def submit():
     password = request.form['password']
 
     if password == "":
-        if ciphername != "scrambler":
-            password = key_gen(ciphername)
-        else:
-            superkey, password = key_gen(ciphername)
-            password = str(superkey) + ","  + password
+        password = key_gen(ciphername)
         
     prob = check_combo(ciphername, password)
     session['errorr']['true'] = prob.true
