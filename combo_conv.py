@@ -32,8 +32,8 @@ def cc(input, password):
 
         outstr = ""
         for x in output_list:
-            out_str += f"{x}, "
-        return ("The possible combinations are:", outputstr[:-2])
+            outstr += f"{x}, "
+        return ("The possible combinations are:", outstr[:-2])
         
     def caesar():
         shift=int(password)
@@ -72,16 +72,19 @@ def morse(input, ende):
             val=val+char
             val=val+"|"
         return(val)
+    
     else:
         inp=inp.split()
         for x in inp:
             cur_word=x.split("|")
+
             for y in cur_word:
                 if y == "":
                     pass
                 else:
                     char=[i for i in alpha if alpha[i] == y][0]
                     val=val+char
+
             val=val+ " "
         val=val[:-1]
         return(val)
@@ -122,21 +125,13 @@ def vig(input, password, ende):
         return(output)
 
     def vigenere(): 
-        #Defining variables
-        inp=""
-
-        #Key input
-        key=password
-        key=key.lower()
+        inp="" 
+        key=password.lower()  #Key input
         keylist = list(map(str, key))
 
-        type=ende
-
-        #Input of plaintext
-        inp=input
-        inp=inp.lower()
+        inp=input.lower() #Input of plaintext
         inp_list = list(map(str, inp))
-        return vigenere_converter(inp_list, keylist, type)
+        return vigenere_converter(inp_list, keylist, ende)
 
     return vigenere()
 
@@ -151,17 +146,16 @@ def sub(input, password, ende):
             letterno= (letterno-2)
             letterno= letterno * seed - (letterno + 2) 
             letterno= (letterno+seed) *2
-            letterno= letterno*(seed )
+            letterno= letterno*seed 
             letterno= letterno- 4
             letterno= 2*letterno+3
             letterno= letterno/2
             letterno= letterno-seed
-            letterno= letterno*2
+            letterno= letterno + seed/2 - seed / letterno
 
             if letterno<0:
                 letterno=letterno*-1
-            if letterno%1!=0:
-                letterno=letterno+0.5
+            letterno = round(letterno)
             if letterno > 27:
                 letterno=letterno%27
             if letterno==0:
@@ -261,8 +255,7 @@ def combination(text, ende, combo):
             text=byoc(text,step[1],ende)
 
         elif step[0]=="scrambler":
-            pword = step[1].split(',')
-            text=scrambler(text,ende,pword[1], pword[0])
+            text=scrambler(text,ende,step[1])
     return text
 
 def inp_check(text,ende,combo):
@@ -294,13 +287,16 @@ def inp_check(text,ende,combo):
 
     return pure
 
-def scrambler(text, ende, password, superkey):
+def scrambler(text, ende, password):
     text = text.lower()
-    superkey = int(superkey)
     holystr =  "vl40MKPqez_Xuv6HhqazNNR5D1smS2Kownx TSXUHgZx7fXupWmM2667T1aBJqyNhK_MUfJUoT1H35LVBx6_4EldeJccpv4ytTaDx2qCvNN9hxn0TlcopnpXj2vO4l5VO.w5OF .Zn4VVGvQSO JaX mptrs1PNyuEX8aUErAdiVPK.fZ3BNPuNG9P9jE 1e1r3Hnx28w5Nc1tr6bjzW65Oqh3KvLEpJSBWzoyRstBim6Gl4tyZtQIcGl3jCZ9_eMwjRBd75GOxpDRvNyE.O77tufE5rWsysj.VyMxPbMgmfnyj3ReF ACpJ7luHvHWQLSi2M 1bIPYi6YVN1KL6nm X4.FzFLcbVs_jSkNDnVRdMzX6CsnZ3ODsTKxs7xBPvWC8UjYLqhNGP  Gi2bdZmOruYSO.e_Y.p6n3bc7csSrNJYurPc3xefdmfbsH BUmrOIR4r4O5sumy7ZVYq5SELOsCVT4eeQvdIX0zEVkC 14Vd6b  Y2NNhY6NDFS0_Ex JpCCXgH_Zfhn4LLAfCb_3E7dfLtnERNM2vl_D4EoOeRkxvEVccXeQH2rYMXJAuFhsQPC24Weu4ls56Crczu CFfdI3.p12nVf51JxDHq_kJ_8xz0SWNPSXE8twaKUXyw69RAwcYga4Q43_sC OOr._1fxo_39tZUOO7mzaQyWqPg7MJKOa_vYbdXEjvH19p_lxuKzuMjsNBcoIjMDGTKFkBT4vu1BeGsCsc4GactrYfMJQ47abTTk88RcXVzNPlJ9kE5unrONOEsBvk5Lm_pIf2Yv9z9JN95DfIFQZPHEk5v0 shM9AYIHfTv8uJa8kEU3oHCYAJxphWle" 
     val_list=[]
     for x in text:
         val_list.append(alphagreat[x])
+
+    superkey = text[0] + text[1] + text[2] + text[3] + text[4]
+    while superkey < 50:
+        superkey = superkey + 2 * text[0]
 
     def digitsum(n1):
         n1=str(n1)
@@ -411,4 +407,4 @@ def scrambler(text, ende, password, superkey):
         output=""
         for x in text_list:
             output = output + text[col_order[x]]
-        return output       
+        return output
