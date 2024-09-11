@@ -221,6 +221,7 @@ def del_acc():
             conn.commit()
             session.clear()
             output = "Account deleted "
+            return redirect(url_for('create_account'))
         conn.close()
     return render_template('del_acc.html', output=output)
 
@@ -261,7 +262,7 @@ def cc_func():
                 output = "Error in input"
         else:
             output="Error in password: must be between -27,27"
-    return render_template('Caesar Cipher.html', output = output)
+    return render_template('Caesar Cipher.html', output = output , password = password)
 
 @app.route('/sub_func', methods=['GET','POST'])
 def sub_func():
@@ -286,7 +287,7 @@ def sub_func():
                 oops.true = False
         else:
             output = "Error in input"
-    return render_template('Pyscript_seed.html', output = output)
+    return render_template('Pyscript_seed.html', output = output , password = password)
 
 @app.route('/vig_func', methods=['GET','POST'])
 def vig_func():
@@ -311,7 +312,7 @@ def vig_func():
                 oops.true = False
         else:
             output = "Error in input"
-    return render_template('Vig_htmll.html', output = output)
+    return render_template('Vig_htmll.html', output = output , password = password)
 
 @app.route('/morse_func', methods=['GET','POST'])
 def morse_func():
@@ -454,7 +455,7 @@ def BYOCtwo():
                 oops.true = False
         else:
             output = "Error in input"
-    return render_template('BYOC-2.html', output = output)
+    return render_template('BYOC-2.html', output = output , password = password)
 
 @app.route('/scrambler_func', methods=['GET','POST'])
 def scrambler_func():
@@ -479,7 +480,7 @@ def scrambler_func():
                 oops.true = False
         else:
             output = "Error in input"
-    return render_template('scrambler_html.html', output = output)
+    return render_template('scrambler_html.html', output = output, password = password)
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
