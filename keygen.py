@@ -46,12 +46,14 @@ def key_gen(cipher):
         for x in range(length):
             ind = new_int(1,27)
             char = [i for i in alphaone if alphaone[i] == ind][0]
-            output = output + char
+            output += char
         return output
     
     elif cipher == "scrambler":
+        length = new_int(15,75)
+        output =""
         for x in range(length):
             ind = new_int(1,65)
             char = [i for i in alphagreat if alphagreat[i] == ind][0]
-            output = output + char
+            output += char
         return output
