@@ -233,6 +233,7 @@ def logout():
 @app.route('/cc_func', methods=['GET','POST'])
 def cc_func():
     output=""
+    password=""
     if request.method == 'POST':
         text = request.form["text"]
         password = request.form["password"]
@@ -267,6 +268,7 @@ def cc_func():
 @app.route('/sub_func', methods=['GET','POST'])
 def sub_func():
     output=""
+    password=""
     if request.method == 'POST':
         text = request.form["text"]
         password = request.form["password"]
@@ -292,6 +294,7 @@ def sub_func():
 @app.route('/vig_func', methods=['GET','POST'])
 def vig_func():
     output=""
+    password=""
     if request.method == 'POST':
         text = request.form["text"]
         password = request.form["password"]
@@ -435,6 +438,7 @@ def BYOCone():
 @app.route('/BYOCtwo', methods=['GET','POST'])
 def BYOCtwo():
     output=""
+    password=""
     if request.method == 'POST':
         text = request.form["text"]
         password = request.form["password"]
@@ -460,6 +464,7 @@ def BYOCtwo():
 @app.route('/scrambler_func', methods=['GET','POST'])
 def scrambler_func():
     output=""
+    password=""
     if request.method == 'POST':
         text = request.form["text"]
         password = request.form["password"]
