@@ -219,6 +219,7 @@ def del_acc():
             c.execute('DELETE FROM users WHERE username = %s', (curr_user,))
             c.execute('DELETE FROM combinations WHERE username = %s', (curr_user,))
             conn.commit()
+            session.clear()
             output = "Account deleted "
         conn.close()
     return render_template('del_acc.html', output=output)
