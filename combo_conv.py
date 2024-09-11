@@ -297,7 +297,7 @@ def scrambler(text, ende, password):
     superkey = alphagreat[text[0]] + alphagreat[text[1]] + alphagreat[text[2]] + alphagreat[text[3]] + alphagreat[text[4]]
     while superkey < 50:
         superkey += 2 * alphagreat[text[0]]
-    while superkey > 250
+    while superkey > 250:
         superkey -= alphagreat[text[2]]
 
     def digitsum(n1):
