@@ -37,7 +37,7 @@ def key_gen(cipher):
 
         outstr = ""
         for x in output:
-            output += outstr
+            outstr += x
         return outstr
     
     elif cipher == "vig":
