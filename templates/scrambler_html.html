@@ -85,10 +85,8 @@
     <label class="input-label">Input the password:</label>
     <input type="text" id="password" name="password" class="input-field" placeholder="Enter password here" />
 
-    <label class="input-label">Input 1 for encryption, 66 for decryption:</label>
-    <input type="text" id="ende" name="ende" class="input-field" placeholder="Enter 1 or 66" required/>
-
-    <button type="submit" class="button">Run</button>    
+    <button type="submit" name ="action" class="button" value = "1">Encrypt</button>
+    <button type="submit" name ="action" class="button" value = "66">Decrypt</button>   
 </form>
 <div id="test-output" class="output-container">The error/output: '{{output}}' using password {{password}}</div>   
 

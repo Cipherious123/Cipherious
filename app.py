@@ -468,7 +468,7 @@ def scrambler_func():
     if request.method == 'POST':
         text = request.form["text"]
         password = request.form["password"]
-        ende = request.form["ende"]
+        ende = request.form['action']
 
         if password == "" and ende == "1":
             password = key_gen('scrambler')
