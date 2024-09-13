@@ -272,7 +272,7 @@ def sub_func():
     if request.method == 'POST':
         text = request.form["text"]
         password = request.form["password"]
-        ende = request.form["ende"]
+        ende = request.form["action"]
 
         if password == "" and ende == "1":
             password = key_gen('sub')
@@ -298,7 +298,7 @@ def vig_func():
     if request.method == 'POST':
         text = request.form["text"]
         password = request.form["password"]
-        ende = request.form["ende"]
+        ende = request.form["action"]
 
         if password == "" and ende == "1":
             password = key_gen('vig')
@@ -322,7 +322,7 @@ def morse_func():
     output=""
     if request.method == 'POST':
         text = request.form["text"]
-        ende = request.form["ende"]   
+        ende = request.form["action"]   
         combin= [["morse" , 'x' ]]
 
         if inp_check(text,ende,combin) =="true":
@@ -442,7 +442,7 @@ def BYOCtwo():
     if request.method == 'POST':
         text = request.form["text"]
         password = request.form["password"]
-        ende = request.form["ende"]
+        ende = request.form["action"]
 
         if password == "" and ende == "1":
             password = key_gen('byoc')
