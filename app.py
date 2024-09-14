@@ -570,7 +570,6 @@ def create_combo():
             else:
                 output_message = completed()
                 session['combo'] = []
-                return render_template('create_combo.html', steps=output_message)
     
     toreturn = session['errorr']['name']
     return render_template('create_combo.html', steps=toreturn)
