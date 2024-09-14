@@ -564,11 +564,8 @@ def create_combo():
             session['errorr']['name'] = f"Your combo is empty now "
             
         elif action == 'Complete combination':
-            if not session['combo']:
-                session['errorr']['true'] = True
-                session['errorr']['name'] = "Combo is empty"
-            else:
-                output_message = completed()
+            completed()
+            if not session['errorr']:
                 session['combo'] = []
     
     toreturn = session['errorr']['name']
@@ -623,8 +620,8 @@ def completed():
 
     for x in session['combo']:
         if x [0] == "morse" and x != session['combo'][:-1]:
-            session['error']['true'] = True
-            session['error']['name'] = "Morse code must be the last step in the combo"
+            session['errorr']['true'] = True
+            session['errorr']['name'] = "Morse code must be the last step in the combo"
             return 
         
     curr_user = session['user']
