@@ -236,6 +236,7 @@ def combination(text, ende, combo):
     if ende==66:
         combo.reverse()
 
+    text, template = filter_list(text)
     for step in combo:
         if step[0]=="csar":
             if ende==66:
@@ -256,6 +257,8 @@ def combination(text, ende, combo):
 
         elif step[0]=="scrambler":
             text=scrambler(text,ende,step[1])
+        
+        text = unfilter(text, template)
     return text
 
 def scrambler(text, ende, password):

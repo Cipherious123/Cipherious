@@ -618,6 +618,16 @@ def submit():
 def completed():
     c, conn = send_cursor()
 
+    if session['combo'] == "":
+        session['errorr']['true'] = True
+        session['errorr']['name'] = "Combo is empty"
+
+    for x in session['combo']:
+        if x [0] == "morse" and x != session['combo'][:-1]:
+            session['error']['true'] = True
+            session['error']['name'] = "Morse code must be the last step in the combo"
+            return 
+        
     curr_user = session['user']
     combo = str(session['combo'])
     comboname = session.get('comboname', "")
@@ -625,8 +635,7 @@ def completed():
 
     conn.commit()
     conn.close()
-    output_message = "Your combo was saved under the name " + comboname
-    return output_message
+    session['errorr']['name'] =  "Your combo was saved under the name " + comboname
 
 @app.route('/use_combo', methods=['GET', 'POST'])
 def use_combo():
