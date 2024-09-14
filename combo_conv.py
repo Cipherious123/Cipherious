@@ -417,5 +417,6 @@ def unfilter(inp, input_list):
         elif x =="U":
             output += inp[count].upper()
         else:
+            count -= 1
             output += x
     return output
