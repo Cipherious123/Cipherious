@@ -258,35 +258,6 @@ def combination(text, ende, combo):
             text=scrambler(text,ende,step[1])
     return text
 
-def inp_check(text,ende,combo):
-    text=text.lower()
-    pure="true"
-    length=len(combo)-1
-    for x in text:
-        if ende == '1': 
-            if x not in alphaone.keys() and combo[0][0] != "morse":
-                pure="Invalid text"
-        
-        elif ende == '66':
-            if x not in alphaone.keys() and combo[length][0] != "morse":
-                pure="Invalid text"
-            if x not in ('-', '.', '|', ' ') and combo[length][0] =="morse":
-                pure="Invalid text"
-    
-    if ende not in ('1','66'):
-        pure="Invalid type(only 1 or 66)"
-    
-    if isinstance(combo, list) == False:
-        pure="Combo type error"
-    count=-1
-    for x in combo:
-        count=count+1
-        if x[0] == "morse":
-            if count != length:
-                pure="Combo invalid, morse code can only be the last step in the combo"
-
-    return pure
-
 def scrambler(text, ende, password):
     text = text.lower()
     holystr =  "vl40MKPqez_Xuv6HhqazNNR5D1smS2Kownx TSXUHgZx7fXupWmM2667T1aBJqyNhK_MUfJUoT1H35LVBx6_4EldeJccpv4ytTaDx2qCvNN9hxn0TlcopnpXj2vO4l5VO.w5OF .Zn4VVGvQSO JaX mptrs1PNyuEX8aUErAdiVPK.fZ3BNPuNG9P9jE 1e1r3Hnx28w5Nc1tr6bjzW65Oqh3KvLEpJSBWzoyRstBim6Gl4tyZtQIcGl3jCZ9_eMwjRBd75GOxpDRvNyE.O77tufE5rWsysj.VyMxPbMgmfnyj3ReF ACpJ7luHvHWQLSi2M 1bIPYi6YVN1KL6nm X4.FzFLcbVs_jSkNDnVRdMzX6CsnZ3ODsTKxs7xBPvWC8UjYLqhNGP  Gi2bdZmOruYSO.e_Y.p6n3bc7csSrNJYurPc3xefdmfbsH BUmrOIR4r4O5sumy7ZVYq5SELOsCVT4eeQvdIX0zEVkC 14Vd6b  Y2NNhY6NDFS0_Ex JpCCXgH_Zfhn4LLAfCb_3E7dfLtnERNM2vl_D4EoOeRkxvEVccXeQH2rYMXJAuFhsQPC24Weu4ls56Crczu CFfdI3.p12nVf51JxDHq_kJ_8xz0SWNPSXE8twaKUXyw69RAwcYga4Q43_sC OOr._1fxo_39tZUOO7mzaQyWqPg7MJKOa_vYbdXEjvH19p_lxuKzuMjsNBcoIjMDGTKFkBT4vu1BeGsCsc4GactrYfMJQ47abTTk88RcXVzNPlJ9kE5unrONOEsBvk5Lm_pIf2Yv9z9JN95DfIFQZPHEk5v0 shM9AYIHfTv8uJa8kEU3oHCYAJxphWle" 
@@ -410,3 +381,38 @@ def scrambler(text, ende, password):
         for x in text_list:
             output = output + text[col_order[x]]
         return output
+
+def encrypt_num(num):
+    return num
+
+def filter_list(inp): #Creates a list which maps where non-allowed letters should go
+    output_list= []
+    capitals = []
+    for x in alphaone:
+        if x != " ":
+            capitals.append(x.upper())
+
+    filtered = ""
+    for x in inp:
+        if x in alphaone:
+            output_list.append("")
+            filtered += x
+        elif x in capitals:
+            output_list.append("U")
+            filtered += x.lower()
+        else:
+            output_list.append(x)   
+    return filtered, output_list
+
+def unfilter(inp, input_list):
+    output = ""
+    count = -1
+    for x in input_list:
+        count += 1
+        if x == "":
+            output += inp[count]
+        elif x =="U":
+            output += inp[count].upper()
+        else:
+            output += x
+    return output

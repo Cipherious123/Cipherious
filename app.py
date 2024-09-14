@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from combo_conv import combination, inp_check, alphagreat
+from combo_conv import combination, alphagreat
 import ast
 import sympy
 import os
@@ -249,20 +249,17 @@ def cc_func():
 
         if int_check(password):
             combin= [["csar" , password ]]
-
-            if inp_check(text,ende,combin) =="true":
-                oops = check_combo("csar", password)
-                if oops.true == False:
-                    ende= int(ende)
-                    output = combination(text , ende, combin)
-                else:
-                    output = oops.name
-                    oops.true = False
-
+            oops = check_combo("csar", password)
+            if oops.true == False:
+                ende= int(ende)
+                output = combination(text , ende, combin)
             else:
-                output = "Error in input"
+                output = oops.name
+                oops.true = False
+
         else:
-            output="Error in password: must be between -27,27"
+            output="Error in password: must be between -27,27 or 66"
+
     return render_template('Caesar Cipher.html', output = output , password = password)
 
 @app.route('/sub_func', methods=['GET','POST'])
@@ -278,17 +275,14 @@ def sub_func():
             password = key_gen('sub')
 
         combin= [["sub" , password ]]
-
-        if inp_check(text,ende,combin) =="true":
-            oops = check_combo("sub", password)
-            if oops.true == False:
-                ende= int(ende)
-                output = combination(text , ende, combin)
-            else:
-                output = oops.name
-                oops.true = False
+        oops = check_combo("sub", password)
+        if oops.true == False:
+            ende= int(ende)
+            output = combination(text , ende, combin)
         else:
-            output = "Error in input"
+            output = oops.name
+            oops.true = False
+
     return render_template('Pyscript_seed.html', output = output , password = password)
 
 @app.route('/vig_func', methods=['GET','POST'])
@@ -304,17 +298,14 @@ def vig_func():
             password = key_gen('vig')
 
         combin= [["vig" , password ]]
-
-        if inp_check(text,ende,combin) =="true":
-            oops = check_combo("vig", password)
-            if oops.true == False:
-                ende= int(ende)
-                output = combination(text , ende, combin)
-            else:
-                output = oops.name
-                oops.true = False
+        oops = check_combo("vig", password)
+        if oops.true == False:
+            ende= int(ende)
+            output = combination(text , ende, combin)
         else:
-            output = "Error in input"
+            output = oops.name
+            oops.true = False
+        
     return render_template('Vig_htmll.html', output = output , password = password)
 
 @app.route('/morse_func', methods=['GET','POST'])
@@ -325,16 +316,14 @@ def morse_func():
         ende = request.form["action"]   
         combin= [["morse" , 'x' ]]
 
-        if inp_check(text,ende,combin) =="true":
-            oops = check_combo("morse", 'x')
-            if oops.true == False:
-                ende= int(ende)
-                output = combination(text , ende, combin)
-            else:
-                output = oops.name
-                oops.true = False
+        oops = check_combo("morse", 'x')
+        if oops.true == False:
+            ende= int(ende)
+            output = combination(text , ende, combin)
         else:
-            output = "Error in input"
+            output = oops.name
+            oops.true = False
+
     return render_template('morse_html.html', output = output)
 
 @app.route('/dif_hel', methods=['GET', 'POST'])
@@ -448,17 +437,14 @@ def BYOCtwo():
             password = key_gen('byoc')
 
         combin= [["byoc" , password ]]
-
-        if inp_check(text,ende,combin) =="true":
-            oops = check_combo("byoc", password)
-            if oops.true == False:
-                ende= int(ende)
-                output = combination(text , ende, combin)
-            else:
-                output = oops.name
-                oops.true = False
+        oops = check_combo("byoc", password)
+        if oops.true == False:
+            ende= int(ende)
+            output = combination(text , ende, combin)
         else:
-            output = "Error in input"
+            output = oops.name
+            oops.true = False
+
     return render_template('BYOC-2.html', output = output , password = password)
 
 @app.route('/scrambler_func', methods=['GET','POST'])
@@ -475,16 +461,14 @@ def scrambler_func():
 
         combin= [["scrambler" ,  password ]]
 
-        if inp_check(text,ende,combin) =="true":
-            oops = check_combo("scrambler", password)
-            if oops.true == False:
-                ende= int(ende)
-                output = combination(text , ende, combin)
-            else:
-                output = oops.name
-                oops.true = False
+        oops = check_combo("scrambler", password)
+        if oops.true == False:
+            ende= int(ende)
+            output = combination(text , ende, combin)
         else:
-            output = "Error in input"
+            output = oops.name
+            oops.true = False
+
     return render_template('scrambler_html.html', output = output, password = password)
 
 @app.route('/create_account', methods=['GET', 'POST'])
@@ -664,7 +648,6 @@ def use_combo():
         combo_ = combo_[0]
         combo_ = ast.literal_eval(combo_)
 
-        output=inp_check(inp,ende,combo_)
         if output=="true":
             ende=int(ende)
             output=combination(inp,ende,combo_)
