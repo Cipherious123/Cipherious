@@ -639,24 +639,21 @@ def use_combo():
     if request.method == 'POST':
         combo_name = request.form['comboname']
         inp = request.form['inptext']
-        ende = request.form['ende']
+        ende = request.form["action"]
         
         c, conn = send_cursor()
         curr_user=session['user']
-
         c.execute('SELECT combo FROM combinations WHERE username=%s AND comboname=%s', (curr_user, combo_name))
         combo_ = c.fetchone()
+
         if combo_ == None:
             output="Error, combination not found"
             return render_template('use_combo.html',output=output)
-        
-        combo_ = combo_[0]
-        combo_ = ast.literal_eval(combo_)
+        else:
+            combo_ = combo_[0]
+            combo_ = ast.literal_eval(combo_)
+            output = combination(inp, ende, combo_)
 
-        if output=="true":
-            ende=int(ende)
-            output=combination(inp,ende,combo_)
-        
         conn.close()
     return render_template('use_combo.html',output=output)
 
