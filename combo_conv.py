@@ -1,4 +1,7 @@
 import math
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad, unpad
 alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
 alphagreat = {'a': 40, 'b': 24, 'c': 45, 'd': 49, 'e': 7, 'f': 47, 'g': 35, 'h': 5, 'i': 46, 'j': 37, 'k': 22, 'l': 27, 'm': 13, 'n': 10, 'o': 38, 'p': 61, 'q': 39, 
     'r': 6, 's': 65, 't': 48, 'u': 28, 'v': 18, 'w': 16, 'x': 4, 'y': 2, 'z': 8, 'A': 62, 'B': 20, 'C': 19, 'D': 25, 'E': 55, 'F': 36, 'G': 44, 'H': 32, 'I': 11, 'J': 52, 
@@ -384,6 +387,52 @@ def scrambler(text, ende, password):
         for x in text_list:
             output = output + text[col_order[x]]
         return output
+    
+def aes(inp, password, ende):
+
+    def aes_encrypt(plaintext, key):
+        # Ensure the key is 128-bit (16 bytes) long
+        if len(key) != 16:
+            raise ValueError("Key must be 16 bytes (128 bits) long.")
+
+        # Convert plaintext to bytes if it is not already
+        if isinstance(plaintext, str):
+            plaintext = plaintext.encode()
+
+        # Generate a random 16-byte initialization vector (IV)
+        iv = get_random_bytes(16)
+
+        # Create AES cipher in CBC mode
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+
+        # Pad plaintext to be a multiple of 16 bytes
+        padded_plaintext = pad(plaintext, AES.block_size)
+
+        # Encrypt the padded plaintext
+        ciphertext = cipher.encrypt(padded_plaintext)
+
+        # Return IV + ciphertext (IV is needed for decryption)
+        return iv + ciphertext
+
+    def aes_decrypt(ciphertext, key):
+        # Ensure the key is 128-bit (16 bytes) long
+        if len(key) != 16:
+            raise ValueError("Key must be 16 bytes (128 bits) long.")
+
+        # Extract the IV from the beginning of the ciphertext
+        iv = ciphertext[:16]
+        actual_ciphertext = ciphertext[16:]
+
+        # Create AES cipher in CBC mode
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+
+        # Decrypt the ciphertext
+        padded_plaintext = cipher.decrypt(actual_ciphertext)
+
+        # Unpad the decrypted plaintext and return it
+        plaintext = unpad(padded_plaintext, AES.block_size)
+        return plaintext.decode()
+
 
 def encrypt_num(num):
     return num
