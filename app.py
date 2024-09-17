@@ -652,6 +652,7 @@ def use_combo():
         else:
             combo_ = combo_[0]
             combo_ = ast.literal_eval(combo_)
+            ende = int(ende)
             output = combination(inp, ende, combo_)
 
         conn.close()
