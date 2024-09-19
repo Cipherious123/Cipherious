@@ -389,9 +389,9 @@ def scrambler(text, ende, password):
             output = output + text[col_order[x]]
         return output
     
-def aes(inp, password, ende):
+def aes(inp, key, ende):
 
-    def aes_encrypt(inp, key):
+    if ende == 1:
         # Ensure the key is 128-bit (16 bytes) long
         if len(key) != 16:
             raise ValueError("Key must be 16 bytes (128 bits) long.")
@@ -408,7 +408,7 @@ def aes(inp, password, ende):
         ciphertext= b64.b64encode(ciphertext).decode('utf-8')
         return iv + ciphertext
 
-    def aes_decrypt(ciphertext, key):
+    else:
         # Ensure the key is 128-bit (16 bytes) long
         if len(key) != 16:
             raise ValueError("Key must be 16 bytes (128 bits) long.")
@@ -425,7 +425,6 @@ def aes(inp, password, ende):
         inp = unpad(padded_inp, AES.block_size)
         inp = inp.decode('utf-8')
         return inp
-
 
 def encrypt_num(num):
     return num
