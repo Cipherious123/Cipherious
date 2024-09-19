@@ -64,9 +64,6 @@ def refiner(raw):
  
 def check_combo(ciphername,password):
     errorr=err("", False)
-    allowed=["csar", "sub", "vig", "byoc", "morse", "scrambler"]
-    if ciphername not in allowed:
-        errorr.raise_issue("Cipher doesn't exist")
      
     if password == "":
         errorr.raise_issue("Input password in decryption")
@@ -109,6 +106,13 @@ def check_combo(ciphername,password):
         for char in password:
             if char not in alphagreat.keys():
                 errorr.raise_issue("Password can only contain lowercase, uppercase alphabets, spacebar, numbers 0-9, underscore")
+
+    elif ciphername == "aes":
+        if len(password) != 16:
+            errorr.raise_issue("Key must be 16 bytes (128 bits) long.")
+    
+    else:
+        errorr.raise_issue("Cipher doesn't exist")
     return errorr
 
 def read_combo(combo):

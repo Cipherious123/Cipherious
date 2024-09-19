@@ -389,43 +389,39 @@ def scrambler(text, ende, password):
             output = output + text[col_order[x]]
         return output
     
+
 def aes(inp, key, ende):
+    key = key.encode()  # Ensure key is in bytes
 
-    if ende == 1:
-        # Ensure the key is 128-bit (16 bytes) long
-        if len(key) != 16:
-            raise ValueError("Key must be 16 bytes (128 bits) long.")
-
-        # Convert inp to bytes if it is not already
-        inp = inp.encode()
-        # Generate a random 16-byte initialization vector. The IV adds necessary randomness and ensures that encryption is safe even if multiple messages are encrypted with the same key.
-        iv = get_random_bytes(16)
-        # Create AES cipher in CBC mode
+    if ende == 1:  # Encryption
+        inp = inp.encode()  # text --> bytes
+        iv = get_random_bytes(16) # Generate a random 16-byte initialization vector (IV)
         cipher = AES.new(key, AES.MODE_CBC, iv)
-        # Pad inp to be a multiple of 16 bytes(add useless text)
+
+        # Pad the input to be a multiple of 16 bytes
         padded_inp = pad(inp, AES.block_size)
+
         ciphertext = cipher.encrypt(padded_inp)
-        ciphertext= b64.b64encode(ciphertext).decode('utf-8')
-        return iv + ciphertext
+        ciphertext = iv + ciphertext
+        ciphertext = b64.b64encode(ciphertext).decode('utf-8') #bytes --> b64
+        return ciphertext
 
-    else:
-        # Ensure the key is 128-bit (16 bytes) long
-        if len(key) != 16:
-            raise ValueError("Key must be 16 bytes (128 bits) long.")
+    else:  # Decryption
+        try:
+            inp = b64.b64decode(inp) #b64 --> bytes
+        except (ValueError,KeyError,TypeError):
+            return "Input isn't in base 64"
 
-        # Extract the IV from the beginning of the ciphertext
-        iv = ciphertext[:16]
-        actual_ciphertext = ciphertext[16:]
-
-        # Create AES cipher in CBC mode
+        iv = inp[:16]
+        ciphertext = inp[16:]
+        
+        # Create AES cipher in CBC mode with the key and IV
         cipher = AES.new(key, AES.MODE_CBC, iv)
-        padded_inp = cipher.decrypt(actual_ciphertext)
-
-        # Unpad the decrypted inp and return it
-        inp = unpad(padded_inp, AES.block_size)
-        inp = inp.decode('utf-8')
-        return inp
-
+        
+        padded_inp = cipher.decrypt(ciphertext)
+        output = unpad(padded_inp, AES.block_size)
+        return output.decode('utf-8') #stringify
+        
 def encrypt_num(num):
     return num
 
