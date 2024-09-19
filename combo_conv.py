@@ -1,4 +1,5 @@
 import math
+import base64 as b64
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
@@ -132,7 +133,7 @@ def vig(input, password, ende):
         key=password.lower()  #Key input
         keylist = list(map(str, key))
 
-        inp=input.lower() #Input of plaintext
+        inp=input.lower() #Input of inp
         inp_list = list(map(str, inp))
         return vigenere_converter(inp_list, keylist, ende)
 
@@ -390,28 +391,21 @@ def scrambler(text, ende, password):
     
 def aes(inp, password, ende):
 
-    def aes_encrypt(plaintext, key):
+    def aes_encrypt(inp, key):
         # Ensure the key is 128-bit (16 bytes) long
         if len(key) != 16:
             raise ValueError("Key must be 16 bytes (128 bits) long.")
 
-        # Convert plaintext to bytes if it is not already
-        if isinstance(plaintext, str):
-            plaintext = plaintext.encode()
-
-        # Generate a random 16-byte initialization vector (IV)
+        # Convert inp to bytes if it is not already
+        inp = inp.encode()
+        # Generate a random 16-byte initialization vector. The IV adds necessary randomness and ensures that encryption is safe even if multiple messages are encrypted with the same key.
         iv = get_random_bytes(16)
-
         # Create AES cipher in CBC mode
         cipher = AES.new(key, AES.MODE_CBC, iv)
-
-        # Pad plaintext to be a multiple of 16 bytes
-        padded_plaintext = pad(plaintext, AES.block_size)
-
-        # Encrypt the padded plaintext
-        ciphertext = cipher.encrypt(padded_plaintext)
-
-        # Return IV + ciphertext (IV is needed for decryption)
+        # Pad inp to be a multiple of 16 bytes(add useless text)
+        padded_inp = pad(inp, AES.block_size)
+        ciphertext = cipher.encrypt(padded_inp)
+        ciphertext= b64.b64encode(ciphertext).decode('utf-8')
         return iv + ciphertext
 
     def aes_decrypt(ciphertext, key):
@@ -425,13 +419,12 @@ def aes(inp, password, ende):
 
         # Create AES cipher in CBC mode
         cipher = AES.new(key, AES.MODE_CBC, iv)
+        padded_inp = cipher.decrypt(actual_ciphertext)
 
-        # Decrypt the ciphertext
-        padded_plaintext = cipher.decrypt(actual_ciphertext)
-
-        # Unpad the decrypted plaintext and return it
-        plaintext = unpad(padded_plaintext, AES.block_size)
-        return plaintext.decode()
+        # Unpad the decrypted inp and return it
+        inp = unpad(padded_inp, AES.block_size)
+        inp = inp.decode('utf-8')
+        return inp
 
 
 def encrypt_num(num):

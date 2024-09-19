@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your account</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='w3_one.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='w3_two.css') }}">
+
     <style>
         body {
             background-color: #000000;
@@ -124,6 +125,8 @@
     <form method="POST" action="/logout">
         <button type="submit" class="button">Logout</button>
     </form>
+    
+    <a href="{{ url_for('change_password')}}" class="button">Change Password</a>
     <a href="{{ url_for('del_acc') }}" class="button">Delete Your Account</a>
     <a href="{{ url_for('del_combo') }}" class="button">Delete a Combo</a>
 </div>
