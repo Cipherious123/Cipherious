@@ -81,10 +81,22 @@
             {{steps}}
             </div> <br>
             <form method="post" action="/create_combo">
-            <label class="input-label">Input name of combination(leave blank if already saved):</label>
+            <table> <tr>
+
+            <td><label class="input-label">Input name of combination(leave blank if already saved):</label>
             <input type="text" id="comboname" name="comboname" class="input-field" placeholder="Enter combo name here" />
-            <button type="submit" name ="action"  class="button" value="Save name of combination">Save name of combination</button>
-        
+            </td>
+
+            <td>
+            <button type="submit" name ="action"  class="button" value="Save name of combination">Save name of combination</button> </td>
+
+            <td>
+                <div class="output-container">
+                {{name}}
+                </div>
+            </td>
+            </table>
+            
             <label class="input-label">Input cipher name:</label>
             <input type="text" id="ciphername" name="ciphername" class="input-field" placeholder="Enter cipher name here" />
         

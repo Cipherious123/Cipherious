@@ -176,7 +176,7 @@ def del_combo():
             c.execute('DELETE FROM combinations WHERE comboname = %s AND username = %s', (req_combo, curr_user))
             conn.commit()
             conn.close()
-            output="Deleted the combo" + req_combo
+            output="Deleted the combo: " + req_combo
         else:
             output="Combination not found. Please check your spelling"
 
@@ -527,11 +527,7 @@ def cipherious():
 @app.route('/create_combo', methods=['GET', 'POST'])
 def create_combo():
     if 'combo' not in session:
-        session['combo'] = []
-    if 'errorr' not in session:
-        session['errorr'] = {"name":"Start a combo by setting your combo name" , "true":False, "nameset":False}
-    if 'comboname' not in session:
-        session['comboname'] = ""
+        restart()
 
     if request.method == 'POST':
         action = request.form['action']
@@ -543,38 +539,39 @@ def create_combo():
                 session['errorr']['name'] = f"You have set name to {session['comboname']}"
 
         elif action == 'Submit this step':
-            if session['errorr']['nameset']:
-                submit()
-                if not session['errorr']['true']:
-                    combo_text = read_combo(session['combo'])
-                    session['errorr']['name'] = f"Your combo is {combo_text} "
-            else:
-                session['errorr']['true'] = True
-                session['errorr']['name'] = "Name not set"
+            submit()
 
-        elif action == 'Delete the previous step':
-            if not session['combo']:
-                session['errorr']['true'] = True
-                session['errorr']['name'] = "Combo is empty"
-            else:
-                session['combo'].pop()
+            if not session['errorr']['true']:
                 combo_text = read_combo(session['combo'])
                 session['errorr']['name'] = f"Your combo is {combo_text} "
 
+        elif action == 'Delete the previous step':
+            delete()
+
         elif action == 'Restart':
-            session['combo'] = []
-            session['comboname'] = ""
-            session['nameset'] = False
-            session['errorr']['name'] = f"Your combo is empty now "
-            
+            restart()
+
         elif action == 'Complete combination':
             completed()
-            if not session['errorr']:
-                session['combo'] = []
+            if not session['errorr']['true']:
+                restart()
     
     toreturn = session['errorr']['name']
-    return render_template('create_combo.html', steps=toreturn)
+    return render_template('create_combo.html', steps=toreturn, name = session['comboname'])
 
+def delete():
+    if not session['combo']:
+        session['errorr']['true'] = True
+        session['errorr']['name'] = "Combo is empty"
+    else:
+        session['combo'].pop()
+        combo_text = read_combo(session['combo'])
+        session['errorr']['name'] = f"Your combo is {combo_text} "
+
+def restart():
+    session['combo'] = []
+    session['comboname'] = ""
+    session['errorr'] = {"name":"Start a combo by setting your combo name" , "true":False, "nameset":False}
 
 def set_name():
     comboname = request.form['comboname']
@@ -602,6 +599,11 @@ def submit():
     ciphername = request.form['ciphername']
     password = request.form['password']
 
+    if not session['errorr']['nameset']:
+        session['errorr']['true'] = False
+        session['errorr']['name'] = "Comboname not given"
+        return 
+    
     if password == "":
         password = key_gen(ciphername)
         
