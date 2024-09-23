@@ -261,6 +261,11 @@ def combination(text, ende, combo):
 
         elif step[0]=="scrambler":
             text=scrambler(text,ende,step[1])
+
+        elif step[0] == "aes":
+            text = unfilter(text, template)
+            text = aes(text,step[1], ende)
+            text, template = filter_list(text) 
         
         text = unfilter(text, template)
     return text
@@ -329,11 +334,11 @@ def scrambler(text, ende, password):
     multi_holy = len(text) / len(holystr)
     if multiplier > 1:
         multiplier = math.ceil(multiplier) 
-        password = multiplier * password
+        password *= multiplier 
 
     if multi_holy > 1:
         multi_holy = math.ceil(multi_holy) 
-        password = multi_holy * password
+        holystr *= multi_holy
         
     text_list=[]    
     blacklist = {}
@@ -342,11 +347,14 @@ def scrambler(text, ende, password):
 
         while var in text_list: # Enseures there are no duplicates
             if var in blacklist:
-                blacklist[var] = blacklist[var] + 1
+                blacklist[var] += 1
             else:
                 blacklist.update({var : 1})
 
+            if blacklist[var] >= len(holystr): #Used to deal with when so many repetions that holystring is too short 
+                holystr += holystr[::-1]
             var = collatz(superkey , password[counter], holystr[blacklist[var]])
+
         text_list.append(var)
 
     if ende == 66: #makes list of list indexes for decryption

@@ -14,14 +14,14 @@ def new_int(min_val, max_val):
         
 def key_gen(cipher):
     if cipher == 'csar':
-        return str(new_int(1,27))
+        output = str(new_int(1,27))
     elif cipher == 'sub':
-        return str(new_int(100,999999))
+        output = str(new_int(100,999999))
     elif cipher == 'morse':
-        return '_'
+        output = '_'
     elif cipher == 'byoc':
         blacklist=[]
-        output = ['']*27
+        output_ = ['']*27
         
         for x in alphaone.keys():
             clear = False
@@ -33,12 +33,11 @@ def key_gen(cipher):
                 else:
                     blacklist.append(ind)
                     clear = True
-                    output[ind-1] = x
+                    output_[ind-1] = x
 
-        outstr = ""
-        for x in output:
-            outstr += x
-        return outstr
+        output = ""
+        for x in output_:
+            output += x
     
     elif cipher == "vig":
         length = new_int(15,75)
@@ -47,7 +46,6 @@ def key_gen(cipher):
             ind = new_int(1,27)
             char = [i for i in alphaone if alphaone[i] == ind][0]
             output += char
-        return output
     
     elif cipher == "scrambler":
         length = new_int(15,75)
@@ -56,4 +54,14 @@ def key_gen(cipher):
             ind = new_int(1,65)
             char = [i for i in alphagreat if alphagreat[i] == ind][0]
             output += char
-        return output
+    
+    elif cipher == "aes":
+        extra = ['!',',','@','#','$','%','^','&','*','(',')','"','}','{','+','|',':','<','>','?','[',']',';',',','/',':']
+        for x in alphagreat:
+            extra.append(x)
+        output = ""
+        for x in range(15):
+            ind = new_int(1,len(extra))
+            output += extra[ind-1]
+            
+    return output

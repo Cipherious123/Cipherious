@@ -654,7 +654,6 @@ def use_combo():
 
         if combo_ == None:
             output="Error, combination not found"
-            return render_template('use_combo.html',output=output)
         else:
             combo_ = combo_[0]
             combo_ = ast.literal_eval(combo_)
