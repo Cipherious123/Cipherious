@@ -73,8 +73,53 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
-    </style>
-</head><body>
+
+            .slider-container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+            .slider {
+            width: 100%;
+            appearance: none;
+            height: 15px;
+            border-radius: 5px;
+            background: #007BFF;
+            outline: none;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .cipher-display {
+            margin-top: 30px;
+            font-size: 1.5em;
+            color: #007BFF;
+        }
+    </style></head>
+    <body>
         <div class="container">
             <h1>Create Combination Cipher</h1><br>
             <div class="output-container">
@@ -95,8 +140,13 @@
             </td>
             </table>
             
-            <label class="input-label">Input cipher name:</label>
-            <input type="text" id="ciphername" name="ciphername" class="input-field" placeholder="Enter cipher name here" />
+            <div class="slider-container">
+                <!-- Slider input with 5 positions for ciphers -->
+                <input type="range" min="0" max="6" value="0" class="slider" id="cipherSlider" name = "cipherselected">
+            </div>
+        
+            <!-- Display selected cipher -->
+            <div class="cipher-display" id="selectedCipher">Caesar Cipher</div>
         
             <label class="input-label">Input password:</label>
             <input type="text" id="password" name="password" class="input-field" placeholder="Enter password of the cipher in the combo" />
@@ -110,6 +160,26 @@
 
     <a href="{{ url_for('cipherious')}}"><button class="button">Home page</button></a>
     
+    <script>
+        // Array of ciphers corresponding to slider values
+        const ciphers = [
+            'Caesar Cipher',
+            'Vigenère Cipher',
+            'Substitution Cipher',
+            'Scrambler Cipher',
+            'Build your own Cipher',
+            'Morse Code',
+            'Advanced Encryption Standard (AES 128)'
+        ];
 
+        // Get slider and display elements
+        const slider = document.getElementById('cipherSlider');
+        const selectedCipher = document.getElementById('selectedCipher');
+
+        // Update displayed cipher based on slider value
+        slider.addEventListener('input', function() {
+            selectedCipher.textContent = ciphers[slider.value];
+        });
+    </script>
     
     </font></body></html>

@@ -596,9 +596,11 @@ def set_name():
     session['comboname'] = comboname
 
 def submit():
-    ciphername = request.form['ciphername']
+    lookup_dict = {0:"csar", 1:"vig", 2:"sub", 3:"scrambler", 4:"byoc", 5:"morse", 6:"aes"}
+    ciphername = request.form['cipherselected']
     password = request.form['password']
 
+    ciphername = lookup_dict[ciphername]
     if not session['errorr']['nameset']:
         session['errorr']['true'] = False
         session['errorr']['name'] = "Comboname not given"
