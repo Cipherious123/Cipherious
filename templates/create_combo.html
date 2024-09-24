@@ -9,7 +9,7 @@
     <style>
         body {
             background-color: #000000;
-            color: #333;
+            color: #a0a0a0;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -126,7 +126,7 @@
             {{steps}}
             </div> <br>
             <form method="post" action="/create_combo">
-            <table> <tr>
+            <table cellpadding="15"> <tr>
 
             <td><label class="input-label">Input name of combination(leave blank if already saved):</label>
             <input type="text" id="comboname" name="comboname" class="input-field" placeholder="Enter combo name here" />
@@ -140,6 +140,7 @@
             </td>
             </table>
             
+            <br><br> Select the cipher to set as the next step in your combo
             <div class="slider-container">
                 <!-- Slider input with 5 positions for ciphers -->
                 <input type="range" min="0" max="6" value="0" class="slider" id="cipherSlider" name = "cipherselected">
@@ -148,7 +149,7 @@
             <!-- Display selected cipher -->
             <div class="cipher-display" id="selectedCipher">Caesar Cipher</div>
         
-            <label class="input-label">Input password:</label>
+            <label class="input-label">Input password for selected cipher:</label>
             <input type="text" id="password" name="password" class="input-field" placeholder="Enter password of the cipher in the combo" />
 
             <button type="submit" name ="action" class="button" value="Submit this step">Submit this step</button><br><br>
@@ -159,6 +160,7 @@
         </form>
 
     <a href="{{ url_for('cipherious')}}"><button class="button">Home page</button></a>
+    <a href="{{ url_for('use_combo')}}"><button class="button">Use your combo</button></a>
     
     <script>
         // Array of ciphers corresponding to slider values

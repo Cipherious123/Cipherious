@@ -596,7 +596,7 @@ def set_name():
     session['comboname'] = comboname
 
 def submit():
-    lookup_dict = {0:"csar", 1:"vig", 2:"sub", 3:"scrambler", 4:"byoc", 5:"morse", 6:"aes"}
+    lookup_dict = {'0':"csar", '1':"vig", '2':"sub", '3':"scrambler", '4':"byoc", '5':"morse", '6':"aes"}
     ciphername = request.form['cipherselected']
     password = request.form['password']
 
