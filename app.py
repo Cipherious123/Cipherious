@@ -86,6 +86,9 @@ def check_combo(ciphername,password):
         for x in password:
             if x not in alphaone.keys():
                 errorr.raise_issue("Password must contain alphabets or spaces only")
+
+    elif ciphername == "morse":
+        pass
     
     elif ciphername == "byoc":
         already_in=[]
@@ -365,7 +368,7 @@ def scrambler_func():
 @app.route('/aes_func', methods=['GET', 'POST'])
 def aes_func():
     output, password = standard("aes")
-    return render_template('scrambler_html.html', output = output, password = password)
+    return render_template('aes.html', output = output, password = password)
 
 def standard(cipher):
     output=""
