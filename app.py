@@ -236,98 +236,22 @@ def logout():
 
 @app.route('/cc_func', methods=['GET','POST'])
 def cc_func():
-    output=""
-    password=""
-    if request.method == 'POST':
-        text = request.form["text"]
-        password = request.form["password"]
-
-        if password == "":
-            password = key_gen('csar')
-
-        if password[0] == "-":
-            ende = '66'
-            password= password[1:]
-        else: 
-            ende = '1'
-
-        if int_check(password):
-            combin= [["csar" , password ]]
-            oops = check_combo("csar", password)
-            if oops.true == False:
-                ende= int(ende)
-                output = combination(text , ende, combin)
-            else:
-                output = oops.name
-                oops.true = False
-
-        else:
-            output="Error in password: must be between -27,27 or 66"
-
+    output, password = standard("csar")
     return render_template('Caesar Cipher.html', output = output , password = password)
 
 @app.route('/sub_func', methods=['GET','POST'])
 def sub_func():
-    output=""
-    password=""
-    if request.method == 'POST':
-        text = request.form["text"]
-        password = request.form["password"]
-        ende = request.form["action"]
-
-        if password == "" and ende == "1":
-            password = key_gen('sub')
-
-        combin= [["sub" , password ]]
-        oops = check_combo("sub", password)
-        if oops.true == False:
-            ende= int(ende)
-            output = combination(text , ende, combin)
-        else:
-            output = oops.name
-            oops.true = False
-
+    output, password = standard("sub")
     return render_template('Pyscript_seed.html', output = output , password = password)
 
 @app.route('/vig_func', methods=['GET','POST'])
 def vig_func():
-    output=""
-    password=""
-    if request.method == 'POST':
-        text = request.form["text"]
-        password = request.form["password"]
-        ende = request.form["action"]
-
-        if password == "" and ende == "1":
-            password = key_gen('vig')
-
-        combin= [["vig" , password ]]
-        oops = check_combo("vig", password)
-        if oops.true == False:
-            ende= int(ende)
-            output = combination(text , ende, combin)
-        else:
-            output = oops.name
-            oops.true = False
-        
+    output, password = standard("vig")
     return render_template('Vig_htmll.html', output = output , password = password)
 
 @app.route('/morse_func', methods=['GET','POST'])
 def morse_func():
-    output=""
-    if request.method == 'POST':
-        text = request.form["text"]
-        ende = request.form["action"]   
-        combin= [["morse" , 'x' ]]
-
-        oops = check_combo("morse", 'x')
-        if oops.true == False:
-            ende= int(ende)
-            output = combination(text , ende, combin)
-        else:
-            output = oops.name
-            oops.true = False
-
+    output, password = standard("morse")
     return render_template('morse_html.html', output = output)
 
 @app.route('/dif_hel', methods=['GET', 'POST'])
@@ -430,50 +354,52 @@ def BYOCone():
     
 @app.route('/BYOCtwo', methods=['GET','POST'])
 def BYOCtwo():
-    output=""
-    password=""
-    if request.method == 'POST':
-        text = request.form["text"]
-        password = request.form["password"]
-        ende = request.form["action"]
-
-        if password == "" and ende == "1":
-            password = key_gen('byoc')
-
-        combin= [["byoc" , password ]]
-        oops = check_combo("byoc", password)
-        if oops.true == False:
-            ende= int(ende)
-            output = combination(text , ende, combin)
-        else:
-            output = oops.name
-            oops.true = False
-
+    output, password = standard("scrambler")
     return render_template('BYOC-2.html', output = output , password = password)
 
 @app.route('/scrambler_func', methods=['GET','POST'])
 def scrambler_func():
+    output, password = standard("scrambler")
+    return render_template('scrambler_html.html', output = output, password = password)
+
+@app.route('/aes_func', methods=['GET', 'POST'])
+def aes_func():
+    output, password = standard("aes")
+    return render_template('scrambler_html.html', output = output, password = password)
+
+def standard(cipher):
     output=""
     password=""
     if request.method == 'POST':
         text = request.form["text"]
-        password = request.form["password"]
-        ende = request.form['action']
+        if cipher != "morse":
+            password = request.form["password"]
+
+        if cipher == "csar": #Caesar handling
+            if password == "":
+                password = key_gen(cipher)
+
+            elif password[0] == "-":
+                ende = '66'
+                password= password[1:]
+            else: 
+                ende = '1'
+
+        else:
+            ende = request.form['action']
 
         if password == "" and ende == "1":
-            password = key_gen('scrambler')
+            password = key_gen(cipher)
 
-        combin= [["scrambler" ,  password ]]
-
-        oops = check_combo("scrambler", password)
+        combin= [[cipher ,  password ]]
+        oops = check_combo(cipher, password)
         if oops.true == False:
             ende= int(ende)
             output = combination(text , ende, combin)
         else:
             output = oops.name
             oops.true = False
-
-    return render_template('scrambler_html.html', output = output, password = password)
+    return output, password
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():

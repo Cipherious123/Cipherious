@@ -58,9 +58,11 @@ def key_gen(cipher):
     elif cipher == "aes":
         extra = ['!',',','@','#','$','%','^','&','*','(',')','"','}','{','+','|',':','<','>','?','[',']',';',',','/',':']
         for x in alphagreat:
-            extra.append(x)
+            if x != " ":
+                extra.append(x)
+
         output = ""
-        for x in range(15):
+        for x in range(16):
             ind = new_int(1,len(extra))
             output += extra[ind-1]
             
