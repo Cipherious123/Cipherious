@@ -278,7 +278,7 @@ def scrambler(text, ende, password):
         val_list.append(alphagreat[x])
 
     superkey = alphagreat[password[0]] + alphagreat[password[1]] + alphagreat[password[2]] + alphagreat[password[3]] + alphagreat[password[4]]
-    while superkey < 50:
+    while superkey < 50: #Extracting superkey from first 5 alphabets
         superkey += 2 * alphagreat[password[0]]
     while superkey > 250:
         superkey -= alphagreat[password[2]]
@@ -299,7 +299,7 @@ def scrambler(text, ende, password):
         if superkey > 50: #Defining starting number and which number in collatz graph to take
             start=val* superkey + 2*iteration
         else:
-            start = val * superkey * 3/4 + round(2.5 * iteration)
+            start = val * superkey * 3/4 + round(2 * iteration)
             start = round(start)
 
         number= digitsum(val) + digitsum(superkey) - digitsum(iteration)
@@ -331,40 +331,25 @@ def scrambler(text, ende, password):
         return output
 
     multiplier = len(text) / len(password) #Defining variables, multiplying password as required
-    multi_holy = len(text) / len(holystr)
     if multiplier > 1:
         multiplier = math.ceil(multiplier) 
         password *= multiplier 
-
-    if multi_holy > 1:
-        multi_holy = math.ceil(multi_holy) 
-        holystr *= multi_holy
         
     text_list=[]    
-    blacklist = {}
+    def uid(no):
+        no += 1
+        output = no^2 - 7*no
+        return  abs(output)
+    
     for counter in range(len(text)): #Calls collatz function for each character
-        var = collatz (superkey , password[counter], 0)
+        var = collatz (superkey , password[counter], uid(counter))
+        new_iter = 3 *uid(counter) +1
 
-        while var in text_list: # Enseures there are no duplicates
-            if var in blacklist:
-                blacklist[var] += 1
-            else:
-                blacklist.update({var : 1})
-
-            if blacklist[var] >= len(holystr): #Used to deal with when so many repetions that holystring is too short 
-                holystr += holystr[::-1]
-            var = collatz(superkey , password[counter], holystr[blacklist[var]])
+        while var in text_list: # Ensures there are no duplicates
+            var = collatz (superkey , password[counter], new_iter)
+            new_iter = 3*new_iter + 1
 
         text_list.append(var)
-
-    if ende == 66: #makes list of list indexes for decryption
-        text_num = [] 
-        for x in range(len(text)):
-            text_num.append(str(x))
-
-        real_text = " " + text
-        real_text = real_text[1:]
-        text = text_num
 
     #making a dictionary to assign value to each character
     col_order={}
@@ -376,22 +361,22 @@ def scrambler(text, ende, password):
     if ende == 66:
         new_order={} #making a dictionary to say which character has which index in the output text
         for count in range(len(text_list)):
-            curr_character = count
-            curr_val = [i for i in col_order if col_order[i] == curr_character][0]
+            curr_val = [i for i in col_order if col_order[i] == count][0]
             ind = text_list.index(curr_val)
-            new_order.update({ind: curr_character})
+            new_order.update({ind: count})
 
-        output= [''] * len(real_text)
+        output= [''] * len(text)
         count = -1
         for x in new_order: #Assigns correct values
-            output [int(new_order[x])] = real_text[x]
+            output [int(new_order[x])] = text[x]
 
         outstr=""
+        outstr
         for x in output:
-            outstr = outstr + x
+            outstr += x
         return outstr
     
-    else:    
+    else:    #Substituting values from the sorted text_list using col_order
         output=""
         for x in text_list:
             output = output + text[col_order[x]]
