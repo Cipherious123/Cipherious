@@ -293,8 +293,6 @@ def scrambler(text, ende, password):
         
     def collatz(superkey, char, iteration):  
         val = alphagreat[char]
-        if iteration != 0:
-            iteration = alphagreat[iteration]
 
         if superkey > 50: #Defining starting number and which number in collatz graph to take
             start=val* superkey + 2*iteration
