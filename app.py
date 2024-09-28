@@ -121,10 +121,13 @@ def check_combo(ciphername,password):
 def read_combo(combo):
     output = ""
     count = 0  
+    if combo == []:
+        return ""
+    
     for step in combo:
         count += 1
-        output += f"Step {count}; cipher: {step[0]}, password: '{step[1]}'\n"
-    return  output
+        output += f"Step {count}; cipher: {step[0]}, password: '{step[1]}'|\n"
+    return output
 
 class err:
     def __init__(self, name, true):
@@ -490,7 +493,7 @@ def create_combo():
             if not session['errorr']['true']:
                 restart()
     
-    toreturn = session['errorr']['name']
+    toreturn = session['errorr']['name'] + read_combo(session['combo'])
     return render_template('create_combo.html', steps=toreturn, name = session['comboname'])
 
 def delete():
