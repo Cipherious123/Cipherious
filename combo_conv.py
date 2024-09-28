@@ -400,15 +400,12 @@ def aes(inp, key, ende):
     else:  # Decryption
         try:
             inp = b64.b64decode(inp) #b64 --> bytes
+            iv = inp[:16]
+            ciphertext = inp[16:]
+            cipher = AES.new(key, AES.MODE_CBC, iv) # Create AES cipher in CBC mode with the key and IV
         except (ValueError,KeyError,TypeError):
             return "Input isn't in base 64"
 
-        iv = inp[:16]
-        ciphertext = inp[16:]
-        
-        # Create AES cipher in CBC mode with the key and IV
-        cipher = AES.new(key, AES.MODE_CBC, iv)
-        
         padded_inp = cipher.decrypt(ciphertext)
         output = unpad(padded_inp, AES.block_size)
         return output.decode('utf-8') #stringify

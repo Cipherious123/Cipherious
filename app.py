@@ -120,8 +120,10 @@ def check_combo(ciphername,password):
 
 def read_combo(combo):
     output = ""
+    count = 0
     for step in combo:
-        output = output + f"{step[0]} cipher with password '{step[1]}', "
+        count += 1
+        output += f"Step {count}; cipher: {step[0]}, password: '{step[1]}'\n"
     return  output
 
 class err:
@@ -158,8 +160,8 @@ def my_acc():
     all_combos = c.fetchall()
 
     for comboname, combo_str in all_combos:
-        output[comboname] = combo_str 
-    
+        output[comboname] = read_combo(combo_str) 
+        
     conn.close()
     return render_template('my_acc.html', combos=output)
 
