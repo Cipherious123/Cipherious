@@ -264,8 +264,13 @@ def combination(text, ende, combo):
 
         elif step[0] == "aes":
             text = unfilter(text, template)
-            text = aes(text,step[1], ende)
-            text, template = filter_list(text) 
+            inp_check,_,_ = aes_inp(ende, text)
+            
+            if inp_check:
+                text = aes(text,step[1], ende)
+                text, template = filter_list(text) 
+            else:
+                return None
         
         text = unfilter(text, template)
     return text
@@ -380,7 +385,20 @@ def scrambler(text, ende, password):
             output = output + text[col_order[x]]
         return output
     
+def aes_inp(ende, inp): #Checks if input is in b64 for decryption and creates cipher and ciphertext on the way
+    if ende == 66:
+        try:
+            inp = b64.b64decode(inp) #b64 --> bytes
+            iv = inp[:16]
+            ciphertext = inp[16:]
+            cipher = AES.new(key, AES.MODE_CBC, iv) # Create AES cipher in CBC mode with the key and IV
+            return True, ciphertext, cipher
 
+        except (ValueError,KeyError,TypeError):
+            return False, None, None
+    else:
+        return True, None, None
+    
 def aes(inp, key, ende):
     key = key.encode()  # Ensure key is in bytes
 
@@ -398,13 +416,7 @@ def aes(inp, key, ende):
         return ciphertext
 
     else:  # Decryption
-        try:
-            inp = b64.b64decode(inp) #b64 --> bytes
-            iv = inp[:16]
-            ciphertext = inp[16:]
-            cipher = AES.new(key, AES.MODE_CBC, iv) # Create AES cipher in CBC mode with the key and IV
-        except (ValueError,KeyError,TypeError):
-            return "Input isn't in base 64"
+        _, ciphertext, cipher = aes_inp(1, inp)
 
         padded_inp = cipher.decrypt(ciphertext)
         output = unpad(padded_inp, AES.block_size)

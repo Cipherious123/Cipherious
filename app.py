@@ -371,6 +371,8 @@ def scrambler_func():
 @app.route('/aes_func', methods=['GET', 'POST'])
 def aes_func():
     output, password = standard("aes")
+    if output == None:
+        output = "Input during decryption is always in base64. Your input is wrong"
     return render_template('aes.html', output = output, password = password)
 
 def standard(cipher):
@@ -552,18 +554,17 @@ def submit():
         session['combo'] = combo
 
 def completed():
-    c, conn = send_cursor()
-
     if session['combo'] == "":
         session['errorr']['true'] = True
         session['errorr']['name'] = "Combo is empty"
 
     for x in session['combo']:
-        if x [0] == "morse" and x != session['combo'][:-1]:
+        if x [0] == "morse" and x != session['combo'][-1]:
             session['errorr']['true'] = True
             session['errorr']['name'] = "Morse code must be the last step in the combo"
             return 
         
+    c, conn = send_cursor()
     curr_user = session['user']
     combo = str(session['combo'])
     comboname = session.get('comboname', "")
@@ -593,6 +594,9 @@ def use_combo():
             combo_ = ast.literal_eval(combo_)
             ende = int(ende)
             output = combination(inp, ende, combo_)
+
+        if output == None:
+            output = "Input during decryption is always in base64. Your input is wrong"
 
         conn.close()
     return render_template('use_combo.html',output=output)
