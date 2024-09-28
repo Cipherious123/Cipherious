@@ -120,7 +120,7 @@ def check_combo(ciphername,password):
 
 def read_combo(combo):
     output = ""
-    count = 0
+    count = 0  
     for step in combo:
         count += 1
         output += f"Step {count}; cipher: {step[0]}, password: '{step[1]}'\n"
@@ -160,8 +160,9 @@ def my_acc():
     all_combos = c.fetchall()
 
     for comboname, combo_str in all_combos:
-        output[comboname] = read_combo(combo_str) 
-        
+        combo = ast.literal_eval(combo_str)
+        output[comboname] = read_combo(combo) 
+
     conn.close()
     return render_template('my_acc.html', combos=output)
 
