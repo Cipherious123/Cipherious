@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combination Cipher: Creation</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='w3_one.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='w3_two.css') }}">
     <style>
         body {
             background-color: #000000;
@@ -123,7 +123,7 @@
         <div class="container">
             <h1>Create Combination Cipher</h1><br>
             <div class="output-container">
-            {{steps}}
+            {{steps|safe}}
             </div> <br>
             <form method="post" action="/create_combo">
             <table cellpadding="15"> <tr>
@@ -136,7 +136,7 @@
             <button type="submit" name ="action"  class="button" value="Save name of combination">Save name of combination</button> </td>
 
             <td>   
-                Name:       <div class="output-container"> {{name}} </div>                                   
+                <div class="output-container">Name: {{name}} </div>                                   
             </td>
             </table>
             
@@ -155,11 +155,11 @@
             <button type="submit" name ="action" class="button" value="Submit this step">Submit this step</button><br><br>
             <button type="submit" name= "action" class="button" value="Delete the previous step">Delete the previous step</button><br><br>
             <button type="submit" name= "action" class="button" value="Restart">Restart</button><br><br>
-            <button type="submit" name= "action" class="button" value="Complete combination">Complete combination</button>
+            <button type="submit" name= "action" class="button" value="Complete combination">Complete combination</button><br><br>
 
         </form>
 
-    <a href="{{ url_for('cipherious')}}"><button class="button">Home page</button></a>
+    <a href="{{ url_for('cipherious')}}"><button class="button">Home page</button></a><br>
     <a href="{{ url_for('use_combo')}}"><button class="button">Use your combo</button></a>
     
     <script>

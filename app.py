@@ -127,7 +127,7 @@ def read_combo(combo):
     
     for step in combo:
         count += 1
-        output += f"Step {count}; cipher: {step[0]}, password: '{lookup_dict[step[0]]}'|\n"
+        output += f"Step {count}; cipher: {lookup_dict[step[0]]}, password: '{step[1]}'\n"
     return output
 
 class err:
@@ -494,7 +494,8 @@ def create_combo():
             if not session['errorr']['true']:
                 restart()
     
-    toreturn = session['errorr']['name'] + read_combo(session['combo'])
+    combo_str = read_combo.replace('\n', '<br>')
+    toreturn = session['errorr']['name'] + combo_str
     return render_template('create_combo.html', steps=toreturn, name = session['comboname'])
 
 def delete():
