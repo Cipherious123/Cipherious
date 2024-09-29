@@ -22,6 +22,7 @@ def cc(input, password):
             shift=shift*-1
             shift=27-shift
         output=""   
+        
         for x in inp_list:
             shifted_val=julian(shift, alphaone[x]) 
             out_char = [i for i in alphaone if alphaone[i] == shifted_val][0]
@@ -87,7 +88,7 @@ def morse(input, ende):
                     pass
                 else:
                     char=[i for i in alpha if alpha[i] == y][0]
-                    val=val+char
+                    val += char
 
             val=val+ " "
         val=val[:-1]
@@ -124,9 +125,8 @@ def vig(input, password, ende):
                     inp_val=decoder(key_val,alphaone[char])
                 val=[i for i in alphaone if alphaone[i]==inp_val][0]
                 output=output+val
-            else:
-                return("Error: Only english alphabets and spaces are allowed.")
-        return(output)
+            
+        return output
 
     def vigenere(): 
         inp="" 
@@ -264,7 +264,7 @@ def combination(text, ende, combo):
 
         elif step[0] == "aes":
             text = unfilter(text, template)
-            inp_check,_,_ = aes_inp(ende, text)
+            inp_check,_,_ = aes_inp(ende, text, step[1])
             
             if inp_check:
                 text = aes(text,step[1], ende)
@@ -277,7 +277,6 @@ def combination(text, ende, combo):
 
 def scrambler(text, ende, password):
     text = text.lower()
-    holystr =  "vl40MKPqez_Xuv6HhqazNNR5D1smS2Kownx TSXUHgZx7fXupWmM2667T1aBJqyNhK_MUfJUoT1H35LVBx6_4EldeJccpv4ytTaDx2qCvNN9hxn0TlcopnpXj2vO4l5VO.w5OF .Zn4VVGvQSO JaX mptrs1PNyuEX8aUErAdiVPK.fZ3BNPuNG9P9jE 1e1r3Hnx28w5Nc1tr6bjzW65Oqh3KvLEpJSBWzoyRstBim6Gl4tyZtQIcGl3jCZ9_eMwjRBd75GOxpDRvNyE.O77tufE5rWsysj.VyMxPbMgmfnyj3ReF ACpJ7luHvHWQLSi2M 1bIPYi6YVN1KL6nm X4.FzFLcbVs_jSkNDnVRdMzX6CsnZ3ODsTKxs7xBPvWC8UjYLqhNGP  Gi2bdZmOruYSO.e_Y.p6n3bc7csSrNJYurPc3xefdmfbsH BUmrOIR4r4O5sumy7ZVYq5SELOsCVT4eeQvdIX0zEVkC 14Vd6b  Y2NNhY6NDFS0_Ex JpCCXgH_Zfhn4LLAfCb_3E7dfLtnERNM2vl_D4EoOeRkxvEVccXeQH2rYMXJAuFhsQPC24Weu4ls56Crczu CFfdI3.p12nVf51JxDHq_kJ_8xz0SWNPSXE8twaKUXyw69RAwcYga4Q43_sC OOr._1fxo_39tZUOO7mzaQyWqPg7MJKOa_vYbdXEjvH19p_lxuKzuMjsNBcoIjMDGTKFkBT4vu1BeGsCsc4GactrYfMJQ47abTTk88RcXVzNPlJ9kE5unrONOEsBvk5Lm_pIf2Yv9z9JN95DfIFQZPHEk5v0 shM9AYIHfTv8uJa8kEU3oHCYAJxphWle" 
     val_list=[]
     for x in text:
         val_list.append(alphagreat[x])
@@ -385,8 +384,9 @@ def scrambler(text, ende, password):
             output = output + text[col_order[x]]
         return output
     
-def aes_inp(ende, inp): #Checks if input is in b64 for decryption and creates cipher and ciphertext on the way
+def aes_inp(ende, inp, key): #Checks if input is in b64 for decryption and creates cipher and ciphertext on the way
     if ende == 66:
+        key = key.encode()
         try:
             inp = b64.b64decode(inp) #b64 --> bytes
             iv = inp[:16]

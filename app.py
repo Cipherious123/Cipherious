@@ -120,13 +120,14 @@ def check_combo(ciphername,password):
 
 def read_combo(combo):
     output = ""
+    lookup_dict = {"csar":"Caesar", "vig":"Vigenere", "morse":"Morse", "sub":"Substitution", "scrambler":"Scrambler", "byoc":"Build your own cipher", "aes":"AES(128)"}
     count = 0  
     if combo == []:
         return ""
     
     for step in combo:
         count += 1
-        output += f"Step {count}; cipher: {step[0]}, password: '{step[1]}'|\n"
+        output += f"Step {count}; cipher: {step[0]}, password: '{lookup_dict[step[1]]}'|\n"
     return output
 
 class err:
