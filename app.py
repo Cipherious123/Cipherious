@@ -164,8 +164,10 @@ def my_acc():
     all_combos = c.fetchall()
 
     for comboname, combo_str in all_combos:
-        combo = ast.literal_eval(combo_str)
-        output[comboname] = read_combo(combo) 
+        combo = ast.literal_eval(combo_str) #Converts string from db to list
+        out_str = read_combo(combo) 
+        out_str = out_str.replace('\n', '<br>')
+        output['comboname'] = out_str
 
     conn.close()
     return render_template('my_acc.html', combos=output)
@@ -494,8 +496,7 @@ def create_combo():
             if not session['errorr']['true']:
                 restart()
     
-    combo_str = read_combo.replace('\n', '<br>')
-    toreturn = session['errorr']['name'] + combo_str
+    toreturn = session['errorr']['name'] + read_combo(session['combo'])
     return render_template('create_combo.html', steps=toreturn, name = session['comboname'])
 
 def delete():
