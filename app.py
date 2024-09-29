@@ -127,7 +127,7 @@ def read_combo(combo):
     
     for step in combo:
         count += 1
-        output += f"Step {count}; cipher: {step[0]}, password: '{lookup_dict[step[1]]}'|\n"
+        output += f"Step {count}; cipher: {step[0]}, password: '{lookup_dict[step[0]]}'|\n"
     return output
 
 class err:
