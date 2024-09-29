@@ -167,7 +167,7 @@ def my_acc():
         combo = ast.literal_eval(combo_str) #Converts string from db to list
         out_str = read_combo(combo) 
         out_str = out_str.replace('\n', '<br>')
-        output['comboname'] = out_str
+        output[comboname] = out_str
 
     conn.close()
     return render_template('my_acc.html', combos=output)

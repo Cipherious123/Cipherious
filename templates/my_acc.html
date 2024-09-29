@@ -115,7 +115,7 @@
             {% for name, combo in combos.items() %}
             <tr>
                 <td>{{ name }}</td>
-                <td>{{ combo }}</td>
+                <td>{{ combo|safe }}</td>
             </tr>
             {% endfor %}
         </tbody>
