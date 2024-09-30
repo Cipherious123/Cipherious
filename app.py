@@ -366,7 +366,7 @@ def BYOCone():
     
 @app.route('/BYOCtwo', methods=['GET','POST'])
 def BYOCtwo():
-    output, password = standard("scrambler")
+    output, password = standard("byoc")
     return render_template('BYOC-2.html', output = output , password = password)
 
 @app.route('/scrambler_func', methods=['GET','POST'])
@@ -480,10 +480,6 @@ def create_combo():
 
         elif action == 'Submit this step':
             submit()
-
-            if not session['errorr']['true']:
-                combo_text = read_combo(session['combo'])
-                session['errorr']['name'] = f"Your combo is {combo_text} "
 
         elif action == 'Delete the previous step':
             delete()
