@@ -178,19 +178,15 @@ def sub(input, password, ende):
         for x in range(len(inp_list)):  
             char=inp_list[x]
 
-            if char in alphaone:
-                if type==1:
-                    ind_=alphaone[char]-1
-                    inp2=alphatwo[ind_]
+            if type==1:
+                ind_=alphaone[char]-1
+                inp2=alphatwo[ind_]
 
-                elif type==66:
-                    inp2=alphatwo.index(alphaone[char])+1
-    
-                value = [i for i in alphaone if alphaone[i] == inp2][0]
-                output=output+ str(value)  
+            elif type==66:
+                inp2=alphatwo.index(alphaone[char])+1
 
-            else:
-                return("error")
+            value = [i for i in alphaone if alphaone[i] == inp2][0]
+            output=output+ str(value)  
             
         return(output)
 
@@ -223,16 +219,10 @@ def byoc(input, password, ende):
     inp=list(map(str,inp))
     for x in inp:
         if typ==1:  
-            if x in alphatwo.keys():
-                char=alphatwo[x]
-            else:
-                return "Error"   
+            char=alphatwo[x]
 
         else:
-            if x in alphatwo.values():
-                char=[i for i in alphatwo if alphatwo[i] == x][0]
-            else:
-                return "Error"       
+            char=[i for i in alphatwo if alphatwo[i] == x][0]     
         val=val+char
     return val
 
@@ -272,7 +262,7 @@ def combination(text, ende, combo):
             else:
                 return None
         
-        text = unfilter(text, template)
+    text = unfilter(text, template)
     return text
 
 def scrambler(text, ende, password):
@@ -416,7 +406,7 @@ def aes(inp, key, ende):
         return ciphertext
 
     else:  # Decryption
-        _, ciphertext, cipher = aes_inp(1, inp)
+        _, ciphertext, cipher = aes_inp(1, inp, key)
 
         padded_inp = cipher.decrypt(ciphertext)
         output = unpad(padded_inp, AES.block_size)
