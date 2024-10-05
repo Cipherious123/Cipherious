@@ -16,6 +16,19 @@ def julian (shiftno, letter):
         letter=letter-27
     return letter
 
+def uid(no):
+        no += 1
+        output = no^2 - 7*no
+        return  abs(output)
+   
+def digitsum(n1):
+    n1=str(n1)
+    inp_list = list(map(str, n1))
+    output=0
+    for x in inp_list:
+        output = output + int(x)
+    return output
+
 def cc(input, password):
     def encrypt_caesar(inp_list, shift):
         if shift<0:
@@ -226,45 +239,6 @@ def byoc(input, password, ende):
         val=val+char
     return val
 
-def combination(text, ende, combo):
-    if ende==66:
-        combo.reverse()
-
-    text, template = filter_list(text)
-    for step in combo:
-        if step[0]=="csar":
-            if ende==66:
-                step[1]= "-" + step[1]
-            text=cc(text, step[1])
-
-        elif step[0]=="sub":
-            text=sub(text,step[1], ende)
-
-        elif step [0]=="vig":
-            text=vig(text,step[1], ende)
-
-        elif step [0]=="morse":
-            text=morse(text, ende)
-
-        elif step[0]=="byoc":
-            text=byoc(text,step[1],ende)
-
-        elif step[0]=="scrambler":
-            text=scrambler(text,ende,step[1])
-
-        elif step[0] == "aes":
-            text = unfilter(text, template)
-            inp_check,_,_ = aes_inp(ende, text, step[1])
-            
-            if inp_check:
-                text = aes(text,step[1], ende)
-                text, template = filter_list(text) 
-            else:
-                return None
-        
-    text = unfilter(text, template)
-    return text
-
 def scrambler(text, ende, password):
     text = text.lower()
     val_list=[]
@@ -276,14 +250,6 @@ def scrambler(text, ende, password):
         superkey += 2 * alphagreat[password[0]]
     while superkey > 250:
         superkey -= alphagreat[password[2]]
-        
-    def digitsum(n1):
-        n1=str(n1)
-        inp_list = list(map(str, n1))
-        output=0
-        for x in inp_list:
-            output = output + int(x)
-        return output
         
     def collatz(superkey, char, iteration):  
         val = alphagreat[char]
@@ -328,11 +294,6 @@ def scrambler(text, ende, password):
         password *= multiplier 
         
     text_list=[]    
-    def uid(no):
-        no += 1
-        output = no^2 - 7*no
-        return  abs(output)
-    
     for counter in range(len(text)): #Calls collatz function for each character
         var = collatz (superkey , password[counter], uid(counter))
         new_iter = 3 *uid(counter) +1
@@ -412,6 +373,83 @@ def aes(inp, key, ende):
         output = unpad(padded_inp, AES.block_size)
         return output.decode('utf-8') #stringify
         
+def new_cipher(inp, password, ende):
+    
+    def mid_val_calc(num):
+        mid_index = len(num) / 2
+        password = str(password)
+
+        if mid_index % 1 == 0.5: #Returns middle digit of password
+            return int(password[mid_index+0.5]) 
+        else: #If length of password is even, it returns sum of the 2 middle digits of the password
+            return int(password[mid_index]) + int(password[mid_index+1])
+        
+    def coef_calc(char, base, ind):
+        ind = uid(ind)
+        char_val = ord(char) - 20
+        z = ind + char_val
+        return base + z^3
+
+    def coef_reverse(char, base, ind):
+        ind = uid(ind)
+
+
+    password = int(password)
+    coef_base = digitsum(password)^3 + mid_val_calc(password)^3
+    output = ""
+    count = -1
+  
+    for char in inp: #Calculating coefficient and therefore char to replace with
+        count +=1
+
+        if ende == 1:
+            coef = coef_calc(char, coef_base, count)
+            ind = coef % 95 + 31
+
+        else:
+            ind = coef_reverse(char, coef_base, count)
+        output += chr(ind)
+    return output
+
+def combination(text, ende, combo):
+    if ende==66:
+        combo.reverse()
+
+    text, template = filter_list(text)
+    for step in combo:
+        if step[0]=="csar":
+            if ende==66:
+                step[1]= "-" + step[1]
+            text=cc(text, step[1])
+
+        elif step[0]=="sub":
+            text=sub(text,step[1], ende)
+
+        elif step [0]=="vig":
+            text=vig(text,step[1], ende)
+
+        elif step [0]=="morse":
+            text=morse(text, ende)
+
+        elif step[0]=="byoc":
+            text=byoc(text,step[1],ende)
+
+        elif step[0]=="scrambler":
+            text=scrambler(text,ende,step[1])
+
+        elif step[0] == "aes":
+            text = unfilter(text, template)
+            inp_check,_,_ = aes_inp(ende, text, step[1])
+            
+            if inp_check:
+                text = aes(text,step[1], ende)
+                text, template = filter_list(text) 
+            else:
+                return None
+        
+    text = unfilter(text, template)
+    return text
+
 def encrypt_num(num):
     return num
 
