@@ -335,7 +335,7 @@ def scrambler(text, ende, password):
             output = output + text[col_order[x]]
         return output
     
-def aes_inp(ende, inp, key): #Checks if input is in b64 for decryption and creates cipher and ciphertext on the way
+def aes_decrypt(ende, inp, key): #Checks if input is in b64 for decryption and creates cipher and ciphertext on the way
     if ende == 66:
         key = key.encode()
         try:
@@ -367,23 +367,13 @@ def aes(inp, key, ende):
         return ciphertext
 
     else:  # Decryption
-        _, ciphertext, cipher = aes_inp(1, inp, key)
+        _, ciphertext, cipher = aes_decrypt(66, inp, key)
 
         padded_inp = cipher.decrypt(ciphertext)
         output = unpad(padded_inp, AES.block_size)
         return output.decode('utf-8') #stringify
         
 def new_cipher(inp, password, ende):
-    
-    def mid_val_calc(num):
-        mid_index = len(num) / 2
-        password = str(password)
-
-        if mid_index % 1 == 0.5: #Returns middle digit of password
-            return int(password[mid_index+0.5]) 
-        else: #If length of password is even, it returns sum of the 2 middle digits of the password
-            return int(password[mid_index]) + int(password[mid_index+1])
-        
     def coef_calc(char, base, ind):
         ind = uid(ind)
         char_val = ord(char) - 20
@@ -393,9 +383,8 @@ def new_cipher(inp, password, ende):
     def coef_reverse(char, base, ind):
         ind = uid(ind)
 
-
     password = int(password)
-    coef_base = digitsum(password)^3 + mid_val_calc(password)^3
+    coef_base = digitsum(password)^3 + password^3
     output = ""
     count = -1
   
@@ -439,7 +428,7 @@ def combination(text, ende, combo):
 
         elif step[0] == "aes":
             text = unfilter(text, template)
-            inp_check,_,_ = aes_inp(ende, text, step[1])
+            inp_check,_,_ = aes_decrypt(ende, text, step[1])
             
             if inp_check:
                 text = aes(text,step[1], ende)
