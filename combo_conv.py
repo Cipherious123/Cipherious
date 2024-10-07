@@ -4,10 +4,6 @@ from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
 alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
-alphagreat = {'a': 40, 'b': 24, 'c': 45, 'd': 49, 'e': 7, 'f': 47, 'g': 35, 'h': 5, 'i': 46, 'j': 37, 'k': 22, 'l': 27, 'm': 13, 'n': 10, 'o': 38, 'p': 61, 'q': 39, 
-    'r': 6, 's': 65, 't': 48, 'u': 28, 'v': 18, 'w': 16, 'x': 4, 'y': 2, 'z': 8, 'A': 62, 'B': 20, 'C': 19, 'D': 25, 'E': 55, 'F': 36, 'G': 44, 'H': 32, 'I': 11, 'J': 52, 
-    'K': 17, 'L': 63, 'M': 41, 'N': 21, 'O': 26, 'P': 60, 'Q': 30, 'R': 12, 'S': 42, 'T': 43, 'U': 23, 'V': 51, 'W': 64, 'X': 31, 'Y': 53, 'Z': 50, '0': 54, '1': 3, '2': 14, 
-    '3': 1, '4': 59, '5': 58, '6': 56, '7': 34, '8': 15, '9': 29, '.': 57, '_': 9, ' ': 33}
  
 def julian (shiftno, letter):
     letter=int(letter)
@@ -240,19 +236,16 @@ def byoc(input, password, ende):
     return val
 
 def scrambler(text, ende, password):
-    text = text.lower()
     val_list=[]
     for x in text:
-        val_list.append(alphagreat[x])
+        val_list.append(ord(x))
 
-    superkey = alphagreat[password[0]] + alphagreat[password[1]] + alphagreat[password[2]] + alphagreat[password[3]] + alphagreat[password[4]]
+    superkey = ord(password[0]) + ord(password[1]) - 20
     while superkey < 50: #Extracting superkey from first 5 alphabets
-        superkey += 2 * alphagreat[password[0]]
-    while superkey > 250:
-        superkey -= alphagreat[password[2]]
+        superkey += ord(password[0])
         
     def collatz(superkey, char, iteration):  
-        val = alphagreat[char]
+        val = ord(char)
 
         if superkey > 50: #Defining starting number and which number in collatz graph to take
             start=val* superkey + 2*iteration
