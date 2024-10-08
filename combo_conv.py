@@ -14,8 +14,13 @@ def julian (shiftno, letter):
 
 def uid(no):
         no += 1
-        output = no^2 - 7*no
+        output = no**2 - 7*no
         return  abs(output)
+
+def uid2(x):
+    x+=1
+    val = (x**2)/9 - 7*x
+    return round(val)
    
 def digitsum(n1):
     n1=str(n1)
@@ -25,6 +30,33 @@ def digitsum(n1):
         output = output + int(x)
     return output
 
+def base_change(num, ende, base):
+        if ende == 1:
+            output = ""
+            complete = False
+            steps = 0
+            while complete == False:
+                steps += 1
+                if num < base**steps:
+                    complete = True
+
+            for count in range(steps):
+                
+                place_val = steps - count #Digit we are dealing with, i.e in base 10, tens digit would have place_val = 2
+                digit =  math.floor(num / base**(place_val-1)) #Value of digit
+                output += chr(digit + 32)
+                num -= digit* base**(place_val-1)
+
+            return output
+        else:   
+            length = len(num) -1
+            base10 = 0
+            for x in num:
+                val = ord(x) - 32
+                base10 += (base**length)*val
+                length -= 1
+            return base10
+        
 def cc(input, password):
     def encrypt_caesar(inp_list, shift):
         if shift<0:
@@ -368,30 +400,17 @@ def aes(inp, key, ende):
         
 def new_cipher(inp, password, ende):
     def coef_calc(char, base, ind):
-        ind = uid(ind)
+        ind = uid2(ind)
         char_val = ord(char) - 20
         z = ind + char_val
-        return base + z^3
+        output = base + z**3
+        return output, z
 
-    def coef_reverse(char, base, ind):
-        ind = uid(ind)
-
-    def b95(num, ende):
-        if ende == 1:
-            pass
-        
-        else:
-            length = len(num)
-            base10 = 0
-            for x in num:
-                val = ord(x) - 32
-                base10 += (95^length)*val
-                length -= 1
-            return base10
-
+    def coef_reverse(char, base, ind, lett):
+        ind = uid2(ind)
 
     password = int(password)
-    coef_base = digitsum(password)^3 + password^3
+    coef_base = digitsum(password)**3 + password**3
     output = ""
     count = -1
   
@@ -400,7 +419,7 @@ def new_cipher(inp, password, ende):
 
         if ende == 1:
             coef = coef_calc(char, coef_base, count)
-            ind = coef % 95 + 31
+            ind = coef % 95 + 31 
 
         else:
             ind = coef_reverse(char, coef_base, count)
@@ -431,7 +450,9 @@ def combination(text, ende, combo):
             text=byoc(text,step[1],ende)
 
         elif step[0]=="scrambler":
+            text = unfilter(text, template)
             text=scrambler(text,ende,step[1])
+            text, template = filter_list(text) 
 
         elif step[0] == "aes":
             text = unfilter(text, template)
