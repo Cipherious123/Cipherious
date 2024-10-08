@@ -376,6 +376,20 @@ def new_cipher(inp, password, ende):
     def coef_reverse(char, base, ind):
         ind = uid(ind)
 
+    def b95(num, ende):
+        if ende == 1:
+            pass
+        
+        else:
+            length = len(num)
+            base10 = 0
+            for x in num:
+                val = ord(x) - 32
+                base10 += (95^length)*val
+                length -= 1
+            return base10
+
+
     password = int(password)
     coef_base = digitsum(password)^3 + password^3
     output = ""
