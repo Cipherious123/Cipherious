@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from combo_conv import combination, alphaone
+from combo_conv import combination, alphaone, cc
 import ast
 import sympy
 import os
@@ -403,9 +403,13 @@ def standard(cipher):
             elif password[0] == "-":
                 ende = '66'
                 password= password[1:]
-            else: 
-                ende = '1'
 
+            elif password == '66':
+                output = cc(text, int(password)) 
+                return output, password
+            
+            else:
+                ende = '1'
         else:
             ende = request.form['action']
 

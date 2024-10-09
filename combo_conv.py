@@ -19,7 +19,7 @@ def uid(no):
 
 def uid2(x):
     x+=1
-    val = (x**2)/9 - 7*x
+    val = x**3/2
     return round(val)
    
 def digitsum(n1):
@@ -401,13 +401,15 @@ def aes(inp, key, ende):
 def new_cipher(inp, password, ende):
     def coef_calc(char, base, ind):
         ind = uid2(ind)
-        char_val = ord(char) - 20
+        char_val = ord(char) 
         z = ind + char_val
         output = base + z**3
         return output, z
 
-    def coef_reverse(char, base, ind, lett):
+    def coef_reverse(char, base, ind, pads):
         ind = uid2(ind)
+        pad_num = base_change(pads,66,95)
+        
 
     password = int(password)
     coef_base = digitsum(password)**3 + password**3
