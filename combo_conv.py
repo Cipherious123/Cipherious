@@ -72,33 +72,30 @@ def cc(input, password):
 
     def decrypt_caesar(inp_list):
         output_list = []
-        for count in range(25):
+        for count in range(26):
             word = encrypt_caesar(inp_list, count+1)
             output_list.append(word)
 
         outstr = ""
         for x in output_list:
             outstr += f"{x}, "
-        return ("The possible combinations are:", outstr[:-2])
+        return "The possible combinations are:", outstr[:-2]
         
     def caesar():
         shift=int(password)
-        inp=""
 
         #Takes user input and runs function on it
         if shift != 66:  
-            inp=input
-            inp=inp.lower()
+            inp=input.lower()
             inp_list = list(map(str, inp))
             return(encrypt_caesar(inp_list, shift))
 
         #All shifts
         elif shift==66:
             shift=0
-            inp=input
-            inp=inp.lower()
+            inp, _ = filter_list(input)
             inp_list = list(map(str, inp))
-            return(decrypt_caesar(inp_list))
+            return decrypt_caesar(inp_list) 
     return caesar()
 
 def morse(input, ende):          
@@ -180,69 +177,50 @@ def vig(input, password, ende):
 
     return vigenere()
 
-def sub(input, password, ende):
+def sub(inp, password, ende):
     def farmer (seed):
-        letterno=1
         letlist=[]
-        count=0
-        for x in range(27):
-            count=count+1
-            letterno=count
-            letterno= (letterno-2)
-            letterno= letterno * seed - (letterno + 2) 
-            letterno= (letterno+seed) *2
-            letterno= letterno*seed 
-            letterno= letterno- 4
-            letterno= 2*letterno+3
-            letterno= letterno/2
-            letterno= letterno-seed
-            letterno= letterno + seed/2 - seed / letterno
+        def farmer_algorithm(ln):
+            ln= ln / seed ** math.sin(seed)
+            ln= (ln+seed) *2
+            ln= ln*seed%1.7655747 
+            ln= 2*ln+3 + 100 * math.sin(ln)
+            ln= ln/2
+            ln= ln-seed
+            ln= ln + seed/2 - seed / ln
+            ln = abs(round(ln)) 
 
-            if letterno<0:
-                letterno=letterno*-1
-            letterno = round(letterno)
-            if letterno > 27:
-                letterno=letterno%27
-            if letterno==0:
-                letterno=letterno+1
+            if ln==0:
+                ln=10
+            return ln % 95
+        
+        for x in range(95):
+            ln = farmer_algorithm(x+1)
+            char = chr(ln+31)
 
-            while letterno in letlist:
-                letterno=letterno+1
-                if letterno > 27:
-                    letterno=letterno-27
+            while char in letlist:
+                ln += 1
+                ln %= 95
+                char = chr(ln+31)
 
-            letlist.append(letterno)
+            letlist.append(char)
         return letlist
+  
+    seed = int(password)
+    alphatwo = farmer(seed)
+    output = "("
 
-    def seed_encrypt(alphaone,inp_list,alphatwo, type):
-        output=""
-        for x in range(len(inp_list)):  
-            char=inp_list[x]
+    for char in inp:  
+        if ende==1:
+            ind = ord(char) - 32 #Finding Ascii value of character and making it index
+            inp2 = alphatwo[ind] #Obtaining replacement character
 
-            if type==1:
-                ind_=alphaone[char]-1
-                inp2=alphatwo[ind_]
+        elif ende==66:
+            ind=alphatwo.index(char) #Finding index
+            inp2 = chr(ind)
 
-            elif type==66:
-                inp2=alphatwo.index(alphaone[char])+1
-
-            value = [i for i in alphaone if alphaone[i] == inp2][0]
-            output=output+ str(value)  
-            
-        return(output)
-
-    def seed_main():   
-        seed=int(password)
-        type=ende
-        inp=""
-
-        alphatwo=farmer(seed)
-        inp=input
-        inp=inp.lower()
-        inp_list = list(map(str, inp))
-        return seed_encrypt(alphaone,inp_list,alphatwo,type) 
-
-    return seed_main()
+        output+=inp2 
+    return output+")"
 
 def byoc(input, password, ende):
     inp=input.lower()
@@ -408,8 +386,7 @@ def new_cipher(inp, password, ende):
 
     def coef_reverse(char, base, ind, pads):
         ind = uid2(ind)
-        pad_num = base_change(pads,66,95)
-        
+        pad_num = base_change(pads,66,95) 
 
     password = int(password)
     coef_base = digitsum(password)**3 + password**3
@@ -504,3 +481,6 @@ def unfilter(inp, input_list):
             count -= 1
             output += x
     return output
+
+inp = "h/9.'4:pm'-':'6"
+print(sub(inp, 12345, 66))
