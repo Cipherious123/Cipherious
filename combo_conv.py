@@ -3,6 +3,7 @@ import base64 as b64
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
+from bases import base_change
 alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
  
 def julian (shiftno, letter):
@@ -29,33 +30,6 @@ def digitsum(n1):
     for x in inp_list:
         output = output + int(x)
     return output
-
-def base_change(num, ende, base):
-        if ende == 1:
-            output = ""
-            complete = False
-            steps = 0
-            while complete == False:
-                steps += 1
-                if num < base**steps:
-                    complete = True
-
-            for count in range(steps):
-                
-                place_val = steps - count #Digit we are dealing with, i.e in base 10, tens digit would have place_val = 2
-                digit =  math.floor(num / base**(place_val-1)) #Value of digit
-                output += chr(digit + 32)
-                num -= digit* base**(place_val-1)
-
-            return output
-        else:   
-            length = len(num) -1
-            base10 = 0
-            for x in num:
-                val = ord(x) - 32
-                base10 += (base**length)*val
-                length -= 1
-            return base10
         
 def cc(input, password):
     def encrypt_caesar(inp_list, shift):
@@ -208,7 +182,7 @@ def sub(inp, password, ende):
   
     seed = int(password)
     alphatwo = farmer(seed)
-    output = "("
+    output = ""
 
     for char in inp:  
         if ende==1:
@@ -220,7 +194,7 @@ def sub(inp, password, ende):
             inp2 = chr(ind)
 
         output+=inp2 
-    return output+")"
+    return output
 
 def byoc(input, password, ende):
     inp=input.lower()
@@ -417,7 +391,9 @@ def combination(text, ende, combo):
             text=cc(text, step[1])
 
         elif step[0]=="sub":
+            text = unfilter(text, template)
             text=sub(text,step[1], ende)
+            text, template = filter_list(text)
 
         elif step [0]=="vig":
             text=vig(text,step[1], ende)
@@ -445,9 +421,6 @@ def combination(text, ende, combo):
         
     text = unfilter(text, template)
     return text
-
-def encrypt_num(num):
-    return num
 
 def filter_list(inp): #Creates a list which maps where non-allowed letters should go
     output_list= []
@@ -482,5 +455,5 @@ def unfilter(inp, input_list):
             output += x
     return output
 
-inp = "h/9.'4:pm'-':'6"
-print(sub(inp, 12345, 66))
+num = 110011
+print(base_change(num,66,2))

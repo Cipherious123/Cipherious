@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from combo_conv import combination, alphaone, cc
+from combo_conv import combination, alphaone, cc, base_change
 import ast
 import sympy
 import os
@@ -613,6 +613,20 @@ def use_combo():
 
         conn.close()
     return render_template('use_combo.html',output=output)
+
+@app.route('/base_changer', methods=['GET', 'POST'])
+def base_changer():
+    output = ""
+    if request.method == 'POST':
+        number = int(request.form['number'])
+        base_in = int(request.form['base_in'])
+        base_out = int(request.form['base_out'])
+        sys_in = request.form['sys_in']
+        sys_out = request.form['sys_out']
+
+        number = base_change(number, 66, base_in)
+        number = base_change(number, 1, base_out)
+        return render_template('base_changer.html',output=output)
 
 if __name__ == "__main__":
     initialize_db()
