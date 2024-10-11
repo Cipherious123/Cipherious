@@ -512,8 +512,6 @@ def delete():
         session['errorr']['name'] = "Combo is empty"
     else:
         session['combo'].pop()
-        combo_text = read_combo(session['combo'])
-        session['errorr']['name'] = f"Your combo is {combo_text} "
 
 def restart():
     session['combo'] = []
@@ -616,17 +614,17 @@ def use_combo():
 
 @app.route('/base_changer', methods=['GET', 'POST'])
 def base_changer():
-    output = ""
+    number = ""
     if request.method == 'POST':
-        number = int(request.form['number'])
+        number = request.form['number']
         base_in = int(request.form['base_in'])
         base_out = int(request.form['base_out'])
         sys_in = request.form['sys_in']
         sys_out = request.form['sys_out']
 
-        number = base_change(number, 66, base_in)
-        number = base_change(number, 1, base_out)
-        return render_template('base_changer.html',output=output)
+        number = base_change(number, 66, base_in, sys_in, sys_out )
+        number = base_change(number, 1, base_out, sys_out, sys_out)
+        return render_template('base_change.html', number = number)
 
 if __name__ == "__main__":
     initialize_db()

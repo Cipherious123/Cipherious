@@ -57,6 +57,6 @@ def key_gen(cipher):
         output =""
         for x in range(length):
             ind = new_int(32,126)
-            char = chr(int)
+            char = chr(ind)
             output += char        
     return output

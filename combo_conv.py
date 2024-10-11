@@ -314,7 +314,6 @@ def scrambler(text, ende, password):
     
 def aes_decrypt(ende, inp, key): #Checks if input is in b64 for decryption and creates cipher and ciphertext on the way
     if ende == 66:
-        key = key.encode()
         try:
             inp = b64.b64decode(inp) #b64 --> bytes
             iv = inp[:16]
@@ -360,7 +359,7 @@ def new_cipher(inp, password, ende):
 
     def coef_reverse(char, base, ind, pads):
         ind = uid2(ind)
-        pad_num = base_change(pads,66,95) 
+        pad_num = base_change(pads,66,95, "unicode", "normal") 
 
     password = int(password)
     coef_base = digitsum(password)**3 + password**3
@@ -454,6 +453,3 @@ def unfilter(inp, input_list):
             count -= 1
             output += x
     return output
-
-num = 110011
-print(base_change(num,66,2))

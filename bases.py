@@ -1,24 +1,21 @@
 import math
-
-unicode=""
-for x in range(94):
-    unicode += chr(x+33)
-normal = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-for x in unicode:
-    if x not in normal:
-        normal += x
-    if x not in b64:
-        b64 += x
-        
-
+unicode="""!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
+normal = '''0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~'''
+b64 = '''ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/!"#$%&'()*,-.:;<=>?@[\\]^_`{|}~'''
 
 def sys_change(sys_in, sys_out, num):
-    lookup = {"normal": normal, "base64": b64, "unicode":unicode}
+    lookup = {"normal": normal, "alpha": b64, "unicode":unicode}
     num = str(num)
+    out = ""
+    for x in num:
+        ind = lookup[sys_in].index(x)
+        out += lookup[sys_out][ind]
+    return out
     
-def base_change(num, ende, base): #Accepts unicode system and converts to and from base 10
+def base_change(num, ende, base, sys_in, sys_out): #Accepts unicode system and converts to and from base 10
         if ende == 1:
+            num = sys_change(sys_in, "normal", num)
+            num = int(num)
             output = ""
             complete = False
             steps = 0
@@ -28,18 +25,19 @@ def base_change(num, ende, base): #Accepts unicode system and converts to and fr
                     complete = True
 
             for count in range(steps):
-                
                 place_val = steps - count #Digit we are dealing with, i.e in base 10, tens digit would have place_val = 2
                 digit =  math.floor(num / base**(place_val-1)) #Value of digit
-                output += chr(digit + 32)
+                output += chr(digit + 33)
                 num -= digit* base**(place_val-1)
+            output = sys_change("unicode", sys_out, output)
 
-            return output
         else:   
+            num = sys_change(sys_in, "unicode", num)
             length = len(num) -1
-            base10 = 0
+            output = 0
             for x in num:
-                val = ord(x) - 32
-                base10 += (base**length)*val
+                val = ord(x) - 33
+                output += (base**length)*val
                 length -= 1
-            return base10
+            output = sys_change("normal", sys_out, output)
+        return output
