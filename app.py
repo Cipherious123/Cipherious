@@ -511,7 +511,7 @@ def delete():
         session['errorr']['true'] = True
         session['errorr']['name'] = "Combo is empty"
     else:
-        session['combo'].pop()
+        session['combo'] = session['combo'][:-1]
 
 def restart():
     session['combo'] = []
@@ -624,7 +624,7 @@ def base_changer():
 
         number = base_change(number, 66, base_in, sys_in, sys_out )
         number = base_change(number, 1, base_out, sys_out, sys_out)
-        return render_template('base_change.html', number = number)
+    return render_template('base_change.html', number = number)
 
 if __name__ == "__main__":
     initialize_db()

@@ -118,13 +118,13 @@
 
     <form method="post" action="/base_changer">
     <label class="input-label">Input number:</label>
-    <input type="text" id="text" name="text" class="input-field" placeholder="Enter text here" required/>
+    <input type="text" id="num" name="num" class="input-field" placeholder="Enter number here" required/>
 
     <label class="input-label">Input the base of your number:</label>
-    <input type="text" id="password" name="password" class="input-field" placeholder="Enter password here" />
+    <input type="text" id="base_in" name="base_in" class="input-field" placeholder="Enter base here" />
 
     <label class="input-label">Input the base to convert it to:</label>
-    <input type="text" id="text" name="text" class="input-field" placeholder="Enter text here" required/>
+    <input type="text" id="base_out" name="base_out" class="input-field" placeholder="Enter another base here" required/>
 
     <div class="slider-container">
         <input type="range" min="0" max="2" value="0" class="slider" id="cipherSlider" name = "sys_in">
@@ -139,7 +139,7 @@
 
     <button type="submit" class="button">Run</button>    
 </form>
-<div id="test-output" class="output-container">Your number is : {{output}}</div>   
+<div id="test-output" class="output-container">Your number is : {{number}}</div>   
 
 <div class="help-box">
     <div class="help-box-header">
