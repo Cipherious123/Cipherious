@@ -135,7 +135,7 @@ def check_base(num, base_in, base_out, sys_in):
     else:
         issue.raise_issue("Base must be between 2 and 94, end points included")
 
-    considered = sys_in[:base_in]
+    considered = sys_in[:int(base_in)]
     for x in num:
         if x not in considered:
             issue.raise_issue("Your number includes characters that are not in your number system for given base")
@@ -644,6 +644,8 @@ def base_changer():
 
         issue = check_base(number, base_in, base_out, sys_in)
         if not issue.true:
+            base_in = int(base_in)
+            base_out = int(base_out)
             number = base_change(number, 66, base_in, sys_in, sys_out)
             number = base_change(number, 1, base_out, sys_out, sys_out)
         else:
