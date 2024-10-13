@@ -169,14 +169,30 @@ def sub(inp, password, ende):
             return ln % 95
         
         for x in range(95):
-            ln = farmer_algorithm(x+1)
+            seeder = uid(x+1)
+            ln = farmer_algorithm(seeder)
+            if ln==0:
+                ln=10
             char = chr(ln+31)
 
+            count = 0
             while char in letlist:
+                count+=1
                 ln += 1
+                var = uid(ln)
+                ln += var + count
+
                 ln %= 95
+                if ln==0:
+                    ln += 7
                 char = chr(ln+31)
 
+                if count > 100000:
+                    for x in range(95):
+                        if chr(126-x) not in letlist:
+                            char = chr(126-x)
+        
+            count = 0
             letlist.append(char)
         return letlist
   
@@ -191,7 +207,7 @@ def sub(inp, password, ende):
 
         elif ende==66:
             ind=alphatwo.index(char) #Finding index
-            inp2 = chr(ind)
+            inp2 = chr(ind + 32) 
 
         output+=inp2 
     return output
@@ -348,35 +364,6 @@ def aes(inp, key, ende):
         padded_inp = cipher.decrypt(ciphertext)
         output = unpad(padded_inp, AES.block_size)
         return output.decode('utf-8') #stringify
-        
-def new_cipher(inp, password, ende):
-    def coef_calc(char, base, ind):
-        ind = uid2(ind)
-        char_val = ord(char) 
-        z = ind + char_val
-        output = base + z**3
-        return output, z
-
-    def coef_reverse(char, base, ind, pads):
-        ind = uid2(ind)
-        pad_num = base_change(pads,66,95, "unicode", "normal") 
-
-    password = int(password)
-    coef_base = digitsum(password)**3 + password**3
-    output = ""
-    count = -1
-  
-    for char in inp: #Calculating coefficient and therefore char to replace with
-        count +=1
-
-        if ende == 1:
-            coef = coef_calc(char, coef_base, count)
-            ind = coef % 95 + 31 
-
-        else:
-            ind = coef_reverse(char, coef_base, count)
-        output += chr(ind)
-    return output
 
 def combination(text, ende, combo):
     if ende==66:

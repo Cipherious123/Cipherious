@@ -171,5 +171,13 @@
     slider.addEventListener('input', function() {
         selectedCipher.textContent = ciphers[slider.value];
     });
+
+    const slider2 = document.getElementById('cipherSlider2');
+    const selectedCipher2 = document.getElementById('selectedCipher2');
+
+    // Update displayed cipher based on slider value
+    slider2.addEventListener('input', function() {
+        selectedCipher2.textContent = ciphers[slider2.value];
+    });
 </script>
 </body></html>
