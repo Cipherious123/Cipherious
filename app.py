@@ -128,9 +128,7 @@ def check_combo(ciphername,password):
 
 def check_base(num, base_in, base_out, sys_in):
     issue = err("", False)
-    lookup = {"normal": normal, "alpha": b64, "unicode":unicode}
-    sys_in = lookup[sys_in]
-    
+
     if int_check(base_in) and int_check(base_out):
         if not 1 < int(base_in) < 94 or not 1 < int(base_out) < 94:
             issue.raise_issue("Base must be between 2 and 94, end points included")
@@ -639,6 +637,10 @@ def base_changer():
         base_out = request.form['base_out']
         sys_in = request.form['sys_in']
         sys_out = request.form['sys_out']
+
+        lookup = {"0": normal, "2": b64, "1":unicode}
+        sys_in = lookup[sys_in]
+        sys_out = lookup[sys_out]
 
         issue = check_base(number, base_in, base_out, sys_in)
         if not issue.true:
