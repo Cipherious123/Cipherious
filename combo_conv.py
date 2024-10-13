@@ -453,9 +453,3 @@ def unfilter(inp, input_list):
             count -= 1
             output += x
     return output
-
-inp = "wb4VurVTFtEsAqNaBKaetA5C6kIusPWr75iU923J3gw="
-key="aqswdefrgthyjuki"
-combo = [["aes", key]]
-
-print(combination(inp,66,combo))
