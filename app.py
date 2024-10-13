@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from combo_conv import combination, alphaone, cc, base_change
+from combo_conv import combination, alphaone, cc
+from bases import base_change, normal, unicode, b64
 import ast
 import sympy
 import os
@@ -125,6 +126,23 @@ def check_combo(ciphername,password):
         errorr.raise_issue("Cipher doesn't exist")
     return errorr
 
+def check_base(num, base_in, base_out, sys_in):
+    issue = err("", False)
+    lookup = {"normal": normal, "alpha": b64, "unicode":unicode}
+    sys_in = lookup[sys_in]
+    
+    if int_check(base_in) and int_check(base_out):
+        if not 1 < int(base_in) < 94 or not 1 < int(base_out) < 94:
+            issue.raise_issue("Base must be between 2 and 94, end points included")
+    else:
+        issue.raise_issue("Base must be between 2 and 94, end points included")
+
+    considered = sys_in[:base_in]
+    for x in num:
+        if x not in considered:
+            issue.raise_issue("Your number includes characters that are not in your number system for given base")
+    return issue
+
 def read_combo(combo):
     output = ""
     lookup_dict = {"csar":"Caesar", "vig":"Vigenere", "morse":"Morse", "sub":"Substitution", "scrambler":"Scrambler", "byoc":"Build your own cipher", "aes":"AES(128)"}
@@ -144,7 +162,7 @@ class err:
     
     def raise_issue(self, name):
         self.true = True
-        self.name = name
+        self.name += f"{name}, "
 
 @app.route('/')
 def index():
@@ -617,13 +635,18 @@ def base_changer():
     number = ""
     if request.method == 'POST':
         number = request.form['number']
-        base_in = int(request.form['base_in'])
-        base_out = int(request.form['base_out'])
+        base_in = request.form['base_in']
+        base_out = request.form['base_out']
         sys_in = request.form['sys_in']
         sys_out = request.form['sys_out']
 
-        number = base_change(number, 66, base_in, sys_in, sys_out )
-        number = base_change(number, 1, base_out, sys_out, sys_out)
+        issue = check_base(number, base_in, base_out, sys_in)
+        if not issue.true:
+            number = base_change(number, 66, base_in, sys_in, sys_out)
+            number = base_change(number, 1, base_out, sys_out, sys_out)
+        else:
+            number = issue.name
+
     return render_template('base_change.html', number = number)
 
 if __name__ == "__main__":
