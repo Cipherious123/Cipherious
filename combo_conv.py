@@ -16,11 +16,6 @@ def uid(no):
         no += 1
         output = no**2 - 7*no
         return  abs(output)
-
-def uid2(x):
-    x+=1
-    val = x**3/2
-    return round(val)
    
 def digitsum(n1):
     n1=str(n1)

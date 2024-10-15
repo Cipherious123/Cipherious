@@ -28,7 +28,7 @@ def initialize_db():
     c.execute('''CREATE TABLE IF NOT EXISTS users
                  (id SERIAL PRIMARY KEY,
                   username VARCHAR(20) UNIQUE NOT NULL,
-                  password VARCHAR(50) UNIQUE NOT NULL)''')
+                  password VARCHAR(50) NOT NULL)''')
 
     c.execute('''CREATE TABLE IF NOT EXISTS combinations
                  (id SERIAL PRIMARY KEY,
@@ -234,7 +234,7 @@ def change_password():
         
         if corr_password == old_password:
             c.execute('UPDATE users SET password = %s WHERE username = %s', (new_password, curr_user))
-            output="Your password was changed successfully"
+            output=f"Your password was changed successfully to {new_password}"
             
         else:
             output="Wrong password"

@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='new_logo.jpeg') }}">
     <title>Morse Code</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='w3_one.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='w3_two.css') }}">
     <style>
         body {
             background-color: #000000;
@@ -41,7 +43,7 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            color: #555;
+            color: #a0a0a0;
         }
         .button {
             background-color: #007BFF;

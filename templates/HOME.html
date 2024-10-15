@@ -106,9 +106,6 @@
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Help">?</a>
   </div>
   <!-- Navbar on small screens -->
-  <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium">
-    <a href="#work" class="w3-bar-item w3-button">Work</a>
-  </div>
 </div>
 
 <!-- Image Header -->
@@ -122,10 +119,10 @@
 	 <style>
 .video-container {
   display: inline-block;
-  border: 5px solid gray; /* Green border */
-  border-radius: 10px; /* Rounded corners (optional) */
+  border: 5px solid gray; /* Gray border */
+  border-radius: 10px; 
   padding: 10px; /* Adds some space between the video and the border */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for better aesthetics */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for better aesthetics */
 }
 </style>
 <div class="video-container" style="background-color: #000000; padding: 20px;">
@@ -253,7 +250,8 @@
         <div class="container" style="padding: 24px;">
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">DIFFIE-HELLMAN KEY EXCHANGE ALGORITHM</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
-            This is a way to send a numeric password between two people who haven’t agreed on one yet. The same process is used in the internet on a larger scale.</p>
+            This is a way to send a numeric password between two people who haven’t agreed on one yet. 
+            The same process is used in the internet on a larger scale.</p>
           <a href="{{ url_for('dif_hel')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
         </div>
       </div>
@@ -267,7 +265,7 @@
         <div class="container" style="padding: 24px;">
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">SCRAMBLER CIPHER</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
-            This scrambles all the letters in the plaintext based on a positive integer superkey and a password made up of letters(case sensitive), numbers, spacebar and underscore. <br>
+            This scrambles all the letters in the plaintext. All ASCII letters like capitals, lowercase, numbers and special characters. <br>
             Made by cipherious</p>
             <br> <br>
           <a href="{{ url_for('scrambler_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
@@ -377,7 +375,7 @@
 </div>
 
 <!-- Container -->
-<div class="container" style="position:relative">
+<div class="container" style="position:fixed">
   <a onclick="w3_open()" class="w3-button w3-xlarge w3-circle w3-teal"
   style="position:absolute;top:-28px;right:24px">+</a>
 </div>
