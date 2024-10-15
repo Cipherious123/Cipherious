@@ -76,6 +76,8 @@ def check_combo(ciphername,password):
     if password == "":
         errorr.raise_issue("Input password in decryption")
 
+    elif len(password) > 100:
+        errorr.raise_issue(f"Maximum password length is 120 characters. Your password has {len(password)} characters")
     elif ciphername == "csar":
         if int_check(password) == False:
             errorr.raise_issue("Password must be an integer between 1 and 27 or 66 for all possible combinations")
@@ -232,15 +234,17 @@ def change_password():
         c.execute('SELECT password FROM users WHERE username=%s', (curr_user,))
         corr_password=c.fetchone()[0]
         
-        if corr_password == old_password:
+        if corr_password != old_password:
+            output = "Wrong password"
+
+        elif len(new_password) > 50:
+            output = "Password can have maximum 50 characters"
+
+        else:
             c.execute('UPDATE users SET password = %s WHERE username = %s', (new_password, curr_user))
             output=f"Your password was changed successfully to {new_password}"
+            conn.commit()
             
-        else:
-            output="Wrong password"
-            return render_template('change_password.html' , output = output)
-        
-        conn.commit()
         conn.close()
     return render_template('change_password.html', output = output)
 
@@ -457,7 +461,10 @@ def create_account():
             c.execute("SELECT username FROM users")
             alluser = c.fetchall()
 
-            if not any(username == x[0] for x in alluser) :
+            if len(username) > 20 or len(password) > 50:
+                issues.raise_issue("Your username can only have 20 characters or less. Password can have maximum of 50")
+
+            elif not any(username == x[0] for x in alluser) :
                 c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
                 conn.commit()
                 session['user'] = username
@@ -625,7 +632,7 @@ def use_combo():
             output = combination(inp, ende, combo_)
 
         if output == None:
-            output = "Input during decryption is always in base64. Your input is wrong"
+            output = "Input during decryption is always in base64 for AES cipher. Therefore your input is wrong"
 
         conn.close()
     return render_template('use_combo.html',output=output)
