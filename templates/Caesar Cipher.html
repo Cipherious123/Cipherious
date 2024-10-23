@@ -110,6 +110,15 @@
             background-color: #0056b3;
             transition: background-color 0.3s ease;
         }
+
+        .close-btn {
+            background-color: transparent;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            float: right;
+        }
+
     </style>
 </head>
 <body>
@@ -142,4 +151,9 @@
 
 <a href="{{url_for('cipherious')}}" class="button">Home Page</a>
 </div>
+<script>
+    function closeHelpBox() {
+        document.querySelector('.help-box').style.display = 'none';
+    }
+</script>
 </body></html>
