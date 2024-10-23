@@ -1,5 +1,5 @@
 import os
-from combo_conv import alphaone, alphagreat
+from combo_conv import alphaone
 def new_int(min_val, max_val):
     range_size = max_val - min_val + 1
     num_bytes = (range_size.bit_length() + 7) // 8
@@ -47,23 +47,16 @@ def key_gen(cipher):
             char = [i for i in alphaone if alphaone[i] == ind][0]
             output += char
     
-    elif cipher == "scrambler":
-        length = new_int(15,75)
+    elif cipher == "scrambler" or cipher == "aes":
+
+        if cipher == "scrambler":
+            length = new_int(15,75)
+        else:
+            length = 16
+
         output =""
         for x in range(length):
-            ind = new_int(1,65)
-            char = [i for i in alphagreat if alphagreat[i] == ind][0]
-            output += char
-    
-    elif cipher == "aes":
-        extra = ['!',',','@','#','$','%','^','&','*','(',')','"','}','{','+','|',':','<','>','?','[',']',';',',','/',':']
-        for x in alphagreat:
-            if x != " ":
-                extra.append(x)
-
-        output = ""
-        for x in range(16):
-            ind = new_int(1,len(extra))
-            output += extra[ind-1]
-            
+            ind = new_int(32,126)
+            char = chr(ind)
+            output += char        
     return output

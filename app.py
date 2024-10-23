@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from combo_conv import combination, alphagreat
+from combo_conv import combination, alphaone, cc
+from bases import base_change, normal, unicode, b64
 import ast
 import sympy
 import os
@@ -9,13 +10,13 @@ from keygen import new_int, key_gen
 app = Flask(__name__, template_folder='templates')
 
 app.secret_key = 'your_secret_key'  # Needed to use sessions in Flask
-DATABASE = "postgresql://nishant:sTOc3DUyEtDRKxAyrC9DHU8uph8DEXwq@dpg-crg2d23qf0us73dfg3v0-a/users_hcyh"
+DATABASE = "postgresql://nishant:PLxppvdKwr154HBqtwAxq60reqwe8aiL@dpg-cs47vfggph6c73bsd2mg-a.singapore-postgres.render.com/users_fyua_pv8z"
 def send_cursor():   
     conn = psycopg2.connect( # Connect to your PostgreSQL database
-        dbname="users_hcyh",
+        dbname="users_fyua_pv8z",
         user="nishant",
-        password="sTOc3DUyEtDRKxAyrC9DHU8uph8DEXwq",
-        host="dpg-crg2d23qf0us73dfg3v0-a",
+        password="PLxppvdKwr154HBqtwAxq60reqwe8aiL",
+        host="dpg-cs47vfggph6c73bsd2mg-a",
         port="5432"
     )
     cursor = conn.cursor()
@@ -27,7 +28,7 @@ def initialize_db():
     c.execute('''CREATE TABLE IF NOT EXISTS users
                  (id SERIAL PRIMARY KEY,
                   username VARCHAR(20) UNIQUE NOT NULL,
-                  password VARCHAR(50) UNIQUE NOT NULL)''')
+                  password VARCHAR(50) NOT NULL)''')
 
     c.execute('''CREATE TABLE IF NOT EXISTS combinations
                  (id SERIAL PRIMARY KEY,
@@ -54,8 +55,15 @@ def int_check(s):
         return True
     else:
         return False   
-alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
-   
+    
+def in_ascii(char):
+    ascii_val = ord(char)
+
+    if 32 <= ascii_val <= 126:
+        return True
+    else:
+        return False
+    
 def refiner(raw):
     raw=list(raw)
     for count in range(len(raw)):
@@ -68,6 +76,8 @@ def check_combo(ciphername,password):
     if password == "":
         errorr.raise_issue("Input password in decryption")
 
+    elif len(password) > 100:
+        errorr.raise_issue(f"Maximum password length is 120 characters. Your password has {len(password)} characters")
     elif ciphername == "csar":
         if int_check(password) == False:
             errorr.raise_issue("Password must be an integer between 1 and 27 or 66 for all possible combinations")
@@ -107,7 +117,7 @@ def check_combo(ciphername,password):
             errorr.raise_issue("Password must atleast be 5 characters long")
 
         for char in password:
-            if char not in alphagreat.keys():
+            if not in_ascii(char):
                 errorr.raise_issue("Password can only contain lowercase, uppercase alphabets, spacebar, numbers 0-9, underscore")
 
     elif ciphername == "aes":
@@ -117,6 +127,23 @@ def check_combo(ciphername,password):
     else:
         errorr.raise_issue("Cipher doesn't exist")
     return errorr
+
+def check_base(num, base_in, base_out, sys_in):
+    issue = err("", False)
+    lookup = {"normal": normal, "alpha": b64, "unicode":unicode}
+
+    if int_check(base_in) and int_check(base_out):
+        if not 1 < int(base_in) < 95 or not 1 < int(base_out) < 95:
+            issue.raise_issue("Base must be between 2 and 94, end points included")
+    else:
+        issue.raise_issue("Base must be between 2 and 94, end points included")
+
+    sys_in = lookup[sys_in]
+    considered = sys_in[:int(base_in)]
+    for x in num:
+        if x not in considered:
+            issue.raise_issue("Your number includes characters that are not in your number system for given base")
+    return issue
 
 def read_combo(combo):
     output = ""
@@ -137,7 +164,7 @@ class err:
     
     def raise_issue(self, name):
         self.true = True
-        self.name = name
+        self.name += f"{name}, "
 
 @app.route('/')
 def index():
@@ -207,15 +234,17 @@ def change_password():
         c.execute('SELECT password FROM users WHERE username=%s', (curr_user,))
         corr_password=c.fetchone()[0]
         
-        if corr_password == old_password:
-            c.execute('UPDATE users SET password = %s WHERE username = %s', (new_password, curr_user))
-            output="Your password was changed successfully"
-            
+        if corr_password != old_password:
+            output = "Wrong password"
+
+        elif len(new_password) > 50:
+            output = "Password can have maximum 50 characters"
+
         else:
-            output="Wrong password"
-            return render_template('change_password.html' , output = output)
-        
-        conn.commit()
+            c.execute('UPDATE users SET password = %s WHERE username = %s', (new_password, curr_user))
+            output=f"Your password was changed successfully to {new_password}"
+            conn.commit()
+            
         conn.close()
     return render_template('change_password.html', output = output)
 
@@ -396,9 +425,13 @@ def standard(cipher):
             elif password[0] == "-":
                 ende = '66'
                 password= password[1:]
-            else: 
-                ende = '1'
 
+            elif password == '66':
+                output = cc(text, int(password)) 
+                return output, password
+            
+            else:
+                ende = '1'
         else:
             ende = request.form['action']
 
@@ -428,7 +461,10 @@ def create_account():
             c.execute("SELECT username FROM users")
             alluser = c.fetchall()
 
-            if not any(username == x[0] for x in alluser) :
+            if len(username) > 20 or len(password) > 50:
+                issues.raise_issue("Your username can only have 20 characters or less. Password can have maximum of 50")
+
+            elif not any(username == x[0] for x in alluser) :
                 c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
                 conn.commit()
                 session['user'] = username
@@ -500,9 +536,7 @@ def delete():
         session['errorr']['true'] = True
         session['errorr']['name'] = "Combo is empty"
     else:
-        session['combo'].pop()
-        combo_text = read_combo(session['combo'])
-        session['errorr']['name'] = f"Your combo is {combo_text} "
+        session['combo'] = session['combo'][:-1]
 
 def restart():
     session['combo'] = []
@@ -598,13 +632,37 @@ def use_combo():
             output = combination(inp, ende, combo_)
 
         if output == None:
-            output = "Input during decryption is always in base64. Your input is wrong"
+            output = "Input during decryption is always in base64 for AES cipher. Therefore your input is wrong"
 
         conn.close()
     return render_template('use_combo.html',output=output)
+
+@app.route('/base_changer', methods=['GET', 'POST'])
+def base_changer():
+    number = ""
+    if request.method == 'POST':
+        number = request.form['number']
+        base_in = request.form['base_in']
+        base_out = request.form['base_out']
+        sys_in = request.form['sys_in']
+        sys_out = request.form['sys_out']
+
+        lookup = {"0": "normal", "2": "alpha", "1":"unicode"}
+        sys_in = lookup[sys_in]
+        sys_out = lookup[sys_out]
+
+        issue = check_base(number, base_in, base_out, sys_in)
+        if not issue.true:
+            base_in = int(base_in)
+            base_out = int(base_out)
+            number = base_change(number, 66, base_in, sys_in, sys_out)
+            number = base_change(number, 1, base_out, sys_out, sys_out)
+        else:
+            number = issue.name
+
+    return render_template('base_change.html', number = number)
 
 if __name__ == "__main__":
     initialize_db()
     port = int(os.environ.get('PORT', 10000))
     app.run(debug = True, host='0.0.0.0', port=port)
-    #skibidi the best

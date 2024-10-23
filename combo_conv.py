@@ -4,10 +4,6 @@ from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
 alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
-alphagreat = {'a': 40, 'b': 24, 'c': 45, 'd': 49, 'e': 7, 'f': 47, 'g': 35, 'h': 5, 'i': 46, 'j': 37, 'k': 22, 'l': 27, 'm': 13, 'n': 10, 'o': 38, 'p': 61, 'q': 39, 
-    'r': 6, 's': 65, 't': 48, 'u': 28, 'v': 18, 'w': 16, 'x': 4, 'y': 2, 'z': 8, 'A': 62, 'B': 20, 'C': 19, 'D': 25, 'E': 55, 'F': 36, 'G': 44, 'H': 32, 'I': 11, 'J': 52, 
-    'K': 17, 'L': 63, 'M': 41, 'N': 21, 'O': 26, 'P': 60, 'Q': 30, 'R': 12, 'S': 42, 'T': 43, 'U': 23, 'V': 51, 'W': 64, 'X': 31, 'Y': 53, 'Z': 50, '0': 54, '1': 3, '2': 14, 
-    '3': 1, '4': 59, '5': 58, '6': 56, '7': 34, '8': 15, '9': 29, '.': 57, '_': 9, ' ': 33}
  
 def julian (shiftno, letter):
     letter=int(letter)
@@ -16,6 +12,19 @@ def julian (shiftno, letter):
         letter=letter-27
     return letter
 
+def uid(no):
+        no += 1
+        output = no**2 - 7*no
+        return  abs(output)
+   
+def digitsum(n1):
+    n1=str(n1)
+    inp_list = list(map(str, n1))
+    output=0
+    for x in inp_list:
+        output = output + int(x)
+    return output
+        
 def cc(input, password):
     def encrypt_caesar(inp_list, shift):
         if shift<0:
@@ -31,33 +40,30 @@ def cc(input, password):
 
     def decrypt_caesar(inp_list):
         output_list = []
-        for count in range(25):
+        for count in range(26):
             word = encrypt_caesar(inp_list, count+1)
             output_list.append(word)
 
         outstr = ""
         for x in output_list:
             outstr += f"{x}, "
-        return ("The possible combinations are:", outstr[:-2])
+        return "The possible combinations are:", outstr[:-2]
         
     def caesar():
         shift=int(password)
-        inp=""
 
         #Takes user input and runs function on it
         if shift != 66:  
-            inp=input
-            inp=inp.lower()
+            inp=input.lower()
             inp_list = list(map(str, inp))
             return(encrypt_caesar(inp_list, shift))
 
         #All shifts
         elif shift==66:
             shift=0
-            inp=input
-            inp=inp.lower()
+            inp, _ = filter_list(input)
             inp_list = list(map(str, inp))
-            return(decrypt_caesar(inp_list))
+            return decrypt_caesar(inp_list) 
     return caesar()
 
 def morse(input, ende):          
@@ -139,73 +145,66 @@ def vig(input, password, ende):
 
     return vigenere()
 
-def sub(input, password, ende):
+def sub(inp, password, ende):
     def farmer (seed):
-        letterno=1
         letlist=[]
-        count=0
-        for x in range(27):
-            count=count+1
-            letterno=count
-            letterno= (letterno-2)
-            letterno= letterno * seed - (letterno + 2) 
-            letterno= (letterno+seed) *2
-            letterno= letterno*seed 
-            letterno= letterno- 4
-            letterno= 2*letterno+3
-            letterno= letterno/2
-            letterno= letterno-seed
-            letterno= letterno + seed/2 - seed / letterno
+        def farmer_algorithm(ln):
+            ln= ln / seed ** math.sin(seed)
+            ln= (ln+seed) *2
+            ln= ln*seed%1.7655747 
+            ln= 2*ln+3 + 100 * math.sin(ln)
+            ln= ln/2
+            ln= ln-seed
+            ln= ln + seed/2 - seed / ln
+            ln = abs(round(ln)) 
 
-            if letterno<0:
-                letterno=letterno*-1
-            letterno = round(letterno)
-            if letterno > 27:
-                letterno=letterno%27
-            if letterno==0:
-                letterno=letterno+1
+            if ln==0:
+                ln=10
+            return ln % 95
+        
+        for x in range(95):
+            seeder = uid(x+1)
+            ln = farmer_algorithm(seeder)
+            if ln==0:
+                ln=10
+            char = chr(ln+31)
 
-            while letterno in letlist:
-                letterno=letterno+1
-                if letterno > 27:
-                    letterno=letterno-27
+            count = 0
+            while char in letlist:
+                count+=1
+                ln += 1
+                var = uid(ln)
+                ln += var + count
 
-            letlist.append(letterno)
+                ln %= 95
+                if ln==0:
+                    ln += 7
+                char = chr(ln+31)
+
+                if count > 100000:
+                    for x in range(95):
+                        if chr(126-x) not in letlist:
+                            char = chr(126-x)
+        
+            count = 0
+            letlist.append(char)
         return letlist
+  
+    seed = int(password)
+    alphatwo = farmer(seed)
+    output = ""
 
-    def seed_encrypt(alphaone,inp_list,alphatwo, type):
-        output=""
-        for x in range(len(inp_list)):  
-            char=inp_list[x]
+    for char in inp:  
+        if ende==1:
+            ind = ord(char) - 32 #Finding Ascii value of character and making it index
+            inp2 = alphatwo[ind] #Obtaining replacement character
 
-            if char in alphaone:
-                if type==1:
-                    ind_=alphaone[char]-1
-                    inp2=alphatwo[ind_]
+        elif ende==66:
+            ind=alphatwo.index(char) #Finding index
+            inp2 = chr(ind + 32) 
 
-                elif type==66:
-                    inp2=alphatwo.index(alphaone[char])+1
-    
-                value = [i for i in alphaone if alphaone[i] == inp2][0]
-                output=output+ str(value)  
-
-            else:
-                return("error")
-            
-        return(output)
-
-    def seed_main():   
-        seed=int(password)
-        type=ende
-        inp=""
-
-        alphatwo=farmer(seed)
-        inp=input
-        inp=inp.lower()
-        inp_list = list(map(str, inp))
-        return seed_encrypt(alphaone,inp_list,alphatwo,type) 
-
-    return seed_main()
+        output+=inp2 
+    return output
 
 def byoc(input, password, ende):
     inp=input.lower()
@@ -223,80 +222,24 @@ def byoc(input, password, ende):
     inp=list(map(str,inp))
     for x in inp:
         if typ==1:  
-            if x in alphatwo.keys():
-                char=alphatwo[x]
-            else:
-                return "Error"   
+            char=alphatwo[x]
 
         else:
-            if x in alphatwo.values():
-                char=[i for i in alphatwo if alphatwo[i] == x][0]
-            else:
-                return "Error"       
+            char=[i for i in alphatwo if alphatwo[i] == x][0]     
         val=val+char
     return val
 
-def combination(text, ende, combo):
-    if ende==66:
-        combo.reverse()
-
-    text, template = filter_list(text)
-    for step in combo:
-        if step[0]=="csar":
-            if ende==66:
-                step[1]= "-" + step[1]
-            text=cc(text, step[1])
-
-        elif step[0]=="sub":
-            text=sub(text,step[1], ende)
-
-        elif step [0]=="vig":
-            text=vig(text,step[1], ende)
-
-        elif step [0]=="morse":
-            text=morse(text, ende)
-
-        elif step[0]=="byoc":
-            text=byoc(text,step[1],ende)
-
-        elif step[0]=="scrambler":
-            text=scrambler(text,ende,step[1])
-
-        elif step[0] == "aes":
-            text = unfilter(text, template)
-            inp_check,_,_ = aes_inp(ende, text, step[1])
-            
-            if inp_check:
-                text = aes(text,step[1], ende)
-                text, template = filter_list(text) 
-            else:
-                return None
-        
-        text = unfilter(text, template)
-    return text
-
 def scrambler(text, ende, password):
-    text = text.lower()
     val_list=[]
     for x in text:
-        val_list.append(alphagreat[x])
+        val_list.append(ord(x))
 
-    superkey = alphagreat[password[0]] + alphagreat[password[1]] + alphagreat[password[2]] + alphagreat[password[3]] + alphagreat[password[4]]
+    superkey = ord(password[0]) + ord(password[1]) - 20
     while superkey < 50: #Extracting superkey from first 5 alphabets
-        superkey += 2 * alphagreat[password[0]]
-    while superkey > 250:
-        superkey -= alphagreat[password[2]]
-        
-    def digitsum(n1):
-        n1=str(n1)
-        inp_list = list(map(str, n1))
-        output=0
-        for x in inp_list:
-            output = output + int(x)
-        return output
+        superkey += ord(password[0])
         
     def collatz(superkey, char, iteration):  
-        val = alphagreat[char]
+        val = ord(char)
 
         if superkey > 50: #Defining starting number and which number in collatz graph to take
             start=val* superkey + 2*iteration
@@ -338,11 +281,6 @@ def scrambler(text, ende, password):
         password *= multiplier 
         
     text_list=[]    
-    def uid(no):
-        no += 1
-        output = no^2 - 7*no
-        return  abs(output)
-    
     for counter in range(len(text)): #Calls collatz function for each character
         var = collatz (superkey , password[counter], uid(counter))
         new_iter = 3 *uid(counter) +1
@@ -384,9 +322,8 @@ def scrambler(text, ende, password):
             output = output + text[col_order[x]]
         return output
     
-def aes_inp(ende, inp, key): #Checks if input is in b64 for decryption and creates cipher and ciphertext on the way
+def aes_decrypt(ende, inp, key): #Checks if input is in b64 for decryption and creates cipher and ciphertext on the way
     if ende == 66:
-        key = key.encode()
         try:
             inp = b64.b64decode(inp) #b64 --> bytes
             iv = inp[:16]
@@ -416,14 +353,54 @@ def aes(inp, key, ende):
         return ciphertext
 
     else:  # Decryption
-        _, ciphertext, cipher = aes_inp(1, inp)
+        _, ciphertext, cipher = aes_decrypt(66, inp, key)
 
         padded_inp = cipher.decrypt(ciphertext)
         output = unpad(padded_inp, AES.block_size)
         return output.decode('utf-8') #stringify
+
+def combination(text, ende, combo):
+    if ende==66:
+        combo.reverse()
+
+    text, template = filter_list(text)
+    for step in combo:
+        if step[0]=="csar":
+            if ende==66:
+                step[1]= "-" + step[1]
+            text=cc(text, step[1])
+
+        elif step[0]=="sub":
+            text = unfilter(text, template)
+            text=sub(text,step[1], ende)
+            text, template = filter_list(text)
+
+        elif step [0]=="vig":
+            text=vig(text,step[1], ende)
+
+        elif step [0]=="morse":
+            text=morse(text, ende)
+
+        elif step[0]=="byoc":
+            text=byoc(text,step[1],ende)
+
+        elif step[0]=="scrambler":
+            text = unfilter(text, template)
+            text=scrambler(text,ende,step[1])
+            text, template = filter_list(text) 
+
+        elif step[0] == "aes":
+            text = unfilter(text, template)
+            inp_check,_,_ = aes_decrypt(ende, text, step[1].encode())
+            
+            if inp_check:
+                text = aes(text,step[1], ende)
+                text, template = filter_list(text) 
+            else:
+                return None
         
-def encrypt_num(num):
-    return num
+    text = unfilter(text, template)
+    return text
 
 def filter_list(inp): #Creates a list which maps where non-allowed letters should go
     output_list= []
