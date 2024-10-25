@@ -417,6 +417,8 @@ def standard(cipher):
         text = request.form["text"]
         if cipher != "morse":
             password = request.form["password"]
+        else:
+            password = "_"
 
         if cipher == "csar": #Caesar handling
             if password == "":

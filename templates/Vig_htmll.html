@@ -75,6 +75,49 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
+        .help-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 250px;
+            padding: 20px;
+            background-color: #007BFF;
+            color: white;
+            font-family: Arial, sans-serif;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-size: 0.9em;
+            line-height: 1.5;
+            border-radius: 10px;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
+        }
+
+        /* Styling for the header */
+        .help-box-header {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* Style for the tips */
+        .tip {
+            margin-bottom: 10px;
+        }
+
+        /* Optional: additional hover effect to add interactivity */
+        .help-box:hover {
+            background-color: #0056b3;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-btn {
+            background-color: transparent;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            float: right;
+        }
     </style>
 </head><body>
 
@@ -92,7 +135,32 @@
 
 </form>
 <div id="test-output" class="output-container">The error/output is '{{output}}' and password is '{{password}}'</div>   
-
-    <a href="{{url_for('cipherious')}}" class="button">Home Page</a>
 </div>
+
+<div class="help-box">
+    <button class="close-btn" onclick="closeHelpBox()">X</button>
+
+    <div class="help-box-header">
+        Help & Tips
+    </div>
+    <div class="help-box-content">
+        <div class="tip">💡 Input the desired text and your password(Only alphabets and spaces are considered), for example, tree and car</div>
+        <div class="tip">💡 Let’s say first letter of the password has a number is x = the number of the alphabet, i.e. a = 1; c = 3 and so on.</div>
+        <div class="tip">💡 Let the first letter of the input have a number = y, where y is the number of the alphabet, i.e. e = 5 and so on.</div>
+        <div class="tip">💡 Finally, the first letter of the input changes to the alphabet/ letter whose number is x + y as the
+            output. Thus, in the above example, the first letter of the input: car, i.e. c has x = 3 and the first letter of
+            the password: tree, i.e. t has y = 20. Thus, t in the input changes to the letter having number = x + y = 3 +
+            20 = 23, i.e. w in the output.</div>
+        <div class="tip">💡 The same concept applies for all the letters of the password and input. Thus, the final output of
+            the above example is “wswu”.</div>
+    </div>
+</div>
+
+<a href="{{url_for('cipherious')}}" class="button">Home Page</a>
+</div>
+<script>
+    function closeHelpBox() {
+        document.querySelector('.help-box').style.display = 'none';
+    }
+</script>
 </body></html>

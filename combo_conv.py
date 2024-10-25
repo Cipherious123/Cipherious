@@ -363,8 +363,8 @@ def combination(text, ende, combo):
     if ende==66:
         combo.reverse()
 
-    text, template = filter_list(text)
     for step in combo:
+        text, template = filter_list(text)
         if step[0]=="csar":
             if ende==66:
                 step[1]= "-" + step[1]
@@ -402,23 +402,26 @@ def combination(text, ende, combo):
     text = unfilter(text, template)
     return text
 
-def filter_list(inp): #Creates a list which maps where non-allowed letters should go
-    output_list= []
-    capitals = []
-    for x in alphaone:
-        if x != " ":
-            capitals.append(x.upper())
+def filter_list(inp, cipher): #Creates a list which maps where non-allowed letters should go
 
+    output_list= []
+    capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+    unicode = """ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
+    unicode_ = """!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
+    lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": alphaone, "byoc": alphaone, "aes":unicode, "numbase":unicode_ }
     filtered = ""
+
     for x in inp:
-        if x in alphaone:
+        if x in lookup[cipher]:
             output_list.append("")
             filtered += x
-        elif x in capitals:
+
+        elif lookup[cipher] == "alphaone" and x in capitals:
             output_list.append("U")
             filtered += x.lower()
+
         else:
-            output_list.append(x)   
+            output_list.append(x)
     return filtered, output_list
 
 def unfilter(inp, input_list):
