@@ -390,7 +390,6 @@ def combination(text, ende, combo):
             
             if inp_check:
                 text = aes(text,step[1], ende)
-                text, template = filter_list(text) 
             else:
                 return None 
         text = unfilter(text, template)
@@ -402,7 +401,7 @@ def filter_list(inp, cipher): #Creates a list which maps where non-allowed lette
     capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
     unicode = """ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
     unicode_ = """!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
-    lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": alphaone, "byoc": alphaone, "aes":unicode, "numbase":unicode_ }
+    lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": alphaone, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode_ }
     filtered = ""
 
     for x in inp:
