@@ -364,16 +364,14 @@ def combination(text, ende, combo):
         combo.reverse()
 
     for step in combo:
-        text, template = filter_list(text)
+        text, template = filter_list(text, step[0])
         if step[0]=="csar":
             if ende==66:
                 step[1]= "-" + step[1]
             text=cc(text, step[1])
 
         elif step[0]=="sub":
-            text = unfilter(text, template)
             text=sub(text,step[1], ende)
-            text, template = filter_list(text)
 
         elif step [0]=="vig":
             text=vig(text,step[1], ende)
@@ -385,21 +383,17 @@ def combination(text, ende, combo):
             text=byoc(text,step[1],ende)
 
         elif step[0]=="scrambler":
-            text = unfilter(text, template)
             text=scrambler(text,ende,step[1])
-            text, template = filter_list(text) 
 
         elif step[0] == "aes":
-            text = unfilter(text, template)
             inp_check,_,_ = aes_decrypt(ende, text, step[1].encode())
             
             if inp_check:
                 text = aes(text,step[1], ende)
                 text, template = filter_list(text) 
             else:
-                return None
-        
-    text = unfilter(text, template)
+                return None 
+        text = unfilter(text, template)
     return text
 
 def filter_list(inp, cipher): #Creates a list which maps where non-allowed letters should go
@@ -416,7 +410,7 @@ def filter_list(inp, cipher): #Creates a list which maps where non-allowed lette
             output_list.append("")
             filtered += x
 
-        elif lookup[cipher] == "alphaone" and x in capitals:
+        elif lookup[cipher] == alphaone and x in capitals:
             output_list.append("U")
             filtered += x.lower()
 
