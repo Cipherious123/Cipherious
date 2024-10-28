@@ -175,11 +175,93 @@ def index():
         session['user'] = None
         curr_user = session['user']
     session['step1'] = True
-    print(session['step1'])
     if curr_user != None:
         return redirect(url_for('cipherious'))
     else:
-        return redirect(url_for('create_account'))
+        return redirect(url_for('entry'))
+
+@app.route('/entry', methods=['GET'])
+def entry():
+    return render_template('entry.html')
+    
+@app.route('/create_account', methods=['GET', 'POST'])
+def create_account():
+    issues=err('',False)
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        terms = request.form.get('terms')     
+        c, conn = send_cursor()
+        
+        if terms:
+            c.execute("SELECT username FROM users")
+            alluser = c.fetchall()
+
+            if len(username) > 20 or len(password) > 50:
+                issues.raise_issue("Your username can only have 20 characters or less. Password can have maximum of 50")
+
+            elif not any(username == x[0] for x in alluser) :
+                c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+                conn.commit()
+                session['user'] = username
+                return redirect(url_for('cipherious'))
+            
+            else:
+                issues.raise_issue("Username already taken")
+            conn.close()
+            
+@app.route('/create_account', methods=['GET', 'POST'])
+def create_account():
+    issues=err('',False)
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        terms = request.form.['email']
+        c, conn = send_cursor()
+
+        c.execute("SELECT username FROM users")
+        alluser = c.fetchall()
+
+        if len(username) > 20 or len(password) > 50:
+            issues.raise_issue("Your username can only have 20 characters or less. Password can have maximum of 50")
+
+        elif not any(username == x[0] for x in alluser) :
+            c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+            conn.commit()
+            session['user'] = username
+            return redirect(url_for('cipherious'))
+        else:
+            issues.raise_issue("Username already taken")
+        conn.close()
+    return render_template('create_account.html',error=issues.name)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    issues=err('',False)
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        c, conn = send_cursor()
+
+        c.execute("SELECT username FROM users")
+        alluser = c.fetchall()
+
+        if any(username == x[0] for x in alluser) :
+            c.execute("SELECT password FROM users WHERE username = %s", (username,))
+            result=c.fetchone()
+
+            if password==result[0]:
+                session['user'] = username
+                conn.commit()
+                return redirect(url_for('cipherious'))
+            else:
+                issues.raise_issue("Wrong password")
+        
+        else:
+            issues.raise_issue("Username not found")
+        conn.close()
+        
+    return render_template('login.html',error=issues.name)
 
 @app.route('/my_acc', methods=['GET', 'POST'])
 def my_acc():
@@ -449,53 +531,6 @@ def standard(cipher):
             output = oops.name
             oops.true = False
     return output, password
-
-@app.route('/create_account', methods=['GET', 'POST'])
-def create_account():
-    issues=err('',False)
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        terms = request.form.get('terms')     
-        c, conn = send_cursor()
-        
-        if terms:
-            c.execute("SELECT username FROM users")
-            alluser = c.fetchall()
-
-            if len(username) > 20 or len(password) > 50:
-                issues.raise_issue("Your username can only have 20 characters or less. Password can have maximum of 50")
-
-            elif not any(username == x[0] for x in alluser) :
-                c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
-                conn.commit()
-                session['user'] = username
-                return redirect(url_for('cipherious'))
-            
-            else:
-                issues.raise_issue("Username already taken")
-            conn.close()
-
-        else:
-            c.execute("SELECT username FROM users")
-            alluser = c.fetchall()
-
-            if any(username == x[0] for x in alluser) :
-                c.execute("SELECT password FROM users WHERE username = %s", (username,))
-                result=c.fetchone()
-
-                if password==result[0]:
-                    session['user'] = username
-                    conn.commit()
-                    return redirect(url_for('cipherious'))
-                else:
-                    issues.raise_issue("Wrong password")
-            
-            else:
-                issues.raise_issue("Username not found")
-            conn.close()
-        
-    return render_template('create_account.html',error=issues.name)
 
 @app.route('/cipherious', methods=['GET', 'POST'])
 def cipherious():
