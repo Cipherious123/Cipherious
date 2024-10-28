@@ -325,7 +325,7 @@ def scrambler(text, ende, password):
 def aes_decrypt(ende, inp, key): #Checks if input is in b64 for decryption and creates cipher and ciphertext on the way
     if ende == 66:
         try:
-            inp = b64.b64decode(inp) #b64 --> bytes
+            inp = b64.b64decode(inp) #b64 --> bytes     
             iv = inp[:16]
             ciphertext = inp[16:]
             cipher = AES.new(key, AES.MODE_CBC, iv) # Create AES cipher in CBC mode with the key and IV
@@ -340,7 +340,7 @@ def aes(inp, key, ende):
     key = key.encode()  # Ensure key is in bytes
 
     if ende == 1:  # Encryption
-        inp = inp.encode()  # text --> bytes
+        inp = inp.encode('utf-8')  # text --> bytes
         iv = get_random_bytes(16) # Generate a random 16-byte initialization vector (IV)
         cipher = AES.new(key, AES.MODE_CBC, iv)
 
@@ -396,7 +396,6 @@ def combination(text, ende, combo):
     return text
 
 def filter_list(inp, cipher): #Creates a list which maps where non-allowed letters should go
-
     output_list= []
     capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
     unicode = """ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
@@ -430,3 +429,5 @@ def unfilter(inp, input_list):
             count -= 1
             output += x
     return output
+
+print(combination("iuthp4hpwibtojwhujlbtr",1, [["scrambler", "Blokbolkoergi"]]))
