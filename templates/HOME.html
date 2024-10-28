@@ -266,7 +266,7 @@
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
             This scrambles all the letters in the plaintext. All ASCII letters like capitals, lowercase, numbers and special characters. <br>
             Made by cipherious</p>
-            <br> <br>
+            <br> <br> <br>
           <a href="{{ url_for('scrambler_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
         </div>
       </div>
@@ -282,6 +282,7 @@
               <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
                 AES is internet standard encryption, this encryption keeps you safe from prying eyes everyday!</p>
               <a href="{{ url_for('aes_func')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
+            <br>
             </div>
           </div>
       </div>
@@ -293,9 +294,9 @@
           <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden; height: 1000 px">
             <img src="{{ url_for('static', filename='binary.jpg') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
             <div class="container" style="padding: 24px;">
-              <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">NUMBER BASE CHANGE</h3>
+              <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">INTEGER BASE CHANGER</h3>
               <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
-                Change the basis of your numbers. You can choose any integer from base 2 or binary all the way to base 94! <br>
+                Change the basis of your integers. You can choose any integer from base 2 (binary) all the way to base 94! <br>
                 Choose to write your numbers in different systems, from normal (0,1,2...) to unicode(!,",#... ) to alpha(A,B,C...)
               </p>
                 <br>
@@ -316,7 +317,7 @@
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
             Unleash your imagination and creativity by designing your own innovative substitution cipher.
             You decide which letters replace which when encrypting text</p>
-            <br>
+            <br><br><br><br>
           <a href="{{ url_for('BYOCone')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
         </div>
       </div>
@@ -372,13 +373,11 @@
 
 </div>
 </div>
-
+</div>
 <!-- Container -->
 <div class="container" style="position:fixed">
   <a onclick="w3_open()" class="w3-button w3-xlarge w3-circle w3-teal"
   style="position:absolute;top:-28px;right:24px">+</a>
-</div>
-
 </div>
 
 <script>

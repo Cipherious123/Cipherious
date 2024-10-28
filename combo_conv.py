@@ -4,7 +4,9 @@ from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
 alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
- 
+alpha={ "a":".-" , "b":"-...","c":"-.-.","d":"-..","e":".","f":"..-.","g":"--.","h":"....","i":"..","j":".---","k":"-.-","l":".-..","m":"--","n":"-.","o":"---","p":".--.","q":"--.-","r":".-.","s":"...","t":"-","u":"..-","v":"...-","w":".--","x":"-..-","y":"-.--","z":"--..",
+        "1": ".----", "2": "..---", "3": "...--", "4": "....-", "5":".....", "6":"-...." , "7":"--...", "8": "---..", "9": "----.", "0": "-----"}
+
 def julian (shiftno, letter):
     letter=int(letter)
     letter= (letter+shiftno)
@@ -67,8 +69,6 @@ def cc(input, password):
     return caesar()
 
 def morse(input, ende):          
-    alpha={ "a":".-" , "b":"-...","c":"-.-.","d":"-..","e":".","f":"..-.","g":"--.","h":"....","i":"..","j":".---","k":"-.-","l":".-..","m":"--","n":"-.","o":"---","p":".--.","q":"--.-","r":".-.","s":"...","t":"-","u":"..-","v":"...-","w":".--","x":"-..-","y":"-.--","z":"--..",
-        "1": ".----", "2": "..---", "3": "...--", "4": "....-", "5":".....", "6":"-...." , "7":"--...", "8": "---..", "9": "----.", "0": "-----"}
     inp=input
     inp=inp.lower()
     typ=ende
@@ -98,7 +98,7 @@ def morse(input, ende):
 
             val=val+ " "
         val=val[:-1]
-        return(val)
+        return val
 
 def vig(input, password, ende):
     
@@ -395,22 +395,44 @@ def combination(text, ende, combo):
         text = unfilter(text, template)
     return text
 
-def filter_list(inp, cipher): #Creates a list which maps where non-allowed letters should go
+def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed letters should go
     output_list= []
     capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
     unicode = """ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
     unicode_ = """!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
-    lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": alphaone, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode_ }
-    filtered = ""
+    morse_en = "abcdefghijklmnopqrstuvwxyz 1234567890"
+    morse_de = "- .|"
 
+    if ende == 1:
+        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_en, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode_ }
+    else:
+        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_de, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode_ }
+    
+    filtered = ""
+    def morse_len(char):
+        if char == " ":
+            return 2
+        return len(alpha[char]) + 1
+    
     for x in inp:
         if x in lookup[cipher]:
-            output_list.append("")
-            filtered += x
+            if cipher != "morse":
+                output_list.append("")
+                filtered += x
 
-        elif lookup[cipher] == alphaone and x in capitals:
-            output_list.append("U")
-            filtered += x.lower()
+            else:
+                if ende == 1:
+                    for _ in range(morse_len(x)):
+                        output_list.append("")
+                else:
+                    if x == "|" or " ":
+                       output_list.append("")
+                filtered += x 
+
+        elif x in capitals:
+            if lookup[cipher] == alphaone or lookup[cipher] == morse_en:
+                output_list.append("U")
+                filtered += x.lower()
 
         else:
             output_list.append(x)
@@ -429,5 +451,7 @@ def unfilter(inp, input_list):
             count -= 1
             output += x
     return output
-
-print(combination("iuthp4hpwibtojwhujlbtr",1, [["scrambler", "Blokbolkoergi"]]))
+print(filter_list("My name is Nishant! @1234", "morse", 1))
+print(morse('my name is nishant 1234', 1))
+temp = ['U', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'U', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '!', '', '@', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
+print(unfilter('--|-.--| |-.|.-|--|.| |..|...| |-.|..|...|....|.-|-.|-| |.----|..---|...--|....-|', temp))
