@@ -329,7 +329,7 @@ def del_acc():
 @app.route('/logout', methods=['POST'])
 def logout():
     session.clear()
-    return redirect(url_for('create_account'))
+    return redirect(url_for('entry'))
 
 @app.route('/cc_func', methods=['GET','POST'])
 def cc_func():
