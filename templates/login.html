@@ -76,6 +76,17 @@
         .login-form button:hover {
             background-color: #0077cc;
         }
+        .super-button {
+            background-color: #00aaff;
+            color: #ffffff;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            width: 100%;
+        }
 
         /* Falling numbers container */
         #falling-numbers {
@@ -134,8 +145,8 @@
         <button type="submit">Login</button>
 
     </form>
-</div>
-<a href="{{url_for('entry')}}"><button type="submit"> Back </button></a>
+</div> <br>
+<a href="{{url_for('entry')}}"><button type="submit" class="super-button"> Back </button></a>
 <!-- Falling Numbers Container -->
 <div id="falling-numbers"></div>
 
