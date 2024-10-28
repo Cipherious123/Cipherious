@@ -183,32 +183,6 @@ def index():
 @app.route('/entry', methods=['GET'])
 def entry():
     return render_template('entry.html')
-    
-@app.route('/create_account', methods=['GET', 'POST'])
-def create_account():
-    issues=err('',False)
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        terms = request.form.get('terms')     
-        c, conn = send_cursor()
-        
-        if terms:
-            c.execute("SELECT username FROM users")
-            alluser = c.fetchall()
-
-            if len(username) > 20 or len(password) > 50:
-                issues.raise_issue("Your username can only have 20 characters or less. Password can have maximum of 50")
-
-            elif not any(username == x[0] for x in alluser) :
-                c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
-                conn.commit()
-                session['user'] = username
-                return redirect(url_for('cipherious'))
-            
-            else:
-                issues.raise_issue("Username already taken")
-            conn.close()
             
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
