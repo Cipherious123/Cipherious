@@ -216,7 +216,7 @@ def create_account():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        terms = request.form.['email']
+        terms = request.form['email']
         c, conn = send_cursor()
 
         c.execute("SELECT username FROM users")
