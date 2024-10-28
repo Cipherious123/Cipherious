@@ -322,7 +322,7 @@ def del_acc():
             conn.commit()
             session.clear()
             output = "Account deleted "
-            return redirect(url_for('create_account'))
+            return redirect(url_for('entry'))
         conn.close()
     return render_template('del_acc.html', output=output)
 
