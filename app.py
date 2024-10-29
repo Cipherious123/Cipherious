@@ -133,10 +133,10 @@ def check_base(num, base_in, base_out, sys_in):
     lookup = {"normal": normal, "alpha": b64, "unicode":unicode}
 
     if int_check(base_in) and int_check(base_out):
-        if not 1 < int(base_in) < 95 or not 1 < int(base_out) < 95:
-            issue.raise_issue("Base must be between 2 and 94, end points included")
+        if not 1 < int(base_in) < 96 or not 1 < int(base_out) < 96:
+            issue.raise_issue("Base must be between 2 and 95, end points included")
     else:
-        issue.raise_issue("Base must be between 2 and 94, end points included")
+        issue.raise_issue("Base must be between 2 and 95, end points included")
 
     sys_in = lookup[sys_in]
     considered = sys_in[:int(base_in)]

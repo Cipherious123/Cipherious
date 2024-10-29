@@ -63,9 +63,9 @@ def cc(input, password):
         #All shifts
         elif shift==66:
             shift=0
-            inp, _ = filter_list(input)
+            inp, _ = filter_list(input, "csar", 1)
             inp_list = list(map(str, inp))
-            return decrypt_caesar(inp_list) 
+            return decrypt_caesar(inp_list)
     return caesar()
 
 def morse(input, ende):          
@@ -364,7 +364,7 @@ def combination(text, ende, combo):
         combo.reverse()
 
     for step in combo:
-        text, template = filter_list(text, step[0])
+        text, template = filter_list(text, step[0], ende)
         if step[0]=="csar":
             if ende==66:
                 step[1]= "-" + step[1]
@@ -399,14 +399,13 @@ def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed
     output_list= []
     capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
     unicode = """ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
-    unicode_ = """!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
     morse_en = "abcdefghijklmnopqrstuvwxyz 1234567890"
     morse_de = "- .|"
 
     if ende == 1:
-        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_en, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode_ }
+        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_en, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode}
     else:
-        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_de, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode_ }
+        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_de, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode}
     
     filtered = ""
     def morse_len(char):
