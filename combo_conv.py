@@ -412,7 +412,10 @@ def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed
         if char == " ":
             return 2
         return len(alpha[char]) + 1
-    
+
+    if cipher == "morse":
+        inp = inp.lower()
+
     for x in inp:
         if x in lookup[cipher]:
             if cipher != "morse":
@@ -435,9 +438,6 @@ def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed
 
         else:
             output_list.append(x)
-
-    if lookup[cipher] == morse_de: #Appends last blank to cover for last letter which is not counted
-        output_list.append("")
     return filtered, output_list
 
 def unfilter(inp, input_list):
