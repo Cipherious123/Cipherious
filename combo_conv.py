@@ -3,6 +3,7 @@ import base64 as b64
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
+from bases import base_change
 alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
 alpha={ "a":".-" , "b":"-...","c":"-.-.","d":"-..","e":".","f":"..-.","g":"--.","h":"....","i":"..","j":".---","k":"-.-","l":".-..","m":"--","n":"-.","o":"---","p":".--.","q":"--.-","r":".-.","s":"...","t":"-","u":"..-","v":"...-","w":".--","x":"-..-","y":"-.--","z":"--..",
         "1": ".----", "2": "..---", "3": "...--", "4": "....-", "5":".....", "6":"-...." , "7":"--...", "8": "---..", "9": "----.", "0": "-----"}
@@ -358,6 +359,18 @@ def aes(inp, key, ende):
         padded_inp = cipher.decrypt(ciphertext)
         output = unpad(padded_inp, AES.block_size)
         return output.decode('utf-8') #stringify
+
+def bases(number, base_in, base_out, sys_in, sys_out):
+    lookup = {"0": "normal", "2": "alpha", "1":"unicode"}
+    sys_in = lookup[sys_in]
+    sys_out = lookup[sys_out]
+    base_in = int(base_in)
+    base_out = int(base_out)
+
+    number = base_change(number, 66, base_in, sys_in, sys_out)
+    number = base_change(number, 1, base_out, sys_out, sys_out)
+
+    return number
 
 def combination(text, ende, combo):
     if ende==66:

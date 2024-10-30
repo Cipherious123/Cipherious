@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from combo_conv import combination, alphaone, cc
-from bases import base_change, normal, unicode, b64
+from combo_conv import combination, alphaone, cc, bases
+from bases import  normal, unicode, b64
 import ast
 import sympy
 import os
@@ -664,10 +664,7 @@ def base_changer():
 
         issue = check_base(number, base_in, base_out, sys_in)
         if not issue.true:
-            base_in = int(base_in)
-            base_out = int(base_out)
-            number = base_change(number, 66, base_in, sys_in, sys_out)
-            number = base_change(number, 1, base_out, sys_out, sys_out)
+            number = bases()
         else:
             number = issue.name
 
