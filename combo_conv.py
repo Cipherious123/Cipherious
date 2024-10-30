@@ -424,7 +424,7 @@ def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed
                     for _ in range(morse_len(x)):
                         output_list.append("")
                 else:
-                    if x == "|" or " ":
+                    if x == "|":
                        output_list.append("")
                 filtered += x 
 
@@ -435,6 +435,9 @@ def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed
 
         else:
             output_list.append(x)
+
+    if lookup[cipher] == morse_de: #Appends last blank to cover for last letter which is not counted
+        output_list.append("")
     return filtered, output_list
 
 def unfilter(inp, input_list):
