@@ -230,7 +230,7 @@ def byoc(input, password, ende):
         val=val+char
     return val
 
-def scrambler(text, ende, password):
+def scrambler(text, password, ende):
     val_list=[]
     for x in text:
         val_list.append(ord(x))
@@ -373,38 +373,35 @@ def bases(number, base_in, base_out, sys_in, sys_out):
     return number
 
 def combination(text, ende, combo):
+    lookup = {"vig":vig, "morse": morse, "byoc": byoc, "sub":sub, "scrambler":scrambler}
     if ende==66:
         combo.reverse()
 
     for step in combo:
-        text, template = filter_list(text, step[0], ende)
-        if step[0]=="csar":
+        p_word = step[1]
+        cipher = step[0]
+        text, template = filter_list(text, cipher, ende)
+
+        if cipher=="csar":
             if ende==66:
-                step[1]= "-" + step[1]
-            text=cc(text, step[1])
+                p_word= "-" + p_word
+            text=cc(text, p_word)
 
-        elif step[0]=="sub":
-            text=sub(text,step[1], ende)
-
-        elif step [0]=="vig":
-            text=vig(text,step[1], ende)
-
-        elif step [0]=="morse":
-            text=morse(text, ende)
-
-        elif step[0]=="byoc":
-            text=byoc(text,step[1],ende)
-
-        elif step[0]=="scrambler":
-            text=scrambler(text,ende,step[1])
-
-        elif step[0] == "aes":
-            inp_check,_,_ = aes_decrypt(ende, text, step[1].encode())
+        elif cipher == "aes":
+            inp_check,_,_ = aes_decrypt(ende, text, p_word.encode())
             
             if inp_check:
-                text = aes(text,step[1], ende)
+                text = aes(text,p_word, ende)
             else:
                 return None 
+        
+        elif cipher == "base":   
+            lookup_ = {"u": "unicode", "a": "alpha", "n": "normal"}
+            password = p_word.split()
+            text = bases(text, password[0], password[1], lookup_[password[2]], lookup_[password[3]])
+
+        else:
+            lookup[cipher](text, ende, p_word)
         text = unfilter(text, template)
     return text
 
@@ -414,7 +411,6 @@ def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed
     unicode = """ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
     morse_en = "abcdefghijklmnopqrstuvwxyz 1234567890"
     morse_de = "- .|"
-
     if ende == 1:
         lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_en, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode}
     else:
@@ -466,3 +462,5 @@ def unfilter(inp, input_list):
             count -= 1
             output += x
     return output
+
+print(combination("1023", 1, [["base", ""]]))

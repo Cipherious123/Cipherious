@@ -140,11 +140,11 @@
                 <div class="output-container">Name: {{name}} </div>                                   
             </td>
             </table>
-            
+        
             <br><br> Select the cipher to set as the next step in your combo
             <div class="slider-container">
                 <!-- Slider input with 5 positions for ciphers -->
-                <input type="range" min="0" max="6" value="0" class="slider" id="cipherSlider" name = "cipherselected">
+                <input type="range" min="0" max="7" value="0" class="slider" id="cipherSlider" name = "cipherselected">
             </div>
         
             <!-- Display selected cipher -->
@@ -160,6 +160,26 @@
 
         </form>
 
+        <div class="help-box">
+            <button class="close-btn" onclick="closeHelpBox()">X</button>
+        
+            <div class="help-box-header">
+                Help & Tips
+            </div>
+            <div class="help-box-content">
+                <div class="tip">💡 When using integer base change password must have: base of number, base to convert to,
+                    system of number, system to convert to, all seperated by spaces
+                </div>
+                <div class="tip">💡 Unicode must be conveyed as u, Alpha as a, Normal as n</div>
+                <div class="tip">💡 Only alphabets and spaces are encrypted, the rest are left as they were</div>
+                <div class="tip">💡 Shift can be from 1 to 26 for encryption, -1 to -26 for decryption</div>
+            </div>
+        </div>
+        <script>
+            function closeHelpBox() {
+                document.querySelector('.help-box').style.display = 'none';}
+        </script>
+
     <a href="{{ url_for('cipherious')}}"><button class="button">Home page</button></a><br>
     <a href="{{ url_for('use_combo')}}"><button class="button">Use your combo</button></a>
     
@@ -171,6 +191,7 @@
             'Substitution Cipher',
             'Scrambler Cipher',
             'Build your own Cipher',
+            'Integer Base Changer',
             'Morse Code',
             'Advanced Encryption Standard (AES 128)'
         ];

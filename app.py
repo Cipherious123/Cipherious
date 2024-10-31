@@ -123,8 +123,20 @@ def check_combo(ciphername,password):
     elif ciphername == "aes":
         if len(password) != 16:
             errorr.raise_issue("Key must be 16 bytes (128 bits) long.")
-    
-    else:
+
+    elif ciphername == "base":
+        password = password.split()
+        allowed = "uan"
+        if len(password) != 4:
+            errorr.raise_issue("Please refer to help box for how to input the password. There must be 4 parts split by spaces")
+        if not int_check(password[0]) or not int_check(password[1]):
+            errorr.raise_issue("Base in and Base out must be positive integers from 2 to 95. Please refer to help box or the Base changer page")
+        if not 1 < int( password[0] ) < 96 or not 1 < int( password[1]) < 96:
+            errorr.raise_issue("Base in and Base out must be positive integers from 2 to 95. Please refer to help box or the Base changer page")
+        if password[2] not in allowed or password[3] not in allowed:
+            errorr.raise_issue("Please refer to help box for how to input the password. The number systems must be denoted as given there")
+
+    else:       
         errorr.raise_issue("Cipher doesn't exist")
     return errorr
 
@@ -664,7 +676,7 @@ def base_changer():
 
         issue = check_base(number, base_in, base_out, sys_in)
         if not issue.true:
-            number = bases()
+            number = bases(number, base_in, base_out, sys_in, sys_out)
         else:
             number = issue.name
 
