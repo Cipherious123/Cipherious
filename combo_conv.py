@@ -462,5 +462,3 @@ def unfilter(inp, input_list):
             count -= 1
             output += x
     return output
-
-print(combination("1023", 1, [["base", ""]]))
