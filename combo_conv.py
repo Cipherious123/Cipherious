@@ -143,7 +143,6 @@ def vig(input, password, ende):
         inp=input.lower() #Input of inp
         inp_list = list(map(str, inp))
         return vigenere_converter(inp_list, keylist, ende)
-
     return vigenere()
 
 def sub(inp, password, ende):
@@ -394,6 +393,9 @@ def combination(text, ende, combo):
                 text = aes(text,p_word, ende)
             else:
                 return None 
+            
+        elif cipher == "morse":
+            text = morse(text, 1)
         
         elif cipher == "base":   
             lookup_ = {"u": "unicode", "a": "alpha", "n": "normal"}
@@ -405,16 +407,16 @@ def combination(text, ende, combo):
         text = unfilter(text, template)
     return text
 
-def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed letters should go
+def filter_list(inp, cipher, ende, base_in = None): #Creates a list which maps where non-allowed letters should go
     output_list= []
     capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
     unicode = """ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
     morse_en = "abcdefghijklmnopqrstuvwxyz 1234567890"
     morse_de = "- .|"
     if ende == 1:
-        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_en, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode}
+        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_en, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode[:base_in]}
     else:
-        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_de, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode}
+        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_de, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode[:base_in]}
     
     filtered = ""
     def morse_len(char):

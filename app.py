@@ -157,9 +157,11 @@ def check_base(num, base_in, base_out, sys_in):
             issue.raise_issue("Your number includes characters that are not in your number system for given base")
     return issue
 
+def inp_check(inp, cipher):
+    pass
 def read_combo(combo):
     output = ""
-    lookup_dict = {"csar":"Caesar", "vig":"Vigenere", "morse":"Morse", "sub":"Substitution", "scrambler":"Scrambler", "byoc":"Build your own cipher", "aes":"AES(128)"}
+    lookup_dict = {"csar":"Caesar", "vig":"Vigenere", "morse":"Morse", "sub":"Substitution", "scrambler":"Scrambler", "byoc":"Build your own cipher", "aes":"AES(128)", "base":"Integer Base Changer"}
     count = 0  
     if combo == []:
         return ""
@@ -589,7 +591,7 @@ def set_name():
     session['comboname'] = comboname
 
 def submit():
-    lookup_dict = {'0':"csar", '1':"vig", '2':"sub", '3':"scrambler", '4':"byoc", '5':"morse", '6':"aes"}
+    lookup_dict = {'0':"csar", '1':"vig", '2':"sub", '3':"scrambler", '4':"byoc", '5': "base", '6':"morse", '7':"aes"}
     ciphername = request.form['cipherselected']
     password = request.form['password']
 
