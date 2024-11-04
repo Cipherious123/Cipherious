@@ -127,13 +127,13 @@ def check_combo(ciphername,password):
     elif ciphername == "base":
         password = password.split()
         allowed = "uan"
-        if len(password) != 4:
+        if len(password) != 3:
             errorr.raise_issue("Please refer to help box for how to input the password. There must be 4 parts split by spaces")
-        if not int_check(password[0]) or not int_check(password[1]):
-            errorr.raise_issue("Base in and Base out must be positive integers from 2 to 95. Please refer to help box or the Base changer page")
+        if not int_check(password[0]):
+            errorr.raise_issue("Base to convert your number to must be positive integers from 2 to 95. Please refer to help box or the Base changer page\n")
         if not 1 < int( password[0] ) < 96 or not 1 < int( password[1]) < 96:
             errorr.raise_issue("Base in and Base out must be positive integers from 2 to 95. Please refer to help box or the Base changer page")
-        if password[2] not in allowed or password[3] not in allowed:
+        if password[1] not in allowed or password[2] not in allowed:
             errorr.raise_issue("Please refer to help box for how to input the password. The number systems must be denoted as given there")
 
     else:       
@@ -157,8 +157,6 @@ def check_base(num, base_in, base_out, sys_in):
             issue.raise_issue("Your number includes characters that are not in your number system for given base")
     return issue
 
-def inp_check(inp, cipher):
-    pass
 def read_combo(combo):
     output = ""
     lookup_dict = {"csar":"Caesar", "vig":"Vigenere", "morse":"Morse", "sub":"Substitution", "scrambler":"Scrambler", "byoc":"Build your own cipher", "aes":"AES(128)", "base":"Integer Base Changer"}

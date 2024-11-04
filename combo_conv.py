@@ -359,16 +359,14 @@ def aes(inp, key, ende):
         output = unpad(padded_inp, AES.block_size)
         return output.decode('utf-8') #stringify
 
-def bases(number, base_in, base_out, sys_in, sys_out):
-    lookup = {"0": "normal", "2": "alpha", "1":"unicode"}
-    sys_in = lookup[sys_in]
-    sys_out = lookup[sys_out]
-    base_in = int(base_in)
+def bases(number, base_out, sys_in, sys_out, ende):
     base_out = int(base_out)
-
-    number = base_change(number, 66, base_in, sys_in, sys_out)
-    number = base_change(number, 1, base_out, sys_out, sys_out)
-
+    if ende == 1:
+        number = base_change(number, 66, 95, sys_in, sys_out)
+        number = base_change(number, 1, base_out, sys_out, sys_out)
+    else:
+        number = base_change(number, 66, base_out, sys_out, sys_out)
+        number = base_change(number, 1, 95, sys_out, sys_in)
     return number
 
 def combination(text, ende, combo):
@@ -400,23 +398,23 @@ def combination(text, ende, combo):
         elif cipher == "base":   
             lookup_ = {"u": "unicode", "a": "alpha", "n": "normal"}
             password = p_word.split()
-            text = bases(text, password[0], password[1], lookup_[password[2]], lookup_[password[3]])
+            text = bases(text, password[0], lookup_[password[1]], lookup_[password[2]], ende)
 
         else:
-            lookup[cipher](text, ende, p_word)
+            text = lookup[cipher](text, p_word, ende)
         text = unfilter(text, template)
     return text
 
-def filter_list(inp, cipher, ende, base_in = None): #Creates a list which maps where non-allowed letters should go
+def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed letters should go
     output_list= []
     capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
     unicode = """ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
     morse_en = "abcdefghijklmnopqrstuvwxyz 1234567890"
     morse_de = "- .|"
     if ende == 1:
-        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_en, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode[:base_in]}
+        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_en, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "base":unicode}
     else:
-        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_de, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "numbase":unicode[:base_in]}
+        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_de, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "base":unicode}
     
     filtered = ""
     def morse_len(char):
@@ -456,11 +454,18 @@ def unfilter(inp, input_list):
     count = -1
     for x in input_list:
         count += 1
-        if x == "":
+
+        if count >= len(inp):
+            return output
+        elif x == "":
             output += inp[count]
         elif x =="U":
             output += inp[count].upper()
         else:
             count -= 1
             output += x
+            
+    if len(input_list) < len(inp): #Adds rest of input to the output if the text has expanded during encryption
+        difference = len(inp) - len(input_list)
+        output += inp[-difference:]
     return output
