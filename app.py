@@ -78,6 +78,7 @@ def check_combo(ciphername,password):
 
     elif len(password) > 100:
         errorr.raise_issue(f"Maximum password length is 120 characters. Your password has {len(password)} characters")
+
     elif ciphername == "csar":
         if int_check(password) == False:
             errorr.raise_issue("Password must be an integer between 1 and 27 or 66 for all possible combinations")
@@ -131,7 +132,7 @@ def check_combo(ciphername,password):
             errorr.raise_issue("Please refer to help box for how to input the password. There must be 4 parts split by spaces")
         if not int_check(password[0]):
             errorr.raise_issue("Base to convert your number to must be positive integers from 2 to 95. Please refer to help box or the Base changer page\n")
-        if not 1 < int( password[0] ) < 96 or not 1 < int( password[1]) < 96:
+        if not 1 < int( password[0] ) < 96:
             errorr.raise_issue("Base in and Base out must be positive integers from 2 to 95. Please refer to help box or the Base changer page")
         if password[1] not in allowed or password[2] not in allowed:
             errorr.raise_issue("Please refer to help box for how to input the password. The number systems must be denoted as given there")
