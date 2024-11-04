@@ -59,4 +59,11 @@ def key_gen(cipher):
             ind = new_int(32,126)
             char = chr(ind)
             output += char        
+    
+    elif cipher == "base":
+        systems = "anu"
+        base_out = new_int(2,94)
+        sys_in = new_int(0,2)
+        sys_out = new_int(0,2)
+        output = f"{base_out} {systems[sys_in]} {systems[sys_out]}"
     return output
