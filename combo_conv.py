@@ -69,24 +69,18 @@ def cc(input, password):
             return decrypt_caesar(inp_list)
     return caesar()
 
-def morse(input, ende):          
-    inp=input
-    inp=inp.lower()
-    typ=ende
+def morse(inp, ende):          
     val=""
-    if typ==1:
-        inp=list(map(str,inp))
+    if ende == 1 or ende == "1":
         for x in inp:
             if x in alpha.keys():
                 char=alpha[x]
             else:
                 char=" "
-            val=val+char
-            val=val+"|"
-        return(val)
+            val = val + char + "|"
     
     else:
-        inp=inp.split()
+        inp = inp.split()
         for x in inp:
             cur_word=x.split("|")
 
@@ -99,7 +93,7 @@ def morse(input, ende):
 
             val=val+ " "
         val=val[:-1]
-        return val
+    return val
 
 def vig(input, password, ende):
     
