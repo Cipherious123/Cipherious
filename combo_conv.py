@@ -206,27 +206,22 @@ def sub(inp, password, ende):
         output+=inp2 
     return output
 
-def byoc(input, password, ende):
-    inp=input.lower()
-    cody=password
-    typ=int(ende)
+def byoc(inp, password, ende):
     val=""
- 
     alphatwo={"a":"","b":"","c":"","d":"","e":"","f": "","g":"","h":"","i":"","j":"","k":"","l":"","m":"","n":"","o":"","p":"","q":"","r":"","s":"","t":"","u":"","v":"","w":"","x":"","y":"","z":""," ": ""}
      
     for count in range(27):
         curr_lett=[i for i in alphaone if alphaone[i] == count+1][0]
-        curr_code=cody[count]
+        curr_code=password[count]
         alphatwo[curr_lett]=curr_code
 
-    inp=list(map(str,inp))
     for x in inp:
-        if typ==1:  
+        if ende == "1" or 1:  
             char=alphatwo[x]
-
         else:
             char=[i for i in alphatwo if alphatwo[i] == x][0]     
-        val=val+char
+        val += char
+
     return val
 
 def scrambler(text, password, ende):
@@ -441,10 +436,13 @@ def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed
                 filtered += x 
 
         elif x in capitals:
-            if lookup[cipher] == alphaone or lookup[cipher] == morse_en:
+            if lookup[cipher] == alphaone:
                 output_list.append("U")
                 filtered += x.lower()
 
+        elif x not in unicode:
+            pass
+    
         else:
             output_list.append(x)
     return filtered, output_list
