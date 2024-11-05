@@ -391,7 +391,11 @@ def combination(text, ende, combo):
 
         else:
             text = lookup[cipher](text, p_word, ende)
-        text = unfilter(text, template)
+        
+        if cipher in ("csar", "vig", "byoc"):
+            text = unfilter(text, template, True)
+        else:
+            text = unfilter(text, template, False)
     return text
 
 def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed letters should go
@@ -441,13 +445,14 @@ def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed
             output_list.append(x)
     return filtered, output_list
 
-def unfilter(inp, input_list):
+def unfilter(inp, input_list, alphaone_acceptor):
     output = ""
+    
     count = -1
     for x in input_list:
         count += 1
 
-        if count >= len(inp):
+        if count >= len(inp) and not alphaone_acceptor:
             return output
         elif x == "":
             output += inp[count]
