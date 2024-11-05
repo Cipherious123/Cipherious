@@ -210,7 +210,7 @@ def byoc(inp, password, ende):
         alphatwo[curr_lett]=curr_code
 
     for x in inp:
-        if ende == "1" or 1:  
+        if ende == 1 or ende == "1":  
             char=alphatwo[x]
         else:
             char=[i for i in alphatwo if alphatwo[i] == x][0]     
@@ -382,7 +382,7 @@ def combination(text, ende, combo):
                 return None 
             
         elif cipher == "morse":
-            text = morse(text, 1)
+            text = morse(text, ende)
         
         elif cipher == "base":   
             lookup_ = {"u": "unicode", "a": "alpha", "n": "normal"}
