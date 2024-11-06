@@ -362,12 +362,12 @@ def combination(text, ende, combo):
     lookup = {"vig":vig, "morse": morse, "byoc": byoc, "sub":sub, "scrambler":scrambler}
     if ende==66:
         combo.reverse()
-
+    testing = []
     for step in combo:
         p_word = step[1]
         cipher = step[0]
+        testing.append(text)
         text, template = filter_list(text, cipher, ende)
-
         if cipher=="csar":
             if ende==66:
                 p_word= "-" + p_word
@@ -396,7 +396,7 @@ def combination(text, ende, combo):
             text = unfilter(text, template, True)
         else:
             text = unfilter(text, template, False)
-    return text
+    return text, testing
 
 def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed letters should go
     output_list= []
@@ -466,3 +466,20 @@ def unfilter(inp, input_list, alphaone_acceptor):
         difference = len(inp) - len(input_list)
         output += inp[-difference:]
     return output
+'''
+textoy = "As of Unicode version 16.0, there are 155,063 characters with code points, covering 168 modern and historical scripts, as well as multiple symbol sets. This article includes the 1,062 characters in the Multilingual European Character Set 2 (MES-2) subset, and some additional related characters."
+com1 = [["csar", "22"], ["vig", "qxxqogufbt vipknr ngclfhvlgrsyhewvreqpuldikinysoumlbbxbjnto"], ["sub", "343954"], 
+["scrambler", "LL3jiXvv{ N]QSZ^w%wF2RD#[^=712&S]+e"], ["byoc", "iqtsjowxrcunfhem bdykgzpval"], ["base", "28 n a"]]
+com2 = [["csar", '25'], ["vig", 'eebykdzqrfoiduzqjbwbeepaqqjab vfpkwuzunytcefrbfhrswd'], ["sub", "587442"], 
+["byoc", 'tiuvkgwphflsdymjxbo nrqecaz'], ["csar", "18"], ["vig", 'jkygkjhmfhcattc qmpsovmgiwbnugkdaqpy'], ["sub", "280796"]]
+combinations = [com2]
+for doo in combinations:
+    outout, testing = combination(textoy, 1, doo)
+    out, testing2 = combination(outout, 66 , doo)
+    for counto in range(len(testing2)):
+        print(testing[counto])
+        print("\n")
+        print(testing2[-counto])
+        print("\n \n")
+
+'''
