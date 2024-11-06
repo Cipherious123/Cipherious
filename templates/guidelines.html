@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='new_logo.jpeg') }}">
+    <title>Caesar Cipher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='w3_one.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='w3_two.css') }}">
+    <style>
+        body {
+            background-color: #000000;
+            color: #a0a0a0;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #000000;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        h1 {
+            color: #007BFF;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-field {
+            width: calc(100% - 20px);
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .input-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color:  #a0a0a0;
+        }
+        .button {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .output-container {
+            background-color: #ddd;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            min-height: 50px;
+            font-size: 16px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .help-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 250px;
+            padding: 20px;
+            background-color: #007BFF;
+            color: white;
+            font-family: Arial, sans-serif;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-size: 0.9em;
+            line-height: 1.5;
+            border-radius: 10px;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
+        }
+
+        /* Styling for the header */
+        .help-box-header {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* Style for the tips */
+        .tip {
+            margin-bottom: 10px;
+        }
+
+        /* Optional: additional hover effect to add interactivity */
+        .help-box:hover {
+            background-color: #0056b3;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-btn {
+            background-color: transparent;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            float: right;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Guidelines to Create a Combination</h1>
+    <p> When using integer base change in a combination, input is always in base 95 <br>
+        Password must have: base to convert to, system of number, system to convert number to, all separated by spaces<br>
+        Unicode must be conveyed as u, Alpha as a, Normal as n<br>
+        For example, to convert to base 40 and normal to unicode, you write: '40 n u'<br><br>
+
+        Substitution, Caesar and BYOC work best with smaller texts as they are easy to find patterns in for larger texts
+        Scrambler works best for larger texts as it only jumbles up the letters. 
+        Use Caesar, Vigenere, and BYOC in the beginning, before you use other ciphers, as they only act on alphabets and spaces. 
+
+</div>
+</body></html>
