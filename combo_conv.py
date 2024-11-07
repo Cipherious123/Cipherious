@@ -365,11 +365,10 @@ def combination(text, ende, combo):
     lookup = {"vig":vig, "morse": morse, "byoc": byoc, "sub":sub, "scrambler":scrambler}
     if ende==66:
         combo.reverse()
-    testing = []
+        
     for step in combo:
         p_word = step[1]
         cipher = step[0]
-        testing.append(text)
         text, template = filter_list(text, cipher, ende)
         if cipher=="csar":
             if ende==66:
@@ -399,7 +398,7 @@ def combination(text, ende, combo):
             text = unfilter(text, template, True)
         else:
             text = unfilter(text, template, False)
-    return text, testing
+    return text
 
 def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed letters should go
     output_list= []
