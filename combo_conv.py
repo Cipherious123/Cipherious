@@ -88,8 +88,11 @@ def morse(inp, ende):
                 if y == "":
                     pass
                 else:
-                    char=[i for i in alpha if alpha[i] == y][0]
-                    val += char
+                    try:
+                        char=[i for i in alpha if alpha[i] == y][0]
+                        val += char
+                    except (KeyError, ValueError, TypeError, NameError, IndexError):
+                        pass
 
             val=val+ " "
         val=val[:-1]
@@ -466,20 +469,3 @@ def unfilter(inp, input_list, alphaone_acceptor):
         difference = len(inp) - len(input_list)
         output += inp[-difference:]
     return output
-'''
-textoy = "As of Unicode version 16.0, there are 155,063 characters with code points, covering 168 modern and historical scripts, as well as multiple symbol sets. This article includes the 1,062 characters in the Multilingual European Character Set 2 (MES-2) subset, and some additional related characters."
-com1 = [["csar", "22"], ["vig", "qxxqogufbt vipknr ngclfhvlgrsyhewvreqpuldikinysoumlbbxbjnto"], ["sub", "343954"], 
-["scrambler", "LL3jiXvv{ N]QSZ^w%wF2RD#[^=712&S]+e"], ["byoc", "iqtsjowxrcunfhem bdykgzpval"], ["base", "28 n a"]]
-com2 = [["csar", '25'], ["vig", 'eebykdzqrfoiduzqjbwbeepaqqjab vfpkwuzunytcefrbfhrswd'], ["sub", "587442"], 
-["byoc", 'tiuvkgwphflsdymjxbo nrqecaz'], ["csar", "18"], ["vig", 'jkygkjhmfhcattc qmpsovmgiwbnugkdaqpy'], ["sub", "280796"]]
-combinations = [com2]
-for doo in combinations:
-    outout, testing = combination(textoy, 1, doo)
-    out, testing2 = combination(outout, 66 , doo)
-    for counto in range(len(testing2)):
-        print(testing[counto])
-        print("\n")
-        print(testing2[-counto])
-        print("\n \n")
-
-'''

@@ -204,25 +204,9 @@
 
         </form>
 
-        <div class="help-box">
-            <button class="close-btn" onclick="closeHelpBox()">X</button>
-        
-            <div class="help-box-header">
-                Help & Tips
-            </div>
-            <div class="help-box-content">
-                <div class="tip">💡 When using integer base change in a combination, input is always in base 95 </div>
-                <div class="tip">💡 Password must have: base to convert to, system of number, system to convert number to, all seperated by spaces</div>
-                <div class="tip">💡 Unicode must be conveyed as u, Alpha as a, Normal as n</div>
-                <div class="tip">💡 For example, to convert to base 40 and normal to unicode, you write: '40 n u'</div>
-            </div>
-        </div>
-        <script>
-            function closeHelpBox() {
-                document.querySelector('.help-box').style.display = 'none';}
-        </script>
 
-    <a href="{{ url_for('cipherious')}}"><button class="button">Home page</button></a><br>
+    <a href="{{ url_for('guidelines')}}"><button class="button">Help and guidelines</button></a>       
+    <a href="{{ url_for('cipherious')}}"><button class="button">Home page</button></a>        
     <a href="{{ url_for('use_combo')}}"><button class="button">Use your combo</button></a>
     
     <script>

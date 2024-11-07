@@ -586,6 +586,16 @@ def set_name():
             session['errorr']['true'] = True
             return
 
+    if len(name) > 25:
+        session['errorr']['name'] = f"Name can't be longer than 25 characters, you used {len(name)}"
+        session['errorr']['true'] = True
+        return
+    
+    for x in name:
+        if x not in unicode:
+            session['errorr']['name'] = f"Name can only contain basic latin unicode characters"
+            session['errorr']['true'] = True
+
     session['errorr']['nameset'] = True
     session['comboname'] = comboname
 
@@ -633,6 +643,11 @@ def completed():
     conn.commit()
     conn.close()
     session['errorr']['name'] =  "Your combo was saved under the name " + comboname
+
+
+@app.route('/guidelines', methods=['GET'])
+def guidelines():
+    return render_template('guidelines.html')
 
 @app.route('/use_combo', methods=['GET', 'POST'])
 def use_combo():
