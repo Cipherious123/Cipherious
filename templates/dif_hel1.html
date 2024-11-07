@@ -76,6 +76,49 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
+        .help-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 250px;
+            padding: 20px;
+            background-color: #007BFF;
+            color: white;
+            font-family: Arial, sans-serif;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-size: 0.9em;
+            line-height: 1.5;
+            border-radius: 10px;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
+        }
+
+        /* Styling for the header */
+        .help-box-header {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* Style for the tips */
+        .tip {
+            margin-bottom: 10px;
+        }
+
+        /* Optional: additional hover effect to add interactivity */
+        .help-box:hover {
+            background-color: #0056b3;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-btn {
+            background-color: transparent;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            float: right;
+        }
     </style>
 </head><body>
 
@@ -97,4 +140,34 @@
 
     <div id="test-output" class="output-container">{{output}}</div><br><br>
     <a href="{{url_for('cipherious')}}" class="button">Home Page</a>
+    <div class="help-box">
+        <button class="close-btn" onclick="closeHelpBox()">X</button>
+    
+        <div class="help-box-header">
+            Help & Tips
+        </div>
+        <div class="help-box-content">
+            <div class="tip">💡 Step 1: There are 2 messaging partners: Person A and Person B. </div>
 
+            <div class="tip">💡 Step 2: Person A goes to our website and generates 2 integers called “num” and “base”. 
+                They also input a private key which is an integer that they keep to themselves.
+                Our website gives them a “superkey”. They send the superkey, num and base to a Person B. </div>
+
+            <div class="tip">💡 Step 3: Person B inputs the num and base into our website on their computer. 
+                They also create their own private key and generate their superkey which they send to Person A.  
+                They input Person A’s superkey to generate a final key. </div>
+
+            <div class="tip">💡 Step 4: Person A inputs Person B’s superkey and generates the same final key Person B generated.
+                Hence, both end up with the same number at the end. </div>
+        </div>
+    </div>
+    
+    <a href="{{url_for('cipherious')}}" class="button">Home Page</a>
+    </div>
+    <script>
+        function closeHelpBox() {
+            document.querySelector('.help-box').style.display = 'none';
+            }
+    </script>
+    </div>
+    </body></html>

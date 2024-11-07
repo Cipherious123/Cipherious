@@ -74,6 +74,49 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
+        .help-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 250px;
+            padding: 20px;
+            background-color: #007BFF;
+            color: white;
+            font-family: Arial, sans-serif;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-size: 0.9em;
+            line-height: 1.5;
+            border-radius: 10px;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
+        }
+
+        /* Styling for the header */
+        .help-box-header {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* Style for the tips */
+        .tip {
+            margin-bottom: 10px;
+        }
+
+        /* Optional: additional hover effect to add interactivity */
+        .help-box:hover {
+            background-color: #0056b3;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-btn {
+            background-color: transparent;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            float: right;
+        }
     </style>
 </head><body>
 
@@ -209,8 +252,34 @@
         <input type="text" id=" " name=" " class="input-field" placeholder="space" required/>
         </td> </tr> </table> <br>
         <button type="submit" class="button">Run</button> 
-        </form></div> <br>
+        </form> <br>
     
         <a href="{{ url_for('cipherious')}}"><button class="button">Home page</button></a><br>
         <a href="{{ url_for('BYOCtwo')}}"><button class="button">Use your new cipher</button></a>
+    </div>
+
+    <div class="help-box">
+        <button class="close-btn" onclick="closeHelpBox()">X</button>
+    
+        <div class="help-box-header">
+            Help & Tips
+        </div>
+        <div class="help-box-content">
+            <div class="tip">💡There are boxes under each letter of the alphabet. Type a letter of your choice in each box.</div>
+
+            <div class="tip">💡 These letters will substitute the alphabets under which they have been typed. 
+                Simply add a “ “ (space) under the box corresponding to space. Ensure there is no repetition of letters. </div>
+
+            <div class="tip">💡 If there are no issues, you will recieve a 27 character password 
+                which you can input in 'use your own cipher' to encrypt and decrypt text.</div>
+            
+        </div>
+    </div>
+    
+    </div>
+    <script>
+        function closeHelpBox() {
+            document.querySelector('.help-box').style.display = 'none';
+        }
+    </script>
     </body></html>
