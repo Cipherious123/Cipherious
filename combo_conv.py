@@ -3,10 +3,11 @@ import base64 as b64
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
-from bases import base_change
+from bases import base_change, unicode
 alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
 alpha={ "a":".-" , "b":"-...","c":"-.-.","d":"-..","e":".","f":"..-.","g":"--.","h":"....","i":"..","j":".---","k":"-.-","l":".-..","m":"--","n":"-.","o":"---","p":".--.","q":"--.-","r":".-.","s":"...","t":"-","u":"..-","v":"...-","w":".--","x":"-..-","y":"-.--","z":"--..",
         "1": ".----", "2": "..---", "3": "...--", "4": "....-", "5":".....", "6":"-...." , "7":"--...", "8": "---..", "9": "----.", "0": "-----"}
+capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 def julian (shiftno, letter):
     letter=int(letter)
@@ -363,13 +364,16 @@ def bases(number, base_out, sys_in, sys_out, ende):
 
 def combination(text, ende, combo):
     lookup = {"vig":vig, "morse": morse, "byoc": byoc, "sub":sub, "scrambler":scrambler}
+    
     if ende==66:
         combo.reverse()
-        
+    text, caps = cap_check(text, "_", start = True)
+
     for step in combo:
         p_word = step[1]
         cipher = step[0]
         text, template = filter_list(text, cipher, ende)
+
         if cipher=="csar":
             if ende==66:
                 p_word= "-" + p_word
@@ -395,15 +399,48 @@ def combination(text, ende, combo):
             text = lookup[cipher](text, p_word, ende)
         
         if cipher in ("csar", "vig", "byoc"):
-            text = unfilter(text, template, True)
+            text, caps = unfilter(text, template, True, caps)
         else:
-            text = unfilter(text, template, False)
+            text, caps = unfilter(text, template, False, caps)
+
+        text, caps = cap_check(text, caps)
+    text, caps = cap_check(text, caps, end = True)
     return text
+
+def cap_check(inp, caps, end = False, start = False):
+    if start:
+        caps = []
+        prev_no = 0
+        splitted = inp.split('Ω')
+        inp = splitted[0]
+        splitted.remove(inp)
+
+        for x in splitted:
+            difference = int(base_change(x, 66, 95, "normal", "normal"))
+            caps.append(prev_no + difference)
+            prev_no = int(base_change(x, 66, 95, "normal", "normal"))
+
+    else:
+        alphabets =  capitals.lower()
+        for x in caps:
+            if inp[x] in alphabets:
+                inp = inp[:x] + inp[x].upper() + inp[x+1:]
+                caps.remove(x)
+
+        if end and caps:
+            caps.sort()
+            for x in range(len(caps)):
+                if x == 0:
+                    no = base_change(caps[x], 1, 95, "normal", "normal")
+                else:
+                    no = caps[x] - caps[x-1]
+                    no = base_change(no, 1, 95,"normal", "normal" )
+
+                inp += "Ω" + str(no)
+    return inp, caps
 
 def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed letters should go
     output_list= []
-    capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
-    unicode = """ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
     morse_en = "abcdefghijklmnopqrstuvwxyz 1234567890"
     morse_de = "- .|"
     if ende == 1:
@@ -426,7 +463,7 @@ def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed
                 output_list.append("")
                 filtered += x
 
-            else:
+            else: #Morse code handling-
                 if ende == 1:
                     for _ in range(morse_len(x)):
                         output_list.append("")
@@ -436,9 +473,8 @@ def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed
                 filtered += x 
 
         elif x in capitals:
-            if lookup[cipher] == alphaone:
-                output_list.append("U")
-                filtered += x.lower()
+            output_list.append("U")
+            filtered += x.lower()
 
         elif x not in unicode:
             pass
@@ -447,7 +483,7 @@ def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed
             output_list.append(x)
     return filtered, output_list
 
-def unfilter(inp, input_list, alphaone_acceptor):
+def unfilter(inp, input_list, alphaone_acceptor, caps_):
     output = ""
     
     count = -1
@@ -458,7 +494,9 @@ def unfilter(inp, input_list, alphaone_acceptor):
             return output
         elif x == "":
             output += inp[count]
-        elif x =="U":
+        elif x == "U":
+            if inp[count] == " ":
+                caps_.append(count)
             output += inp[count].upper()
         else:
             count -= 1
@@ -467,4 +505,12 @@ def unfilter(inp, input_list, alphaone_acceptor):
     if len(input_list) < len(inp): #Adds rest of input to the output if the text has expanded during encryption
         difference = len(inp) - len(input_list)
         output += inp[-difference:]
-    return output
+    return output, caps_
+textoy = "As of Unicode version 16.0, there are 155,063 characters with code points, covering 168 modern and historical scripts, as well as multiple symbol sets. This article includes the 1,062 characters in the Multilingual European Character Set 2 (MES-2) subset, and some additional related characters."
+com1 = [["csar", "22"], ["vig", "qxxqogufbt vipknr ngclfhvlgrsyhewvreqpuldikinysoumlbbxbjnto"], ["sub", "343954"], 
+["scrambler", "LL3jiXvv{ N]QSZ^w%wF2RD#[^=712&S]+e"], ["byoc", "iqtsjowxrcunfhem bdykgzpval"], ["base", "28 n a"]]
+com2 = [["csar", '25'], ["vig", 'eebykdzqrfoiduzqjbwbeepaqqjab vfpkwuzunytcefrbfhrswd'], ["sub", "587442"], 
+["byoc", 'tiuvkgwphflsdymjxbo nrqecaz'], ["csar", "18"], ["vig", 'jkygkjhmfhcattc qmpsovmgiwbnugkdaqpy'], ["sub", "280796"]]
+outoy = combination(textoy, 1, com1 )
+print(outoy)
+print(combination(outoy, 66, com1))

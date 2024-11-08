@@ -692,6 +692,8 @@ def base_changer():
 
         issue = check_base(number, base_in, base_out, sys_in)
         if not issue.true:
+            base_in = int(base_in)
+            base_out = int(base_out)
             number = base_change(number, 66, base_in, sys_in, sys_out)
             number = base_change(number, 1, base_out, sys_out, sys_out)
         else:
