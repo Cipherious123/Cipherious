@@ -368,10 +368,12 @@ def combination(text, ende, combo):
     if ende==66:
         combo.reverse()
     text, caps = cap_check(text, "_", start = True)
+    testing = []
 
     for step in combo:
         p_word = step[1]
         cipher = step[0]
+        testing.append(text)
         text, template = filter_list(text, cipher, ende)
 
         if cipher=="csar":
@@ -399,13 +401,13 @@ def combination(text, ende, combo):
             text = lookup[cipher](text, p_word, ende)
         
         if cipher in ("csar", "vig", "byoc"):
-            text, caps = unfilter(text, template, True, caps)
+            text, caps = unfilter(text, template, True, caps, ende)
         else:
-            text, caps = unfilter(text, template, False, caps)
+            text, caps = unfilter(text, template, False, caps, ende)
 
         text, caps = cap_check(text, caps)
     text, caps = cap_check(text, caps, end = True)
-    return text
+    return text, testing
 
 def cap_check(inp, caps, end = False, start = False):
     if start:
@@ -418,7 +420,7 @@ def cap_check(inp, caps, end = False, start = False):
         for x in splitted:
             difference = int(base_change(x, 66, 95, "normal", "normal"))
             caps.append(prev_no + difference)
-            prev_no = int(base_change(x, 66, 95, "normal", "normal"))
+            prev_no = int(base_change(x, 66, 95, "normal", "normal")) + difference
 
     else:
         alphabets =  capitals.lower()
@@ -483,20 +485,22 @@ def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed
             output_list.append(x)
     return filtered, output_list
 
-def unfilter(inp, input_list, alphaone_acceptor, caps_):
+def unfilter(inp, input_list, alphaone_acceptor, caps_, ende):
     output = ""
     
     count = -1
+    input_list_ind = -1
     for x in input_list:
         count += 1
+        input_list_ind += 1
 
         if count >= len(inp) and not alphaone_acceptor:
-            return output
+            return output, caps_
         elif x == "":
             output += inp[count]
         elif x == "U":
-            if inp[count] == " ":
-                caps_.append(count)
+            if inp[count] == " " and ende == 1:
+                caps_.append(input_list_ind)
             output += inp[count].upper()
         else:
             count -= 1
@@ -506,11 +510,18 @@ def unfilter(inp, input_list, alphaone_acceptor, caps_):
         difference = len(inp) - len(input_list)
         output += inp[-difference:]
     return output, caps_
+
 textoy = "As of Unicode version 16.0, there are 155,063 characters with code points, covering 168 modern and historical scripts, as well as multiple symbol sets. This article includes the 1,062 characters in the Multilingual European Character Set 2 (MES-2) subset, and some additional related characters."
 com1 = [["csar", "22"], ["vig", "qxxqogufbt vipknr ngclfhvlgrsyhewvreqpuldikinysoumlbbxbjnto"], ["sub", "343954"], 
-["scrambler", "LL3jiXvv{ N]QSZ^w%wF2RD#[^=712&S]+e"], ["byoc", "iqtsjowxrcunfhem bdykgzpval"], ["base", "28 n a"]]
+["scrambler", "LL3jiXvv{ N]QSZ^w%wF2RD#[^=712&S]+e"], ["byoc", "iqtsjowxrcunfhem bdykgzpval"]]
 com2 = [["csar", '25'], ["vig", 'eebykdzqrfoiduzqjbwbeepaqqjab vfpkwuzunytcefrbfhrswd'], ["sub", "587442"], 
 ["byoc", 'tiuvkgwphflsdymjxbo nrqecaz'], ["csar", "18"], ["vig", 'jkygkjhmfhcattc qmpsovmgiwbnugkdaqpy'], ["sub", "280796"]]
-outoy = combination(textoy, 1, com1 )
-print(outoy)
-print(combination(outoy, 66, com1))
+
+outout, testing = combination(textoy, 1, com1)
+out, testing2 = combination(outout, 66 , com1)
+for counto in range(len(testing2)):
+    print(testing[counto])
+    print("\n")
+    print(testing2[-counto])
+    print("\n \n")
+print(out)
