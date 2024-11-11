@@ -1,10 +1,10 @@
 import math
 unicode=""" !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
 normal = '''0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ '''
-b64 = '''ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/!"#$%&'()*,-.:;<=>?@[\\]^_`{|}~ '''
+bas64 = '''ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/!"#$%&'()*,-.:;<=>?@[\\]^_`{|}~ '''
 
 def sys_change(sys_in, sys_out, num):
-    lookup = {"normal": normal, "alpha": b64, "unicode":unicode}
+    lookup = {"normal": normal, "alpha": bas64, "unicode":unicode}
     num = str(num)
     out = ""
     for x in num:

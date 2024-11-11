@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from combo_conv import combination, alphaone, cc
+from combo_conv import combination, alphaone, cc, morse
 from bases import  normal, unicode, b64, base_change
 import ast
 import sympy
@@ -77,16 +77,16 @@ def check_combo(ciphername,password):
         errorr.raise_issue("Input password in decryption")
 
     elif len(password) > 100:
-        errorr.raise_issue(f"Maximum password length is 120 characters. Your password has {len(password)} characters")
+        errorr.raise_issue(f"Maximum password length is 100 characters. Your password has {len(password)} characters")
 
     elif ciphername == "csar":
         if int_check(password) == False:
-            errorr.raise_issue("Password must be an integer between 1 and 27 or 66 for all possible combinations")
+            errorr.raise_issue("Password must be an integer between 1 and 95 or 666 for all possible combinations")
         else:
             password=int(password)
             if password != 66:
                 if password > 27 or password < 1:
-                    errorr.raise_issue("Password must be an integer between 1 and 27 or 66 for all possible combinations")
+                    errorr.raise_issue("Password must be an integer between 1 and 95 or 666 for all possible combinations")
     
     elif ciphername == "sub":
         if int_check(password) == False:
@@ -118,12 +118,17 @@ def check_combo(ciphername,password):
             errorr.raise_issue("Password must atleast be 5 characters long")
 
         for char in password:
-            if not in_ascii(char):
-                errorr.raise_issue("Password can only contain lowercase, uppercase alphabets, spacebar, numbers 0-9, underscore")
+            if char not in unicode:
+                errorr.raise_issue("Password can only contain alphabets, spacebar, numbers 0-9, punctuation(Basic latin Unicode)")
 
     elif ciphername == "aes":
         if len(password) != 16:
-            errorr.raise_issue("Key must be 16 bytes (128 bits) long.")
+            errorr.raise_issue("Password must be 16 characters long.")
+
+        
+        for char in password:
+            if char not in unicode:
+                errorr.raise_issue("Password can only contain alphabets, spacebar, numbers 0-9, punctuation(Basic latin Unicode)")
 
     elif ciphername == "base":
         password = password.split()
@@ -361,7 +366,12 @@ def vig_func():
 
 @app.route('/morse_func', methods=['GET','POST'])
 def morse_func():
-    output, password = standard("morse")
+    output=""
+    if request.method == 'POST':
+        text = request.form['text']
+        ende = request.form['action']
+        text = text.lower()
+        output = morse(text, int(ende))
     return render_template('morse_html.html', output = output)
 
 @app.route('/dif_hel', methods=['GET', 'POST'])
@@ -484,11 +494,14 @@ def standard(cipher):
     password=""
     if request.method == 'POST':
         text = request.form["text"]
+        password = request.form["password"]
+        '''
         if cipher != "morse":
             password = request.form["password"]
         else:
             password = "_"
-
+        '''
+            
         if cipher == "csar": #Caesar handling
             if password == "":
                 password = key_gen(cipher)

@@ -4,6 +4,7 @@ from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
 from bases import base_change, unicode
+bas64 = {'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9, 'J': 10, 'K': 11, 'L': 12, 'M': 13, 'N': 14, 'O': 15, 'P': 16, 'Q': 17, 'R': 18, 'S': 19, 'T': 20, 'U': 21, 'V': 22, 'W': 23, 'X': 24, 'Y': 25, 'Z': 26, 'a': 27, 'b': 28, 'c': 29, 'd': 30, 'e': 31, 'f': 32, 'g': 33, 'h': 34, 'i': 35, 'j': 36, 'k': 37, 'l': 38, 'm': 39, 'n': 40, 'o': 41, 'p': 42, 'q': 43, 'r': 44, 's': 45, 't': 46, 'u': 47, 'v': 48, 'w': 49, 'x': 50, 'y': 51, 'z': 52, '0': 53, '1': 54, '2': 55, '3': 56, '4': 57, '5': 58, '6': 59, '7': 60, '8': 61, '9': 62, '+': 63, '/': 64, '!': 65, '"': 66, '#': 67, '$': 68, '%': 69, '&': 70, "'": 71, '(': 72, ')': 73, '*': 74, ',': 75, '-': 76, '.': 77, ':': 78, ';': 79, '<': 80, '=': 81, '>': 82, '?': 83, '@': 84, '[': 85, '\\': 86, ']': 87, '^': 88, '_': 89, '`': 90, '{': 91, '|': 92, '}': 93, '~': 94, ' ': 95}
 alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
 alpha={ "a":".-" , "b":"-...","c":"-.-.","d":"-..","e":".","f":"..-.","g":"--.","h":"....","i":"..","j":".---","k":"-.-","l":".-..","m":"--","n":"-.","o":"---","p":".--.","q":"--.-","r":".-.","s":"...","t":"-","u":"..-","v":"...-","w":".--","x":"-..-","y":"-.--","z":"--..",
         "1": ".----", "2": "..---", "3": "...--", "4": "....-", "5":".....", "6":"-...." , "7":"--...", "8": "---..", "9": "----.", "0": "-----"}
@@ -11,9 +12,9 @@ capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 def julian (shiftno, letter):
     letter=int(letter)
-    letter= (letter+shiftno)
-    if letter > 27:
-        letter=letter-27
+    letter= letter+shiftno
+    if letter > 95:
+        letter=letter-95
     return letter
 
 def uid(no):
@@ -30,45 +31,36 @@ def digitsum(n1):
     return output
         
 def cc(input, password):
-    def encrypt_caesar(inp_list, shift):
+    def encrypt_caesar(inp, shift):
         if shift<0:
-            shift=shift*-1
-            shift=27-shift
+            shift *= -1
+            shift = 95 - shift
+
         output=""   
-        
-        for x in inp_list:
-            shifted_val=julian(shift, alphaone[x]) 
-            out_char = [i for i in alphaone if alphaone[i] == shifted_val][0]
+        for x in inp:
+            letter = bas64[x] + shift
+            if letter > 95:
+                letter=letter-95
+            out_char = [i for i in bas64 if bas64[i] == letter][0]
+
             output += out_char
-        return(output)
+        return output 
 
-    def decrypt_caesar(inp_list):
-        output_list = []
-        for count in range(26):
-            word = encrypt_caesar(inp_list, count+1)
-            output_list.append(word)
-
-        outstr = ""
-        for x in output_list:
-            outstr += f"{x}, "
-        return "The possible combinations are:", outstr[:-2]
+    def decrypt_caesar(inp):
+        output = "The possible combinations are:\n"
+        for count in range(95):
+            word = encrypt_caesar(inp, count+1)
+            output += f"{word}\n"
+        return output
         
-    def caesar():
-        shift=int(password)
+    shift=int(password)
+    #Takes user input and runs function on it
+    if shift != 666:  
+        return encrypt_caesar(input, shift) 
 
-        #Takes user input and runs function on it
-        if shift != 66:  
-            inp=input.lower()
-            inp_list = list(map(str, inp))
-            return(encrypt_caesar(inp_list, shift))
-
-        #All shifts
-        elif shift==66:
-            shift=0
-            inp, _ = filter_list(input, "csar", 1)
-            inp_list = list(map(str, inp))
-            return decrypt_caesar(inp_list)
-    return caesar()
+    #All shifts
+    else:
+        return decrypt_caesar(input)
 
 def morse(inp, ende):          
     val=""
@@ -367,14 +359,11 @@ def combination(text, ende, combo):
     
     if ende==66:
         combo.reverse()
-    text, caps = cap_check(text, "_", start = True)
-    testing = []
-
+    
+    text = filter_list(text)
     for step in combo:
         p_word = step[1]
         cipher = step[0]
-        testing.append(text)
-        text, template = filter_list(text, cipher, ende)
 
         if cipher=="csar":
             if ende==66:
@@ -388,9 +377,6 @@ def combination(text, ende, combo):
                 text = aes(text,p_word, ende)
             else:
                 return None 
-            
-        elif cipher == "morse":
-            text = morse(text, ende)
         
         elif cipher == "base":   
             lookup_ = {"u": "unicode", "a": "alpha", "n": "normal"}
@@ -399,129 +385,11 @@ def combination(text, ende, combo):
 
         else:
             text = lookup[cipher](text, p_word, ende)
-        
-        if cipher in ("csar", "vig", "byoc"):
-            text, caps = unfilter(text, template, True, caps, ende)
-        else:
-            text, caps = unfilter(text, template, False, caps, ende)
+    return text
 
-        text, caps = cap_check(text, caps)
-    text, caps = cap_check(text, caps, end = True)
-    return text, testing
-
-def cap_check(inp, caps, end = False, start = False):
-    if start:
-        caps = []
-        prev_no = 0
-        splitted = inp.split('Ω')
-        inp = splitted[0]
-        splitted.remove(inp)
-
-        for x in splitted:
-            difference = int(base_change(x, 66, 95, "normal", "normal"))
-            caps.append(prev_no + difference)
-            prev_no = int(base_change(x, 66, 95, "normal", "normal")) + difference
-
-    else:
-        alphabets =  capitals.lower()
-        for x in caps:
-            if inp[x] in alphabets:
-                inp = inp[:x] + inp[x].upper() + inp[x+1:]
-                caps.remove(x)
-
-        if end and caps:
-            caps.sort()
-            for x in range(len(caps)):
-                if x == 0:
-                    no = base_change(caps[x], 1, 95, "normal", "normal")
-                else:
-                    no = caps[x] - caps[x-1]
-                    no = base_change(no, 1, 95,"normal", "normal" )
-
-                inp += "Ω" + str(no)
-    return inp, caps
-
-def filter_list(inp, cipher, ende): #Creates a list which maps where non-allowed letters should go
-    output_list= []
-    morse_en = "abcdefghijklmnopqrstuvwxyz 1234567890"
-    morse_de = "- .|"
-    if ende == 1:
-        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_en, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "base":unicode}
-    else:
-        lookup = {"csar":alphaone, "sub":unicode, "vig":alphaone, "morse": morse_de, "byoc": alphaone, "aes":unicode, "scrambler":unicode, "base":unicode}
-    
-    filtered = ""
-    def morse_len(char):
-        if char == " ":
-            return 2
-        return len(alpha[char]) + 1
-
-    if cipher == "morse":
-        inp = inp.lower()
-
-    for x in inp:
-        if x in lookup[cipher]:
-            if cipher != "morse":
-                output_list.append("")
-                filtered += x
-
-            else: #Morse code handling-
-                if ende == 1:
-                    for _ in range(morse_len(x)):
-                        output_list.append("")
-                else:
-                    if x == "|":
-                       output_list.append("")
-                filtered += x 
-
-        elif x in capitals:
-            output_list.append("U")
-            filtered += x.lower()
-
-        elif x not in unicode:
-            pass
-    
-        else:
-            output_list.append(x)
-    return filtered, output_list
-
-def unfilter(inp, input_list, alphaone_acceptor, caps_, ende):
+def filter_list(text):
     output = ""
-    
-    count = -1
-    input_list_ind = -1
-    for x in input_list:
-        count += 1
-        input_list_ind += 1
-
-        if count >= len(inp) and not alphaone_acceptor:
-            return output, caps_
-        elif x == "":
-            output += inp[count]
-        elif x == "U":
-            if inp[count] == " " and ende == 1:
-                caps_.append(input_list_ind)
-            output += inp[count].upper()
-        else:
-            count -= 1
+    for x in text:
+        if x in unicode:
             output += x
-            
-    if len(input_list) < len(inp): #Adds rest of input to the output if the text has expanded during encryption
-        difference = len(inp) - len(input_list)
-        output += inp[-difference:]
-    return output, caps_
-
-textoy = "As of Unicode version 16.0, there are 155,063 characters with code points, covering 168 modern and historical scripts, as well as multiple symbol sets. This article includes the 1,062 characters in the Multilingual European Character Set 2 (MES-2) subset, and some additional related characters."
-com1 = [["csar", "22"], ["vig", "qxxqogufbt vipknr ngclfhvlgrsyhewvreqpuldikinysoumlbbxbjnto"], ["sub", "343954"], 
-["scrambler", "LL3jiXvv{ N]QSZ^w%wF2RD#[^=712&S]+e"], ["byoc", "iqtsjowxrcunfhem bdykgzpval"]]
-com2 = [["csar", '25'], ["vig", 'eebykdzqrfoiduzqjbwbeepaqqjab vfpkwuzunytcefrbfhrswd'], ["sub", "587442"], 
-["byoc", 'tiuvkgwphflsdymjxbo nrqecaz'], ["csar", "18"], ["vig", 'jkygkjhmfhcattc qmpsovmgiwbnugkdaqpy'], ["sub", "280796"]]
-
-outout, testing = combination(textoy, 1, com1)
-out, testing2 = combination(outout, 66 , com1)
-for counto in range(len(testing2)):
-    print(testing[counto])
-    print("\n")
-    print(testing2[-counto])
-    print("\n \n")
-print(out)
+    return output
