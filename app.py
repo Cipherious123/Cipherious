@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from combo_conv import combination, alphaone, cc, morse
-from bases import  normal, unicode, b64, base_change
+from combo_conv import combination, alphaone, cc, morse, unicheck
+from bases import  normal, unicode, bas64, base_change
 import ast
 import sympy
 import os
@@ -93,21 +93,20 @@ def check_combo(ciphername,password):
             errorr.raise_issue("Password must be a positive integer")
            
     elif ciphername == "vig":
-        password = password.lower()
-        for x in password:
-            if x not in alphaone.keys():
-                errorr.raise_issue("Password must contain alphabets or spaces only")
+        if not unicheck(password):
+            errorr.raise_issue("Password can only contain alphabets, spacebar, numbers, punctuation (Basic latin Unicode)")
 
     elif ciphername == "morse":
         pass
     
     elif ciphername == "byoc":
+        if len(password) != 95:
+            errorr.raise_issue("Password must be 95 digits long")
+        if not unicheck(password):
+            errorr.raise_issue("Password must be alphabets only")
+
         already_in=[]
-        if len(password) != 27:
-            errorr.raise_issue("Password must be 27 digits long")
         for x in password:
-            if x not in alphaone.keys():
-                errorr.raise_issue("Password must be alphabets only")
             if x in already_in:
                 errorr.raise_issue("Password can't be repeated")
             else:
@@ -117,18 +116,15 @@ def check_combo(ciphername,password):
         if len(password) < 5:
             errorr.raise_issue("Password must atleast be 5 characters long")
 
-        for char in password:
-            if char not in unicode:
-                errorr.raise_issue("Password can only contain alphabets, spacebar, numbers 0-9, punctuation(Basic latin Unicode)")
+        if not unicheck(password):
+            errorr.raise_issue("Password can only contain alphabets, spacebar, numbers, punctuation (Basic latin Unicode)")
 
     elif ciphername == "aes":
         if len(password) != 16:
             errorr.raise_issue("Password must be 16 characters long.")
 
-        
-        for char in password:
-            if char not in unicode:
-                errorr.raise_issue("Password can only contain alphabets, spacebar, numbers 0-9, punctuation(Basic latin Unicode)")
+        if not unicheck(password):
+            errorr.raise_issue("Password can only contain alphabets, spacebar, numbers, punctuation (Basic latin Unicode)")
 
     elif ciphername == "base":
         password = password.split()
@@ -148,7 +144,7 @@ def check_combo(ciphername,password):
 
 def check_base(num, base_in, base_out, sys_in):
     issue = err("", False)
-    lookup = {"normal": normal, "alpha": b64, "unicode":unicode}
+    lookup = {"normal": normal, "alpha": bas64, "unicode":unicode}
 
     if int_check(base_in) and int_check(base_out):
         if not 1 < int(base_in) < 96 or not 1 < int(base_out) < 96:

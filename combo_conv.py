@@ -17,6 +17,12 @@ def julian (shiftno, letter):
         letter=letter-95
     return letter
 
+def unicheck(inp):
+    for x in inp:
+        if x not in unicode:
+            return False
+    return True    
+        
 def uid(no):
         no += 1
         output = no**2 - 7*no
@@ -91,49 +97,35 @@ def morse(inp, ende):
         val=val[:-1]
     return val
 
-def vig(input, password, ende):
+def vig(inp, key, ende):
     
-    def decoder (shiftno, letter):
-        letter= (letter-shiftno)
+    def julian_ulta (shiftno, letter): #Subtracts shift no. instead of adding
+        letter -= shiftno
         if letter==0:
-            letter=27
+            letter= 95
         elif letter<0:
             letter=letter*-1
-            letter=27-letter
+            letter=95-letter
         return letter
 
-    def vigenere_converter(inp_list, keylist, type):
-        index=-1
-        output=""
-        for x in range(len(inp_list)):
-            index=index+1
+    index=-1
+    output=""
+    for char in inp:
+        index += 1
+        if index==len(key):
+            index=0
 
-            if index==len(keylist):
-                index=0
+        key_now = key[index]
+        key_val = bas64[key_now]
 
-            key_now=keylist[index]
-            key_val=int(alphaone[key_now])-1
-            char=inp_list[x]
+        if ende == 1:
+            inp_val = julian(key_val, bas64[char])
+        elif ende == 66:
+            inp_val = julian_ulta(key_val , bas64[char])
 
-            if char in alphaone:
-                if type==1:
-                    inp_val=julian(key_val, alphaone[char])
-                elif type==66:
-                    inp_val=decoder(key_val,alphaone[char])
-                val=[i for i in alphaone if alphaone[i]==inp_val][0]
-                output=output+val
-            
-        return output
-
-    def vigenere(): 
-        inp="" 
-        key=password.lower()  #Key input
-        keylist = list(map(str, key))
-
-        inp=input.lower() #Input of inp
-        inp_list = list(map(str, inp))
-        return vigenere_converter(inp_list, keylist, ende)
-    return vigenere()
+        val=[i for i in bas64 if bas64[i]==inp_val][0]
+        output += val      
+    return output
 
 def sub(inp, password, ende):
     def farmer (seed):
@@ -198,10 +190,9 @@ def sub(inp, password, ende):
 
 def byoc(inp, password, ende):
     val=""
-    alphatwo={"a":"","b":"","c":"","d":"","e":"","f": "","g":"","h":"","i":"","j":"","k":"","l":"","m":"","n":"","o":"","p":"","q":"","r":"","s":"","t":"","u":"","v":"","w":"","x":"","y":"","z":""," ": ""}
-     
-    for count in range(27):
-        curr_lett=[i for i in alphaone if alphaone[i] == count+1][0]
+    alphatwo = {'A': '', 'B': '', 'C': '', 'D': '', 'E': '', 'F': '', 'G': '', 'H': '', 'I': '', 'J': '', 'K': '', 'L': '', 'M': '', 'N': '', 'O': '', 'P': '', 'Q': '', 'R': '', 'S': '', 'T': '', 'U': '', 'V': '', 'W': '', 'X': '', 'Y': '', 'Z': '', 'a': '', 'b': '', 'c': '', 'd': '', 'e': '', 'f': '', 'g': '', 'h': '', 'i': '', 'j': '', 'k': '', 'l': '', 'm': '', 'n': '', 'o': '', 'p': '', 'q': '', 'r': '', 's': '', 't': '', 'u': '', 'v': '', 'w': '', 'x': '', 'y': '', 'z': '', '0': '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '+': '', '/': '', '!': '', '"': '', '#': '', '$': '', '%': '', '&': '', "'": '', '(': '', ')': '', '*': '', ',': '', '-': '', '.': '', ':': '', ';': '', '<': '', '=': '', '>': '', '?': '', '@': '', '[': '', '\\': '', ']': '', '^': '', '_': '', '`': '', '{': '', '|': '', '}': '', '~': '', ' ': ''}     
+    for count in range(95):
+        curr_lett=[i for i in bas64 if bas64[i] == count+1][0]
         curr_code=password[count]
         alphatwo[curr_lett]=curr_code
 
@@ -211,7 +202,6 @@ def byoc(inp, password, ende):
         else:
             char=[i for i in alphatwo if alphatwo[i] == x][0]     
         val += char
-
     return val
 
 def scrambler(text, password, ende):
