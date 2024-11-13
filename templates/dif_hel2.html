@@ -16,6 +16,21 @@
             margin: 0;
             padding: 0;
         }
+
+        .styled-textbox {
+          width: 100%; /* Full width */
+          min-height: 50px; /* Minimum height */
+          padding: 10px;
+          font-size: 16px;
+          border: none; /* No border */
+          border-radius: 15px; /* Rounded corners */
+          outline: none; /* Remove outline on focus */
+          text-align: left; /* Left aligned text */
+          background-color: #ffffff; /* Optional background */
+          overflow: hidden; /* Prevent scrolling */
+          resize: none; /* Disable manual resizing */
+          box-sizing: border-box; /* Include padding in width/height */
+        }
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -86,10 +101,21 @@
 
     <form method="post" action="/dif_hel">
     <label class="input-label">Input your friends superkey:</label><br>
-    <input type="text" id="o_superkey" name="o_superkey" class="input-field" placeholder="Enter partner's superkey here" /><br>
+    <textarea class="styled-textbox" placeholder="Enter freind's superkey here" id="o_superkey" name="o_superkey"></textarea><br>
 
     <button type="submit" name='action' value="Run" class="button">Run</button><br>
     <button type="submit" name='action' value="step1" class="button">Go back to step1</button><br><br>
     </form>
 
     <a href="{{url_for('cipherious')}}" class="button">Home Page</a>
+</div>
+<script>
+    const textarea = document.querySelector('.styled-textbox');
+
+    // Adjust the height of the textarea as the user types
+    textarea.addEventListener('input', function () {
+      this.style.height = 'auto'; // Reset the height
+      this.style.height = `${this.scrollHeight}px`; // Set the height based on the content
+    });
+ </script>
+ </body></html>

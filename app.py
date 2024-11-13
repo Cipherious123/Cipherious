@@ -596,14 +596,9 @@ def set_name():
             return
 
     if len(name) > 25:
-        session['errorr']['name'] = f"Name can't be longer than 25 characters, you used {len(name)}"
+        session['errorr']['name'] = f"Name can't be longer than 25 characters, you used {len(name)} characters"
         session['errorr']['true'] = True
         return
-    
-    for x in name:
-        if x not in unicode:
-            session['errorr']['name'] = f"Name can only contain basic latin unicode characters"
-            session['errorr']['true'] = True
 
     session['errorr']['nameset'] = True
     session['comboname'] = comboname

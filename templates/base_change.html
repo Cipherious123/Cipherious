@@ -111,6 +111,21 @@
             background-color: #0056b3;
             transition: background-color 0.3s ease;
         }
+
+        .styled-textbox {
+          width: 100%; /* Full width */
+          min-height: 50px; /* Minimum height */
+          padding: 10px;
+          font-size: 16px;
+          border: none; /* No border */
+          border-radius: 15px; /* Rounded corners */
+          outline: none; /* Remove outline on focus */
+          text-align: left; /* Left aligned text */
+          background-color: #ffffff; /* Optional background */
+          overflow: hidden; /* Prevent scrolling */
+          resize: none; /* Disable manual resizing */
+          box-sizing: border-box; /* Include padding in width/height */
+        }
     </style>
 </head>
 <body>
@@ -120,13 +135,13 @@
 
     <form method="post" action="/base_changer">
     <label class="input-label">Input number:</label>
-    <input type="text" id="number" name="number" class="input-field" placeholder="Enter number here" required/>
+    <textarea class="styled-textbox" placeholder="Enter number here" id="number" name="number"></textarea>
 
     <label class="input-label">Input the base of your number:</label>
-    <input type="text" id="base_in" name="base_in" class="input-field" placeholder="Enter base here" required/>
+    <textarea class="styled-textbox" placeholder="Enter base of your number here" id="base_in" name="base_in"></textarea>
 
     <label class="input-label">Input the base to convert it to:</label>
-    <input type="text" id="base_out" name="base_out" class="input-field" placeholder="Enter another base here" required/>
+    <textarea class="styled-textbox" placeholder="Enter base of output here" id="base_out" name="base_out"></textarea>
 
     <label class="input-label">Which number system is your number currently in?:</label>
     <div class="slider-container">
@@ -196,4 +211,13 @@
         selectedCipher2.textContent = ciphers[slider2.value];
     });
 </script>
+<script>
+    const textarea = document.querySelector('.styled-textbox');
+
+    // Adjust the height of the textarea as the user types
+    textarea.addEventListener('input', function () {
+      this.style.height = 'auto'; // Reset the height
+      this.style.height = `${this.scrollHeight}px`; // Set the height based on the content
+    });
+ </script>
 </body></html>

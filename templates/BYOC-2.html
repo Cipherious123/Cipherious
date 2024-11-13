@@ -117,6 +117,21 @@
             cursor: pointer;
             float: right;
         }
+
+        .styled-textbox {
+          width: 100%; /* Full width */
+          min-height: 50px; /* Minimum height */
+          padding: 10px;
+          font-size: 16px;
+          border: none; /* No border */
+          border-radius: 15px; /* Rounded corners */
+          outline: none; /* Remove outline on focus */
+          text-align: left; /* Left aligned text */
+          background-color: #ffffff; /* Optional background */
+          overflow: hidden; /* Prevent scrolling */
+          resize: none; /* Disable manual resizing */
+          box-sizing: border-box; /* Include padding in width/height */
+        }
     </style>
 </head><body>
 
@@ -124,10 +139,10 @@
     <h1>Use your own cipher</h1>
     <form method="post" action="/BYOCtwo">
     <label class="input-label">Input text to encrypt/decrypt:</label>
-    <input type="text" id="text" name="text" class="input-field" placeholder="Enter text here" required/>
+    <textarea class="styled-textbox" placeholder="Enter text here" id="text" name="text"></textarea>
 
     <label class="input-label">Input the password:</label>
-    <input type="text" id="password" name="password" class="input-field" placeholder="Enter password here" />
+    <textarea class="styled-textbox" placeholder="Enter password here" id="password" name="password"></textarea>
 
     <button type="submit" name ="action" class="button" value = "1">Encrypt</button>
     <button type="submit" name ="action" class="button" value = "66">Decrypt</button>   
@@ -155,6 +170,15 @@
     function closeHelpBox() {
         document.querySelector('.help-box').style.display = 'none';
         }
+</script>
+<script>
+    const textarea = document.querySelector('.styled-textbox');
+
+    // Adjust the height of the textarea as the user types
+    textarea.addEventListener('input', function () {
+      this.style.height = 'auto'; // Reset the height
+      this.style.height = `${this.scrollHeight}px`; // Set the height based on the content
+    });
 </script>
 </div>
 </body></html>

@@ -163,6 +163,21 @@
             cursor: pointer;
             float: right;
         }
+
+        .styled-textbox {
+          width: 100%; /* Full width */
+          min-height: 50px; /* Minimum height */
+          padding: 10px;
+          font-size: 16px;
+          border: none; /* No border */
+          border-radius: 15px; /* Rounded corners */
+          outline: none; /* Remove outline on focus */
+          text-align: left; /* Left aligned text */
+          background-color: #ffffff; /* Optional background */
+          overflow: hidden; /* Prevent scrolling */
+          resize: none; /* Disable manual resizing */
+          box-sizing: border-box; /* Include padding in width/height */
+        }
     </style></head>
     <body>
         <div class="container">
@@ -195,7 +210,7 @@
             <div class="cipher-display" id="selectedCipher">Caesar Cipher</div>
         
             <label class="input-label">Input password for selected cipher:</label>
-            <input type="text" id="password" name="password" class="input-field" placeholder="Enter password of the cipher in the combo" />
+            <textarea class="styled-textbox" placeholder="Enter password here" id="password" name="password"></textarea>
 
             <button type="submit" name ="action" class="button" value="Submit this step">Submit this step</button><br><br>
             <button type="submit" name= "action" class="button" value="Delete the previous step">Delete the previous step</button><br><br>
@@ -231,5 +246,13 @@
             selectedCipher.textContent = ciphers[slider.value];
         });
     </script>
+    <script>
+        const textarea = document.querySelector('.styled-textbox');
     
+        // Adjust the height of the textarea as the user types
+        textarea.addEventListener('input', function () {
+          this.style.height = 'auto'; // Reset the height
+          this.style.height = `${this.scrollHeight}px`; // Set the height based on the content
+        });
+     </script>
     </font></body></html>

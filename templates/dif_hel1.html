@@ -119,6 +119,21 @@
             cursor: pointer;
             float: right;
         }
+
+        .styled-textbox {
+          width: 100%; /* Full width */
+          min-height: 50px; /* Minimum height */
+          padding: 10px;
+          font-size: 16px;
+          border: none; /* No border */
+          border-radius: 15px; /* Rounded corners */
+          outline: none; /* Remove outline on focus */
+          text-align: left; /* Left aligned text */
+          background-color: #ffffff; /* Optional background */
+          overflow: hidden; /* Prevent scrolling */
+          resize: none; /* Disable manual resizing */
+          box-sizing: border-box; /* Include padding in width/height */
+        }
     </style>
 </head><body>
 
@@ -128,13 +143,13 @@
     Otherwise, leave the first 2 boxes blank and we will generate a num and base for you to send to them</p><br>
     <form method="post" action="/dif_hel">
     <label class="input-label">Input num:</label>
-    <input type="text" id="text" name="text" class="input-field" placeholder="Enter num here" />
+    <textarea class="styled-textbox" placeholder="Enter num here" id="text" name="text"></textarea>
 
     <label class="input-label">Input base:</label>
-    <input type="text" id="password" name="password" class="input-field" placeholder="Enter base here"/>
+    <textarea class="styled-textbox" placeholder="Enter base here" id="password" name="password"></textarea>
 
     <label class="input-label">Input private key from 50 to 750:</label>
-    <input type="text" id="ende" name="ende" class="input-field" placeholder="Enter private key here" required/>
+    <textarea class="styled-textbox" placeholder="Enter private key here" id="ende" name="ende"></textarea>
 
     <button type="submit" class="button">Run</button><br>
 
@@ -169,5 +184,14 @@
             document.querySelector('.help-box').style.display = 'none';
             }
     </script>
+    <script>
+        const textarea = document.querySelector('.styled-textbox');
+    
+        // Adjust the height of the textarea as the user types
+        textarea.addEventListener('input', function () {
+          this.style.height = 'auto'; // Reset the height
+          this.style.height = `${this.scrollHeight}px`; // Set the height based on the content
+        });
+     </script>
     </div>
     </body></html>
