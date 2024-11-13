@@ -84,8 +84,8 @@ def check_combo(ciphername,password):
             errorr.raise_issue("Password must be an integer between 1 and 95 or 666 for all possible combinations")
         else:
             password=int(password)
-            if password != 66:
-                if password > 27 or password < 1:
+            if password != 666:
+                if password > 95 or password < 1:
                     errorr.raise_issue("Password must be an integer between 1 and 95 or 666 for all possible combinations")
     
     elif ciphername == "sub":
