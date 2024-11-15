@@ -95,9 +95,6 @@ def check_combo(ciphername,password):
     elif ciphername == "vig":
         if not unicheck(password):
             errorr.raise_issue("Password can only contain alphabets, spacebar, numbers, punctuation (Basic latin Unicode)")
-
-    elif ciphername == "morse":
-        pass
     
     elif ciphername == "byoc":
         if len(password) != 95:
@@ -604,7 +601,7 @@ def set_name():
     session['comboname'] = comboname
 
 def submit():
-    lookup_dict = {'0':"csar", '1':"vig", '2':"sub", '3':"scrambler", '4':"byoc", '5': "base", '6':"morse", '7':"aes"}
+    lookup_dict = {'0':"csar", '1':"vig", '2':"sub", '3':"scrambler", '4':"byoc", '5': "base", '6':"aes"}
     ciphername = request.form['cipherselected']
     password = request.form['password']
 

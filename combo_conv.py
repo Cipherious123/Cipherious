@@ -68,7 +68,69 @@ def cc(input, password):
     else:
         return decrypt_caesar(input)
 
-def morse(inp, ende):          
+def morse(inp, ende): 
+    def morse_len(char):
+        if char == " ":
+            return 2
+        return len(alpha[char]) + 1
+    
+    lookup2 = {".": "·", "-": "–", '|': "¦"}
+    def filter_morse(inp, ende):
+        output_list= []
+        morse_en = "abcdefghijklmnopqrstuvwxyz 1234567890"
+        morse_de = "- .|"
+        filtered = ""
+        inp = inp.lower()
+        lookup={1:morse_en, 66:morse_de}
+
+        for x in inp:
+            if x in lookup[ende]:
+                if ende == 1:
+                    for _ in range(morse_len(x)):
+                        output_list.append("")
+                else:
+                    if x == "|":
+                        output_list.append("")
+                filtered += x 
+
+            elif x in lookup2.values() and ende == 66:
+                output_list.append(x)
+
+            elif x not in unicode:
+                pass
+
+            elif x in morse_de and ende == 1:
+                output_list.append(lookup2[x])
+        
+            else:
+                output_list.append(x)
+        return filtered, output_list
+
+    def unfilter(inp, input_list, ende):
+        output = ""
+        count = -1
+        for x in input_list:
+            count += 1
+
+            if count >= len(inp):
+                return output
+            elif x == "":
+                output += inp[count]
+            elif x in lookup2.values():
+                if ende == 66:
+                    output += [i for i in lookup2 if lookup2[i] == x][0]
+                else:
+                    output += x
+            else:
+                count -= 1
+                output += x
+
+        if len(input_list) < len(inp): #Adds rest of input to the output if the text has expanded during encryption
+            difference = len(inp) - len(input_list)
+            output += inp[-difference:]   
+        return inp
+    
+    inp, template = filter_morse(inp, ende)      
     val=""
     if ende == 1 or ende == "1":
         for x in inp:
@@ -94,8 +156,8 @@ def morse(inp, ende):
                         pass
 
             val=val+ " "
-        val=val[:-1]
-    return val
+        val=val[:-1]   
+    return unfilter(val, template, ende)
 
 def vig(inp, key, ende):
     
@@ -383,3 +445,5 @@ def filter_list(text):
         if x in unicode:
             output += x
     return output
+textoy = "As of Unicode version 16.0, there are 155,063 characters with code points, covering 168 modern and historical scripts, as well as multiple symbol sets. This article includes the 1,062 characters in the Multilingual European Character Set 2 (MES-2) subset| and some additional related characters."
+print(morse(".-|...| |---|..-.| |..-|-.|..|-.-.|---|-..|.| |...-|.|.-.|...|..|---|-.| |.----|-....|·-----|, |-|....|.|.-.|.| |.-|.-.|.| |.----|.....|.....|,-----|-....|...--| |-.-.|....|.-|.-.|.-|-.-.|-|.|.-.|...| |.--|..|-|....| |-.-.|---|-..|.| |.--.|---|..|-.|-|...|, |-.-.|---|...-|.|.-.|..|-.|--.| |.----|-....|---..| |--|---|-..|.|.-.|-.| |.-|-.|-..| |....|..|...|-|---|.-.|..|-.-.|.-|.-..| |...|-.-.|.-.|..|.--.|-|...|, |.-|...| |.--|.|.-..|.-..| |.-|...| |--|..-|.-..|-|..|.--.|.-..|.| |...|-.--|--|-...|---|.-..| |...|.|-|...|· |-|....|..|...| |.-|.-.|-|..|-.-.|.-..|.| |..|-.|-.-.|.-..|..-|-..|.|...| |-|....|.| |.----|,-----|-....|..---| |-.-.|....|.-|.-.|.-|-.-.|-|.|.-.|...| |..|-.| |-|....|.| |--|..-|.-..|-|..|.-..|..|-.|--.|..-|.-|.-..| |.|..-|.-.|---|.--.|.|.-|-.| |-.-.|....|.-|.-.|.-|-.-.|-|.|.-.| |...|.|-| |..---| |(--|.|...|–..---|) |...|..-|-...|...|.|-|¦ |.-|-.|-..| |...|---|--|.| |.-|-..|-..|..|-|..|---|-.|.-|.-..| |.-.|.|.-..|.-|-|.|-..| |-.-.|....|.-|.-.|.-|-.-.|-|.|.-.|...|", 66))
