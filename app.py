@@ -363,7 +363,6 @@ def morse_func():
     if request.method == 'POST':
         text = request.form['text']
         ende = request.form['action']
-        text = text.lower()
         output = morse(text, int(ende))
     return render_template('morse_html.html', output = output)
 

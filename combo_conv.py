@@ -7,7 +7,7 @@ from bases import base_change, unicode
 bas64 = {'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9, 'J': 10, 'K': 11, 'L': 12, 'M': 13, 'N': 14, 'O': 15, 'P': 16, 'Q': 17, 'R': 18, 'S': 19, 'T': 20, 'U': 21, 'V': 22, 'W': 23, 'X': 24, 'Y': 25, 'Z': 26, 'a': 27, 'b': 28, 'c': 29, 'd': 30, 'e': 31, 'f': 32, 'g': 33, 'h': 34, 'i': 35, 'j': 36, 'k': 37, 'l': 38, 'm': 39, 'n': 40, 'o': 41, 'p': 42, 'q': 43, 'r': 44, 's': 45, 't': 46, 'u': 47, 'v': 48, 'w': 49, 'x': 50, 'y': 51, 'z': 52, '0': 53, '1': 54, '2': 55, '3': 56, '4': 57, '5': 58, '6': 59, '7': 60, '8': 61, '9': 62, '+': 63, '/': 64, '!': 65, '"': 66, '#': 67, '$': 68, '%': 69, '&': 70, "'": 71, '(': 72, ')': 73, '*': 74, ',': 75, '-': 76, '.': 77, ':': 78, ';': 79, '<': 80, '=': 81, '>': 82, '?': 83, '@': 84, '[': 85, '\\': 86, ']': 87, '^': 88, '_': 89, '`': 90, '{': 91, '|': 92, '}': 93, '~': 94, ' ': 95}
 alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
 alpha={ "a":".-" , "b":"-...","c":"-.-.","d":"-..","e":".","f":"..-.","g":"--.","h":"....","i":"..","j":".---","k":"-.-","l":".-..","m":"--","n":"-.","o":"---","p":".--.","q":"--.-","r":".-.","s":"...","t":"-","u":"..-","v":"...-","w":".--","x":"-..-","y":"-.--","z":"--..",
-        "1": ".----", "2": "..---", "3": "...--", "4": "....-", "5":".....", "6":"-...." , "7":"--...", "8": "---..", "9": "----.", "0": "-----"}
+        "1": ".----", "2": "..---", "3": "...--", "4": "....-", "5":".....", "6":"-...." , "7":"--...", "8": "---..", "9": "----.", "0": "-----", 'A': '.-^', 'B': '-...^', 'C': '-.-.^', 'D': '-..^', 'E': '.^', 'F': '..-.^', 'G': '--.^', 'H': '....^', 'I': '..^', 'J': '.---^', 'K': '-.-^', 'L': '.-..^', 'M': '--^', 'N': '-.^', 'O': '---^', 'P': '.--.^', 'Q': '--.-^', 'R': '.-.^', 'S': '...^', 'T': '-^', 'U': '..-^', 'V': '...-^', 'W': '.--^', 'X': '-..-^', 'Y': '-.--^', 'Z': '--..^'}
 capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 def julian (shiftno, letter):
@@ -74,13 +74,12 @@ def morse(inp, ende):
             return 2
         return len(alpha[char]) + 1
     
-    lookup2 = {".": "·", "-": "–", '|': "¦"}
+    lookup2 = {".": "·", "-": "–", '|': "¦", "^": "ˆ"}
     def filter_morse(inp, ende):
         output_list= []
-        morse_en = "abcdefghijklmnopqrstuvwxyz 1234567890"
-        morse_de = "- .|"
+        morse_en = "abcdefghijklmnopqrstuvwxyz 1234567890" + capitals
+        morse_de = "- .|^"
         filtered = ""
-        inp = inp.lower()
         lookup={1:morse_en, 66:morse_de}
 
         for x in inp:
@@ -112,7 +111,7 @@ def morse(inp, ende):
         for x in input_list:
             count += 1
 
-            if count >= len(inp):
+            if count > len(inp):
                 return output
             elif x == "":
                 output += inp[count]
@@ -121,6 +120,7 @@ def morse(inp, ende):
                     output += [i for i in lookup2 if lookup2[i] == x][0]
                 else:
                     output += x
+                count -= 1
             else:
                 count -= 1
                 output += x
@@ -128,7 +128,7 @@ def morse(inp, ende):
         if len(input_list) < len(inp): #Adds rest of input to the output if the text has expanded during encryption
             difference = len(inp) - len(input_list)
             output += inp[-difference:]   
-        return inp
+        return output
     
     inp, template = filter_morse(inp, ende)      
     val=""
@@ -407,7 +407,7 @@ def bases(number, base_out, sys_in, sys_out, ende):
     return number
 
 def combination(text, ende, combo):
-    lookup = {"vig":vig, "morse": morse, "byoc": byoc, "sub":sub, "scrambler":scrambler}
+    lookup = {"vig":vig, "byoc": byoc, "sub":sub, "scrambler":scrambler}
     
     if ende==66:
         combo.reverse()
@@ -445,5 +445,3 @@ def filter_list(text):
         if x in unicode:
             output += x
     return output
-textoy = "As of Unicode version 16.0, there are 155,063 characters with code points, covering 168 modern and historical scripts, as well as multiple symbol sets. This article includes the 1,062 characters in the Multilingual European Character Set 2 (MES-2) subset| and some additional related characters."
-print(morse(".-|...| |---|..-.| |..-|-.|..|-.-.|---|-..|.| |...-|.|.-.|...|..|---|-.| |.----|-....|·-----|, |-|....|.|.-.|.| |.-|.-.|.| |.----|.....|.....|,-----|-....|...--| |-.-.|....|.-|.-.|.-|-.-.|-|.|.-.|...| |.--|..|-|....| |-.-.|---|-..|.| |.--.|---|..|-.|-|...|, |-.-.|---|...-|.|.-.|..|-.|--.| |.----|-....|---..| |--|---|-..|.|.-.|-.| |.-|-.|-..| |....|..|...|-|---|.-.|..|-.-.|.-|.-..| |...|-.-.|.-.|..|.--.|-|...|, |.-|...| |.--|.|.-..|.-..| |.-|...| |--|..-|.-..|-|..|.--.|.-..|.| |...|-.--|--|-...|---|.-..| |...|.|-|...|· |-|....|..|...| |.-|.-.|-|..|-.-.|.-..|.| |..|-.|-.-.|.-..|..-|-..|.|...| |-|....|.| |.----|,-----|-....|..---| |-.-.|....|.-|.-.|.-|-.-.|-|.|.-.|...| |..|-.| |-|....|.| |--|..-|.-..|-|..|.-..|..|-.|--.|..-|.-|.-..| |.|..-|.-.|---|.--.|.|.-|-.| |-.-.|....|.-|.-.|.-|-.-.|-|.|.-.| |...|.|-| |..---| |(--|.|...|–..---|) |...|..-|-...|...|.|-|¦ |.-|-.|-..| |...|---|--|.| |.-|-..|-..|..|-|..|---|-.|.-|.-..| |.-.|.|.-..|.-|-|.|-..| |-.-.|....|.-|.-.|.-|-.-.|-|.|.-.|...|", 66))
