@@ -486,13 +486,7 @@ def standard(cipher):
     password=""
     if request.method == 'POST':
         text = request.form["text"]
-        password = request.form["password"]
-        '''
-        if cipher != "morse":
-            password = request.form["password"]
-        else:
-            password = "_"
-        '''
+        password = request.form["password"]            
             
         if cipher == "csar": #Caesar handling
             if password == "":
@@ -516,12 +510,15 @@ def standard(cipher):
 
         combin= [[cipher ,  password ]]
         oops = check_combo(cipher, password)
-        if oops.true == False:
+        if oops.true == False and len(text)<1000:
             ende= int(ende)
             output = combination(text , ende, combin)
+        elif len(text) > 1000:
+            output = f"Maximum length of input is 1000 characters. Yours has {len(text)}"
         else:
             output = oops.name
             oops.true = False
+
     return output, password
 
 @app.route('/cipherious', methods=['GET', 'POST'])
@@ -664,6 +661,8 @@ def use_combo():
 
         if combo_ == None:
             output="Error, combination not found"
+        elif len(inp) > 1000:
+            output = f"Maximum length of input is 1000 characters. Yours has {len(inp)}"
         else:
             combo_ = combo_[0]
             combo_ = ast.literal_eval(combo_)
@@ -671,7 +670,7 @@ def use_combo():
             output = combination(inp, ende, combo_)
 
         if output == None:
-            output = "Input during decryption is always in base64 for AES cipher. Therefore your input is wrong"
+            output = "Input during decryption is always in base64 for AES cipher. Your input may be incorrect"
 
         conn.close()
     return render_template('use_combo.html',output=output)
