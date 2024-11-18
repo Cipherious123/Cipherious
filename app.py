@@ -591,8 +591,8 @@ def set_name():
             session['errorr']['true'] = True
             return
 
-    if len(name) > 25:
-        session['errorr']['name'] = f"Name can't be longer than 25 characters, you used {len(name)} characters"
+    if len(comboname) > 25:
+        session['errorr']['name'] = f"Name can't be longer than 25 characters, you used {len(comboname)} characters"
         session['errorr']['true'] = True
         return
 
