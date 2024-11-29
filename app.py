@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from combo_conv import combination, alphaone, cc, morse, unicheck
+from combo_conv import combination, cc, morse, unicheck
 from bases import  normal, unicode, bas64, base_change
 import ast
 import sympy
@@ -14,7 +14,7 @@ DATABASE = "postgresql://nishant11:pyi4dOnRekamRKcMnj6pZkQRF2ef6WSo@dpg-ct4i2ibt
 def send_cursor():   
     conn = psycopg2.connect( # Connect to your PostgreSQL database
         dbname="users_tpju",
-        user="nishant",
+        user="nishant11",
         password="pyi4dOnRekamRKcMnj6pZkQRF2ef6WSo",
         host="dpg-ct4i2ibtq21c7393omdg-a",
         port="5432"
@@ -435,6 +435,10 @@ def dif_hel():
     else:
         return render_template('dif_hel2.html', output=output)
     
+@app.route('/BYOCone', methods=['GET'])
+def BYOCone():  
+    return render_template('byoc-1.html')
+
 @app.route('/BYOCtwo', methods=['GET','POST'])
 def BYOCtwo():
     output, password = standard("byoc")
