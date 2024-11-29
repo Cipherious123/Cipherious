@@ -10,13 +10,13 @@ from keygen import new_int, key_gen
 app = Flask(__name__, template_folder='templates')
 
 app.secret_key = 'your_secret_key'  # Needed to use sessions in Flask
-DATABASE = "postgresql://nishant:I03Cz43YgFZauXSFSPlacwikNzC4RkQN@dpg-csfmpjtds78s738tpeg0-a.singapore-postgres.render.com/users_kxts"
+DATABASE = "postgresql://nishant11:pyi4dOnRekamRKcMnj6pZkQRF2ef6WSo@dpg-ct4i2ibtq21c7393omdg-a.singapore-postgres.render.com/users_tpju"
 def send_cursor():   
     conn = psycopg2.connect( # Connect to your PostgreSQL database
-        dbname="users_kxts",
+        dbname="users_tpju",
         user="nishant",
-        password="I03Cz43YgFZauXSFSPlacwikNzC4RkQN",
-        host="dpg-csfmpjtds78s738tpeg0-a",
+        password="pyi4dOnRekamRKcMnj6pZkQRF2ef6WSo",
+        host="dpg-ct4i2ibtq21c7393omdg-a",
         port="5432"
     )
     cursor = conn.cursor()
