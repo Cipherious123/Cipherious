@@ -175,7 +175,7 @@ class err:
     
     def raise_issue(self, name):
         self.true = True
-        self.name += f"{name}, "
+        self.name += f"{name}\n"
 
 @app.route('/')
 def index():

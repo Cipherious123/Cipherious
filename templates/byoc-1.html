@@ -74,51 +74,6 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
-
-        .help-box {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 250px;
-            padding: 20px;
-            background-color: #007BFF;
-            color: white;
-            font-family: Arial, sans-serif;
-            z-index: 1000;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            font-size: 0.9em;
-            line-height: 1.5;
-            border-radius: 10px;
-            clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
-        }
-
-        /* Styling for the header */
-        .help-box-header {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        /* Style for the tips */
-        .tip {
-            margin-bottom: 10px;
-        }
-
-        /* Optional: additional hover effect to add interactivity */
-        .help-box:hover {
-            background-color: #0056b3;
-            transition: background-color 0.3s ease;
-        }
-
-        .close-btn {
-            background-color: transparent;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            float: right;
-        }
-
     </style>
 </head>
 <body>
@@ -132,6 +87,10 @@
 
         The first letter in your password that all characters 'A' in the plaintext should be replaced by that letter<br>
         The second letter does the same for 'B', and so on till ' '(space)<br>
-        If you want to input 'space', use the spacebar, don't type space.
-    </div>
+        If you want to input 'space', use the spacebar, don't type space.<br>
+    
+    
+<a href="{{url_for('cipherious')}}" class="button">Home Page</a><br>
+<a href="{{url_for('BYOCtwo')}}" class="button">Use your own cipher</a>
+</div>
 </body></html>
