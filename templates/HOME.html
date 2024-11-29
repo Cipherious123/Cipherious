@@ -90,7 +90,6 @@
     <a href="{{ url_for('aes_func')}}" class="w3-bar-item w3-button">AES 128 </a>
     <a href="{{ url_for('scrambler_func')}}" class="w3-bar-item w3-button">Scrambler Cipher</a>
     <a href="{{ url_for('base_changer')}}" class="w3-bar-item w3-button">Number Base Changer</a>
-    <a href="{{url_for('BYOCone')}}" class="w3-bar-item w3-button">Build your own cipher</a>
     <a href="{{url_for('BYOCtwo')}}" class="w3-bar-item w3-button">Use your own cipher</a>
     <a href="{{ url_for('create_combo')}}" class="w3-bar-item w3-button">Create a combination of ciphers</a>
     <a href="{{ url_for('use_combo')}}" class="w3-bar-item w3-button">Use your combo</a>
@@ -316,13 +315,12 @@
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden; height: 1000 px">
         <img src="{{ url_for('static', filename='byoc.jpg') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
-          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">BUILD YOUR OWN CIPHER</h3>
+          <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">BUILD YOUR OWN CIPHER: GUIDELINES</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
             Unleash your imagination and creativity by designing your own innovative substitution cipher.
             You decide which letters replace which when encrypting text</p>
             <br><br><br><br>
-          <a href="{{ url_for('BYOCone')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
-        </div>
+                  </div>
       </div>
 	</div>
     </div>

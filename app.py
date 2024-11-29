@@ -434,35 +434,6 @@ def dif_hel():
         return render_template('dif_hel1.html', output=output)
     else:
         return render_template('dif_hel2.html', output=output)
-        
-@app.route('/BYOCone', methods=['GET', 'POST'])
-def BYOCone():
-    fin_dict={"a": "","b": "","c": "","d":"","e": "","f": "","g":"","h":"","i":"","j":"","k":"","l":"","m":"","n":"","o":"","p":"","q":"","r":"","s":"","t":"","u":"","v":"","w":"","x":"","y":"","z":"", " ":""}
-    problem = err("", False)
-    output=''
-
-    if request.method == 'POST':
-        for x in alphaone.keys():
-            char = request.form[x]
-
-            if char not in alphaone.keys():
-                problem.raise_issue(f"Character replacing {x} is invalid")
-                fin_dict[x] = char
-
-            elif char in fin_dict.values():
-                problem.raise_issue(f"You're trying to replace multiple letters with {char}")
-
-            else:
-                fin_dict[x] = char
-                output = ''
-                for x in fin_dict.values(): 
-                    output = output + x
-                output = f"Your cipher password is {output}. Go to use your own cipher page, input the password and use it to encrypt and decrypt text"    
-
-    if problem.true:
-        return render_template('BYOC-one.html', output = problem.name)
-    else:
-        return render_template('BYOC-one.html', output = output)
     
 @app.route('/BYOCtwo', methods=['GET','POST'])
 def BYOCtwo():
