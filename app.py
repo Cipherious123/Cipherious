@@ -293,10 +293,10 @@ def change_password():
     output=""
     if request.method == 'POST':
         c, conn = send_cursor()
-
         curr_user=session['user']
         old_password= request.form['old_password']
         new_password = request.form['new_password']
+        confirm = request.form['new_password_2']
 
         c.execute('SELECT password FROM users WHERE username=%s', (curr_user,))
         corr_password=c.fetchone()[0]
@@ -307,6 +307,8 @@ def change_password():
         elif len(new_password) > 50:
             output = "Password can have maximum 50 characters"
 
+        elif new_password != confirm:
+            output = "You have retyped new password incorrectly"
         else:
             c.execute('UPDATE users SET password = %s WHERE username = %s', (new_password, curr_user))
             output=f"Your password was changed successfully to {new_password}"

@@ -90,6 +90,7 @@
     <a href="{{ url_for('aes_func')}}" class="w3-bar-item w3-button">AES 128 </a>
     <a href="{{ url_for('scrambler_func')}}" class="w3-bar-item w3-button">Scrambler Cipher</a>
     <a href="{{ url_for('base_changer')}}" class="w3-bar-item w3-button">Number Base Changer</a>
+    <a href="{{url_for('BYOCone')}}" class="w3-bar-item w3-button">Guidelines: Build your own cipher</a>
     <a href="{{url_for('BYOCtwo')}}" class="w3-bar-item w3-button">Use your own cipher</a>
     <a href="{{ url_for('create_combo')}}" class="w3-bar-item w3-button">Create a combination of ciphers</a>
     <a href="{{ url_for('use_combo')}}" class="w3-bar-item w3-button">Use your combo</a>
@@ -170,7 +171,7 @@
     Our Work
   </h2>
   <h5 style="text-align: center; font-family: 'Arial', sans-serif; color: #007BFF; font-weight: bold; margin-bottom: 50px;">
-    Leave password box blank on any cipher(except Diffie-Hellman) to autogenerate it.
+    Leave password box blank on any cipher to autogenerate it.
   </h5>
   
 <div class="w3-row">
@@ -319,7 +320,7 @@
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
             Unleash your imagination and creativity by designing your own innovative substitution cipher.
             You decide which letters replace which when encrypting text</p>
-            <br><br><br><br>
+            <br><br><br><br><br><br><br>
             <a href="{{ url_for('BYOCone')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
       </div>
       </div>
@@ -335,7 +336,7 @@
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">USE YOUR OWN CIPHER</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
             Use the cipher which you can create in 'build your own cipher'. Just copy paste the password and enter your text.</p>
-            <br> <br><br><br><br><br><br><br>
+            <br> <br><br><br><br><br><br><br><br><br>
           <a href="{{ url_for('BYOCtwo')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
         </div>
       </div>
@@ -349,7 +350,7 @@
         <div class="container" style="padding: 24px;">
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">CREATE A COMBINATION OF CIPHERS</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
-            This cipher utilizes all available ciphers (excluding Diffie-Hellman) to create an super cipher.<br>
+            This cipher utilizes all available ciphers (excluding morse code) to create an super cipher.<br>
             You can create your combinations here and view them in your account page (click the Hi {{curr_user}} box).<br>
             It is a masterful cipher that provides you with a fun and convienient method of secretive communication with your friends.</p>
           <a href="{{ url_for('create_combo')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
@@ -366,7 +367,7 @@
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">USE YOUR COMBINATION OF CIPHERS</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
             Use your combination easily here. </p>
-            <br><br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><br><br><br><br>
           <a href="{{ url_for('use_combo')}}" class="1 w3-hover-red" style="display: block; text-align: center; margin-top: 25px; padding: 12px 24px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; font-family: 'Arial', sans-serif;">Use</a>
         </div>
       </div>
@@ -379,7 +380,7 @@
 <!-- Container -->
 <div class="container" style="position:fixed">
   <a onclick="w3_open()" class="w3-button w3-xlarge w3-circle w3-teal"
-  style="position:absolute;top:-28px;right:24px">+</a>
+  style="position:absolute;top:2opx;right:24px">+</a>
 </div>
 
 <script>
@@ -406,5 +407,4 @@ function openNav() {
   }
 }
 </script>
-
 </body> </html>

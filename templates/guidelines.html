@@ -9,70 +9,69 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='w3_two.css') }}">
     <style>
         body {
-            background-color: #000000;
-            color: #c9c9c9;
+            background-color: #1e1e2f;
+            color: #ffffff;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
         }
+
         .container {
             max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #000000;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 50px;
-        }
-        h1 {
-            color: #007BFF;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #2a2a3d;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             text-align: center;
+        }
+
+        h1 {
+            color: #00bfff;
+            font-size: 2.5em;
             margin-bottom: 20px;
         }
-        .input-field {
-            width: calc(100% - 20px);
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid #000000;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            text-align: left;
+            padding: 0 20px;
         }
-        .input-label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color:  #a0a0a0;
+
+        .guidelines {
+            text-align: left;
+            margin-top: 20px;
         }
+
+        .guidelines li {
+            margin-bottom: 10px;
+        }
+
         .button {
-            background-color: #007BFF;
+            background-color: #00bfff;
             border: none;
             color: white;
-            padding: 12px 20px;
+            padding: 14px 28px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
             cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 25px;
+            margin: 10px;
+            transition: all 0.3s ease;
         }
+
         .button:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
+            background-color: #007acc;
+            transform: translateY(-5px);
         }
-        .output-container {
-            background-color: #ddd;
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+        .footer {
             margin-top: 20px;
-            min-height: 50px;
-            font-size: 16px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            font-size: 0.9em;
+            color: #b3b3b3;
         }
     </style>
 </head>
@@ -80,22 +79,31 @@
 
 <div class="container">
     <h1>Guidelines to Create a Combination</h1>
-    <p> When using integer base change in a combination, input is always in base 95 <br>
-        Password must have: base to convert to, system of number, system to convert number to, all separated by spaces<br>
-        Unicode must be conveyed as u, Alpha as a, Normal as n<br>
-        For example, to convert to base 40 and normal to unicode, you write: '40 n u'<br><br>
+    <p>Follow these steps and tips to create combinations effectively:</p>
 
-        Substitution, Caesar and BYOC work best with smaller texts as they are easy to find patterns in for larger texts<br>
-        Scrambler works best for larger texts as it only jumbles up the letters. <br>
-
-        If you leave any password blank empty, the password for that step is randomly generated<br>     
-        A password can't be longer than 100 characters and a combo name can't be longer than 25.<br> 
-        All characters must be in basic latin unicode(alphabets, numbers, spacebar, punctuation)<br> <br> 
-                 
-        Always save the name of the combination before you add its steps<br>
-        Make sure there was no error after submitting a step<br>
-        Don't forget to complete combination when you are done<br>
-        <a href="{{url_for('cipherious')}}" class="button">Home Page</a><br>
-        <a href="{{url_for('create_combo')}}" class="button">Create a combination</a>
+    <div class="guidelines">
+        <ul>
+            <li><strong>Using Integer Base changer:</strong> Input is always in base 95. Password should be of the format:base to convert to, system of input number, system to convert it to</li>
+            <li><strong>Using Integer Base changer:</strong> We represent normal system as 'n', alpha as 'a', and unicode as 'u'</li>
+            <li><strong>Using Integer Base changer:</strong> For example: '40 n u' means we convert input (in base 95 and normal system) to base 40 and system unicode </li>
+            <li><strong>Password Requirements:</strong> Max length: 100 characters. Combo name: Max length: 25 characters. Use basic Latin Unicode only.</li>
+            <li><strong>Substitution & Caesar:</strong> Best for smaller texts. Larger texts may show patterns more easily.</li>
+            <li><strong>Scrambler:</strong> Best for larger texts as it jumbles letters, making patterns harder to detect.</li>
+            <li><strong>Strong combo:</strong> Always use polyalphabetic ciphers, such as Vigenere, Integer Base Changer, and especially AES, for a stong combination</li>
+            <li><strong>Random Passwords:</strong> Leave any password blank to auto-generate it.</li>
+            <li><strong>Save Progress:</strong> Always save the combination name before adding steps. Complete the combination after adding all steps.</li>
+        </ul>
     </div>
-</body></html>
+
+    <div>
+        <a href="{{url_for('cipherious')}}" class="button">Home Page</a>
+        <a href="{{url_for('create_combo')}}" class="button">Create a Combination</a>
+    </div>
+
+    <div class="footer">
+        <p>Remember to double-check for errors after submitting each step.</p>
+    </div>
+</div>
+
+</body>
+</html>
