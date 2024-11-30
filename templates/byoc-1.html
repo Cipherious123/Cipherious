@@ -4,75 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='new_logo.jpeg') }}">
-    <title>Guidelines to Create a Combination</title>
+    <title>Build Your Own Cipher</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='w3_one.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='w3_two.css') }}">
     <style>
         body {
-            background-color: #000000;
-            color: #c9c9c9;
+            background-color: #1e1e2f;
+            color: #ffffff;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
         }
+
         .container {
             max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #000000;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 50px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #2a2a3d;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
+
         h1 {
-            color: #007BFF;
+            color: #00bfff;
+            font-size: 2.5em;
             text-align: center;
             margin-bottom: 20px;
         }
-        .input-field {
-            width: calc(100% - 20px);
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid #000000;
-            border-radius: 5px;
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.8;
             margin-bottom: 20px;
-            box-sizing: border-box;
         }
-        .input-label {
-            display: block;
-            margin-bottom: 5px;
+
+        .highlight {
+            color: #ffd700;
             font-weight: bold;
-            color:  #a0a0a0;
         }
+
         .button {
-            background-color: #007BFF;
+            background-color: #00bfff;
             border: none;
             color: white;
-            padding: 12px 20px;
+            padding: 14px 28px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
             cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 25px;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
         }
+
         .button:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
+            background-color: #007acc;
+            transform: translateY(-5px);
         }
-        .output-container {
-            background-color: #ddd;
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+        .footer {
             margin-top: 20px;
-            min-height: 50px;
-            font-size: 16px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            text-align: center;
+            font-size: 0.9em;
+            color: #b3b3b3;
         }
     </style>
 </head>
@@ -80,17 +75,17 @@
 
 <div class="container">
     <h1>Build Your Own Cipher</h1>
-    <p> Your password for your cipher must satisfy the following: <br>
-        It must be 95 characters long<br>
-        It must contain all of the following 95 letters in any order, with no repetition<br>
-        ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/!"#$%&'()*,-.:;<=>?@[\\]^_`{|}~space<br><br>
+    <p>Your password must meet the following criteria:</p>
+    <ul>
+        <li>It must be exactly <span class="highlight">95 characters long</span>.</li>
+        <li>Ensure that each character of the password is unique</li>
+        <li>It must contain each of these characters exactly once: <br>
+            <span class="highlight">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/!"#$%&'()*,-.:;<=>?@[\\]^_`{|}~</span><br><strong>Space</strong> (use the spacebar for this).</li>
+    </ul>
+    <p>The first character in your password will replace all 'A' characters in the plaintext, the second replaces 'B', and so on up to the <strong>space</strong> character.</p>
 
-        The first letter in your password that all characters 'A' in the plaintext should be replaced by that letter<br>
-        The second letter does the same for 'B', and so on till ' '(space)<br>
-        If you want to input 'space', use the spacebar, don't type space.<br>
-    
-    
-<a href="{{url_for('cipherious')}}" class="button">Home Page</a><br>
-<a href="{{url_for('BYOCtwo')}}" class="button">Use your own cipher</a>
+    <a href="{{url_for('cipherious')}}" class="button">Home Page</a>
+    <a href="{{url_for('BYOCtwo')}}" class="button">Use Your Cipher</a>
 </div>
-</body></html>
+</body>
+</html>
