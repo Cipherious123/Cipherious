@@ -296,7 +296,7 @@ def change_password():
         curr_user=session['user']
         old_password= request.form['old_password']
         new_password = request.form['new_password']
-        confirm = request.form['new_password_2']
+        confirm = request.form['new_password2']
 
         c.execute('SELECT password FROM users WHERE username=%s', (curr_user,))
         corr_password=c.fetchone()[0]
