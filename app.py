@@ -74,69 +74,69 @@ def check_combo(ciphername,password):
     errorr=err("", False)
      
     if password == "":
-        errorr.raise_issue("Input password in decryption\n")
+        errorr.raise_issue("Input password in decryption")
 
     elif len(password) > 100:
-        errorr.raise_issue(f"Maximum password length is 100 characters. Your password has {len(password)} characters\n")
+        errorr.raise_issue(f"Maximum password length is 100 characters. Your password has {len(password)} characters")
 
     elif ciphername == "csar":
         if int_check(password) == False:
-            errorr.raise_issue("Password must be an integer between 1 and 95 or 666 for all possible combinations\n")
+            errorr.raise_issue("Password must be an integer between 1 and 95 or 666 for all possible combinations")
         else:
             password=int(password)
             if password != 666:
                 if password > 95 or password < 1:
-                    errorr.raise_issue("Password must be an integer between 1 and 95 or 666 for all possible combinations\n")
+                    errorr.raise_issue("Password must be an integer between 1 and 95 or 666 for all possible combinations")
     
     elif ciphername == "sub":
         if int_check(password) == False:
-            errorr.raise_issue("Password must be a positive integer\n")
+            errorr.raise_issue("Password must be a positive integer")
            
     elif ciphername == "vig":
         if not unicheck(password):
-            errorr.raise_issue("Password can only contain alphabets, spacebar, numbers, punctuation (Basic latin Unicode)\n")
+            errorr.raise_issue("Password can only contain alphabets, spacebar, numbers, punctuation (Basic latin Unicode)")
     
     elif ciphername == "byoc":
         if len(password) != 95:
-            errorr.raise_issue("Password must be 95 digits long\n")
+            errorr.raise_issue("Password must be 95 digits long")
         if not unicheck(password):
-            errorr.raise_issue("Password can only contain alphabets, spacebar, numbers, punctuation (Basic latin Unicode)\n")
+            errorr.raise_issue("Password must be alphabets only")
 
         already_in=[]
         for x in password:
             if x in already_in:
-                errorr.raise_issue("Password can't be repeated\n")
+                errorr.raise_issue("Password can't be repeated")
             else:
                 already_in.append(x) 
 
     elif ciphername == "scrambler":
         if len(password) < 5:
-            errorr.raise_issue("Password must atleast be 5 characters long\n")
+            errorr.raise_issue("Password must atleast be 5 characters long")
 
         if not unicheck(password):
-            errorr.raise_issue("Password can only contain alphabets, spacebar, numbers, punctuation (Basic latin Unicode)\n")
+            errorr.raise_issue("Password can only contain alphabets, spacebar, numbers, punctuation (Basic latin Unicode)")
 
     elif ciphername == "aes":
         if len(password) != 16:
-            errorr.raise_issue("Password must be 16 characters long.\n")
+            errorr.raise_issue("Password must be 16 characters long.")
 
         if not unicheck(password):
-            errorr.raise_issue("Password can only contain alphabets, spacebar, numbers, punctuation (Basic latin Unicode)\n")
+            errorr.raise_issue("Password can only contain alphabets, spacebar, numbers, punctuation (Basic latin Unicode)")
 
     elif ciphername == "base":
         password = password.split()
         allowed = "uan"
-        if len(password) != 4:
-            errorr.raise_issue("Please refer to help box for how to input the password. There must be 4 parts split by spaces\n")
-        elif not int_check(password[0]) or not int_check(password[1]):
-            errorr.raise_issue("Base of your number and base to convert your number to must be positive integers from 2 to 95. Please refer to help box or the Base changer page\n")
-        elif not 1 < int( password[0] ) < 96 or not 1 < int( password[1] ) < 96 :
-            errorr.raise_issue("Base of your number and base to convert your number to must be positive integers from 2 to 95. Please refer to help box or the Base changer page\n")
-        elif password[2] not in allowed or password[3] not in allowed:
-            errorr.raise_issue("Please refer to help box for how to input the password. The number systems must be denoted as given there\n")
+        if len(password) != 3:
+            errorr.raise_issue("Please refer to help box for how to input the password. There must be 4 parts split by spaces")
+        elif not int_check(password[0]):
+            errorr.raise_issue("Base to convert your number to must be positive integers from 2 to 95. Please refer to help box or the Base changer page\n")
+        elif not 1 < int( password[0] ) < 96:
+            errorr.raise_issue("Base in and Base out must be positive integers from 2 to 95. Please refer to help box or the Base changer page")
+        elif password[1] not in allowed or password[2] not in allowed:
+            errorr.raise_issue("Please refer to help box for how to input the password. The number systems must be denoted as given there")
 
     else:       
-        errorr.raise_issue("Cipher doesn't exist\n")
+        errorr.raise_issue("Cipher doesn't exist")
     return errorr
 
 def check_base(num, base_in, base_out, sys_in):

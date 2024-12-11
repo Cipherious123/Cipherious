@@ -9,7 +9,6 @@ alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11
 alpha={ "a":".-" , "b":"-...","c":"-.-.","d":"-..","e":".","f":"..-.","g":"--.","h":"....","i":"..","j":".---","k":"-.-","l":".-..","m":"--","n":"-.","o":"---","p":".--.","q":"--.-","r":".-.","s":"...","t":"-","u":"..-","v":"...-","w":".--","x":"-..-","y":"-.--","z":"--..",
         "1": ".----", "2": "..---", "3": "...--", "4": "....-", "5":".....", "6":"-...." , "7":"--...", "8": "---..", "9": "----.", "0": "-----", 'A': '.-^', 'B': '-...^', 'C': '-.-.^', 'D': '-..^', 'E': '.^', 'F': '..-.^', 'G': '--.^', 'H': '....^', 'I': '..^', 'J': '.---^', 'K': '-.-^', 'L': '.-..^', 'M': '--^', 'N': '-.^', 'O': '---^', 'P': '.--.^', 'Q': '--.-^', 'R': '.-.^', 'S': '...^', 'T': '-^', 'U': '..-^', 'V': '...-^', 'W': '.--^', 'X': '-..-^', 'Y': '-.--^', 'Z': '--..^'}
 capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-textoy = "As of Unicode version 16.0, there are 155,063 characters with code points, covering 168 modern and historical scripts, as well as multiple symbol sets. This article includes the 1,062 characters in the Multilingual European Character Set 2 (MES-2) subset, and some additional related characters."
 
 def julian (shiftno, letter):
     letter=int(letter)
@@ -397,15 +396,14 @@ def aes(inp, key, ende):
         output = unpad(padded_inp, AES.block_size)
         return output.decode('utf-8') #stringify
 
-def bases(number, base_in, base_out, sys_in, sys_out, ende):
+def bases(number, base_out, sys_in, sys_out, ende):
     base_out = int(base_out)
-    base_in = int(base_in)
     if ende == 1:
-        number = base_change(number, 66, base_in, sys_in, sys_out)
+        number = base_change(number, 66, 95, sys_in, sys_out)
         number = base_change(number, 1, base_out, sys_out, sys_out)
     else:
         number = base_change(number, 66, base_out, sys_out, sys_out)
-        number = base_change(number, 1, base_in, sys_out, sys_in)
+        number = base_change(number, 1, 95, sys_out, sys_in)
     return number
 
 def combination(text, ende, combo):
@@ -435,7 +433,7 @@ def combination(text, ende, combo):
         elif cipher == "base":   
             lookup_ = {"u": "unicode", "a": "alpha", "n": "normal"}
             password = p_word.split()
-            text = bases(text, password[0], password[1], lookup_[password[2]], lookup_[password[3]], ende)
+            text = bases(text, password[0], lookup_[password[1]], lookup_[password[2]], ende)
 
         else:
             text = lookup[cipher](text, p_word, ende)
@@ -447,7 +445,3 @@ def filter_list(text):
         if x in unicode:
             output += x
     return output
-combo = [["base", "77 40 n u"]]
-c = combination(textoy, 1, combo)
-print(c)
-print(combination(c, 66, combo))
