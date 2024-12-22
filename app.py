@@ -490,8 +490,8 @@ def standard(cipher):
         if oops.true == False and len(text)<1000:
             ende= int(ende)
             output = combination(text , ende, combin)
-        elif len(text) > 1000:
-            output = f"Maximum length of input is 1000 characters. Yours has {len(text)}"
+        elif len(text) > 10000:
+            output = f"Maximum length of input is 10000 characters. Yours has {len(text)}"
         else:
             output = oops.name
             oops.true = False
