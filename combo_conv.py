@@ -4,11 +4,13 @@ from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
 from bases import base_change, unicode
+from keygen import rand_text
 bas64 = {'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9, 'J': 10, 'K': 11, 'L': 12, 'M': 13, 'N': 14, 'O': 15, 'P': 16, 'Q': 17, 'R': 18, 'S': 19, 'T': 20, 'U': 21, 'V': 22, 'W': 23, 'X': 24, 'Y': 25, 'Z': 26, 'a': 27, 'b': 28, 'c': 29, 'd': 30, 'e': 31, 'f': 32, 'g': 33, 'h': 34, 'i': 35, 'j': 36, 'k': 37, 'l': 38, 'm': 39, 'n': 40, 'o': 41, 'p': 42, 'q': 43, 'r': 44, 's': 45, 't': 46, 'u': 47, 'v': 48, 'w': 49, 'x': 50, 'y': 51, 'z': 52, '0': 53, '1': 54, '2': 55, '3': 56, '4': 57, '5': 58, '6': 59, '7': 60, '8': 61, '9': 62, '+': 63, '/': 64, '!': 65, '"': 66, '#': 67, '$': 68, '%': 69, '&': 70, "'": 71, '(': 72, ')': 73, '*': 74, ',': 75, '-': 76, '.': 77, ':': 78, ';': 79, '<': 80, '=': 81, '>': 82, '?': 83, '@': 84, '[': 85, '\\': 86, ']': 87, '^': 88, '_': 89, '`': 90, '{': 91, '|': 92, '}': 93, '~': 94, ' ': 95}
 alphaone={ "a":1 , "b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"o":15,"p":16,"q":17,"r":18,"s":19,"t":20,"u":21,"v":22,"w":23,"x":24,"y":25,"z":26, " ":27 }
 alpha={ "a":".-" , "b":"-...","c":"-.-.","d":"-..","e":".","f":"..-.","g":"--.","h":"....","i":"..","j":".---","k":"-.-","l":".-..","m":"--","n":"-.","o":"---","p":".--.","q":"--.-","r":".-.","s":"...","t":"-","u":"..-","v":"...-","w":".--","x":"-..-","y":"-.--","z":"--..",
         "1": ".----", "2": "..---", "3": "...--", "4": "....-", "5":".....", "6":"-...." , "7":"--...", "8": "---..", "9": "----.", "0": "-----", 'A': '.-^', 'B': '-...^', 'C': '-.-.^', 'D': '-..^', 'E': '.^', 'F': '..-.^', 'G': '--.^', 'H': '....^', 'I': '..^', 'J': '.---^', 'K': '-.-^', 'L': '.-..^', 'M': '--^', 'N': '-.^', 'O': '---^', 'P': '.--.^', 'Q': '--.-^', 'R': '.-.^', 'S': '...^', 'T': '-^', 'U': '..-^', 'V': '...-^', 'W': '.--^', 'X': '-..-^', 'Y': '-.--^', 'Z': '--..^'}
 capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+textoy = "As of Unicode version 16.0, there are 155,063 characters with code points, covering 168 modern and historical scripts, as well as multiple symbol sets. This article includes the 1,062 characters in the Multilingual European Character Set 2 (MES-2) subset, and some additional related characters."
 
 def julian (shiftno, letter):
     letter=int(letter)
@@ -35,6 +37,23 @@ def digitsum(n1):
     for x in inp_list:
         output = output + int(x)
     return output
+
+scale_factor = {2: 0.32, 3: 0.4969, 4: 0.6191, 5: 0.7156, 6: 0.7908, 7: 0.8591, 8: 0.9165, 9: 0.9673, 10: 1.0096, 11: 1.0522, 12: 1.0888, 13: 1.1246, 14: 1.156, 15: 1.1865, 16: 1.2136, 17: 1.2387, 18: 1.2637, 19: 1.2878, 20: 1.3089, 21: 1.3288, 22: 1.3489, 23: 1.369, 24: 1.3886, 25: 1.4057, 26: 1.4213, 27: 1.4383, 28: 1.4535, 29: 1.4675, 30: 1.4821, 31: 1.4976, 32: 1.5086, 33: 1.5256, 34: 1.537, 35: 1.548, 36: 1.5604, 37: 1.5733, 38: 1.5857, 39: 1.5964, 40: 1.6074, 41: 1.6178, 42: 1.6277, 43: 1.6379, 44: 1.6483, 45: 1.6569, 46: 1.6673, 47: 1.6768, 48: 1.6863, 49: 1.6949, 50: 1.7038, 51: 1.7097, 52: 1.7187, 53: 1.7282, 54: 1.7362, 55: 1.7439, 56: 1.7497, 57: 1.7578, 58: 1.7674, 59: 1.7735, 60: 1.7786, 61: 1.7884, 62: 1.7964, 63: 1.8011, 64: 1.8083, 65: 1.8162, 66: 1.8222, 67: 1.8282, 68: 1.8351, 69: 1.8392, 70: 1.8477, 71: 1.8529, 72: 1.8587, 73: 1.865, 74: 1.8691, 75: 1.8777, 76: 1.8817, 77: 1.8879, 78: 1.8944, 79: 1.8986, 80: 1.9059, 81: 1.9081, 82: 1.9161, 83: 1.9194, 84: 1.9258, 85: 1.9288, 86: 1.9365, 87: 1.9387, 88: 1.947, 89: 1.9488, 90: 1.9566, 91: 1.9584, 92: 1.9659, 93: 1.9683, 94: 1.9746, 95: 1.9783}
+def max_limit(combo):
+    max = 4100
+    has_base = False
+    for i in combo:
+        if i[0] == "base":
+            has_base = True
+            base_out = i[1].split()[0]
+            max = max/scale_factor[95]
+            max = max*scale_factor[int(base_out)]
+        elif i[0] == "aes":
+            max = max / 1.4
+
+    if has_base:
+        max = max/scale_factor[int(base_out)]
+    return round(max) - 1
         
 def cc(input, password):
     def encrypt_caesar(inp, shift):
@@ -413,35 +432,55 @@ def combination(text, ende, combo):
         combo.reverse()
     
     text = filter_list(text)
-    for step in combo:
-        p_word = step[1]
-        cipher = step[0]
+    text_list = []
+    max_lim = max_limit(combo)
 
-        if cipher=="csar":
-            if ende==66:
-                p_word= "-" + p_word
-            text=cc(text, p_word)
+    if ende == 1:
+        while len(text) > max_lim:
+            text_list.append(text[:max_lim])
+            text = text[max_lim:]
+        text_list.append(text)
+    else:
+        text_list = text.split("Ω")
 
-        elif cipher == "aes":
-            inp_check,_,_ = aes_decrypt(ende, text, p_word.encode())
+    output = ""
+    for packet in text_list:
+        for step in combo:
+            p_word = step[1]
+            cipher = step[0]
+
+            if cipher=="csar":
+                if ende==66:
+                    p_word= "-" + p_word
+                packet = cc(packet, p_word)
+
+            elif cipher == "aes":
+                inp_check,_,_ = aes_decrypt(ende, packet, p_word.encode())
+                
+                if inp_check:
+                    packet = aes(packet,p_word, ende)
+                else:
+                    return None 
             
-            if inp_check:
-                text = aes(text,p_word, ende)
-            else:
-                return None 
-        
-        elif cipher == "base":   
-            lookup_ = {"u": "unicode", "a": "alpha", "n": "normal"}
-            password = p_word.split()
-            text = bases(text, password[0], lookup_[password[1]], lookup_[password[2]], ende)
+            elif cipher == "base":   
+                lookup_ = {"u": "unicode", "a": "alpha", "n": "normal"}
+                password = p_word.split()
+                packet = bases(packet, password[0], lookup_[password[1]], lookup_[password[2]], ende)
 
-        else:
-            text = lookup[cipher](text, p_word, ende)
-    return text
+            else:
+                packet = lookup[cipher](packet, p_word, ende)
+
+        output += packet
+        if ende == 1:
+            output += "Ω"
+
+    if ende == 1:
+        output = output[:-1]    
+    return output
 
 def filter_list(text):
     output = ""
     for x in text:
-        if x in unicode:
+        if x in unicode or x == "Ω":
             output += x
     return output

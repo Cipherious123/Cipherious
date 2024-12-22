@@ -127,7 +127,7 @@ def check_combo(ciphername,password):
         password = password.split()
         allowed = "uan"
         if len(password) != 3:
-            errorr.raise_issue("Please refer to help box for how to input the password. There must be 4 parts split by spaces")
+            errorr.raise_issue("Please refer to help and guidelines link at bottom of this page for how to input the password. There must be 3 parts split by spaces")
         elif not int_check(password[0]):
             errorr.raise_issue("Base to convert your number to must be positive integers from 2 to 95. Please refer to help box or the Base changer page\n")
         elif not 1 < int( password[0] ) < 96:
@@ -591,6 +591,10 @@ def submit():
     session['errorr']['true'] = prob.true
     session['errorr']['name'] = prob.name
 
+    if len(session['combo'])  >= 25: 
+        session['errorr']['true'] = True
+        session['errorr']['name'] = "Combo can have maximum of 25 terms"
+
     if session['errorr']['nameset'] and not session['errorr']['true']:
         step = [ciphername, password]
         combo = session.get('combo', [])
@@ -638,8 +642,8 @@ def use_combo():
 
         if combo_ == None:
             output="Error, combination not found"
-        elif len(inp) > 1000:
-            output = f"Maximum length of input is 1000 characters. Yours has {len(inp)}"
+        elif len(inp) > 10000:
+            output = f"Maximum length of input is 10000 characters. Yours has {len(inp)}"
         else:
             combo_ = combo_[0]
             combo_ = ast.literal_eval(combo_)
@@ -665,6 +669,10 @@ def base_changer():
         lookup = {"0": "normal", "2": "alpha", "1":"unicode"}
         sys_in = lookup[sys_in]
         sys_out = lookup[sys_out]
+
+        for x in number:
+            if x not in unicode:
+                number.replace(x,'')
 
         issue = check_base(number, base_in, base_out, sys_in)
         if not issue.true:
