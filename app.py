@@ -487,7 +487,7 @@ def standard(cipher):
 
         combin= [[cipher ,  password ]]
         oops = check_combo(cipher, password)
-        if oops.true == False and len(text)<1000:
+        if oops.true == False and len(text)<10000:
             ende= int(ende)
             output = combination(text , ende, combin)
         elif len(text) > 10000:
