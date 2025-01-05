@@ -161,9 +161,11 @@
 <div id="test-output" class="output-container">Your number is : {{number}}</div>   
 
 <div class="help-box">
+    <button class="close-btn" onclick="closeHelpBox()">X</button>
     <div class="help-box-header">
         Help & Tips
     </div>
+    
     <div class="help-box-content">
         <div class="tip">💡 Normal number system: 0123456789ABCDEFGHIJKL <br>
                                                    MNOPQRSTUVWXYZabcdefgh<br>
@@ -183,6 +185,11 @@
         <div class="tip">💡 To change basis of negative number, change basis of its positive equivalent and then make it negative. </div>
     </div>
 </div>
+<script>
+    function closeHelpBox() {
+        document.querySelector('.help-box').style.display = 'none';
+    }
+</script>
 
 <a href="{{url_for('cipherious')}}" class="button">Home Page</a>
 </div>

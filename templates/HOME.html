@@ -110,7 +110,6 @@
     </form>
     <a href="{{url_for('my_acc')}}" class="w3-bar-item w3-button w3-hide-small w3-hover-red">Hi {{curr_user}}</a>
   </div>
-  <!-- Navbar on small screens -->
 </div>
 
 <!-- Image Header -->
@@ -180,7 +179,7 @@
       <div class="container" style="padding: 14px;">
         
       <div class="w3-card w3-white " style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden; height: 1000 px">
-        <img src="{{ url_for('static', filename='caesar.jpg') }}" alt="Caesar Cipher" style="width: 100%; height: 300px; object-fit: cover;">
+        <img src="{{ url_for('static', filename='csar.jpeg') }}" alt="Caesar Cipher" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">CAESAR CIPHER</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
@@ -230,7 +229,7 @@
 	<div class="container" style="padding: 14px;">
   
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden; height: 1000 px">
-        <img src="{{ url_for('static', filename='telegraph.png') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <img src="{{ url_for('static', filename='detective.jpeg') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">MORSE CODE</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
@@ -331,7 +330,7 @@
 <div class="w3-quarter w3-padding-24">
 	<div class="container" style="padding: 14px;">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden; height: 1000 px">
-        <img src="{{ url_for('static', filename='byoc.jpg') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <img src="{{ url_for('static', filename='byoc2.jpeg') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
 	<div class="container" style="padding: 24px;">
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">USE YOUR OWN CIPHER</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
@@ -362,7 +361,7 @@
     <div class="w3-quarter w3-padding-24">
 	<div class="container" style="padding: 14px;">
       <div class="w3-card w3-white" style="border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); overflow: hidden; height: 1000 px;">
-        <img src="{{ url_for('static', filename='combo2.jpg') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
+        <img src="{{ url_for('static', filename='use_combo.jpeg') }}" alt="title_here" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="container" style="padding: 24px;">
           <h3 style="font-size: 1.8em; font-family: 'Arial', sans-serif; color: #007BFF; text-align: center;">USE YOUR COMBINATION OF CIPHERS</h3>
           <p style="font-size: 1.1em; font-family: 'Arial', sans-serif; color: #555; line-height: 1.7; text-align: justify; margin-top: 20px;">
@@ -378,9 +377,9 @@
 </div>
 </div>
 <!-- Container -->
-<div class="container" style="position:fixed">
+<div class="container" style="position:fixed; width: 100%; height: 100%;">
   <a onclick="w3_open()" class="w3-button w3-xlarge w3-circle w3-teal"
-  style="position:absolute;top:20px;right:24px">+</a>
+  style="position:fixed; bottom:20px; right:24px; z-index: 3;">+</a>
 </div>
 
 <script>
@@ -395,16 +394,6 @@ function w3_open() {
 // Close side navigation
 function w3_close() {
   document.getElementById("mySidebar").style.display = "none";
-}
-
-// Used to toggle the menu on smaller screens when clicking on the menu button
-function openNav() {
-  var x = document.getElementById("navDemo");
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-  } else { 
-    x.className = x.className.replace(" w3-show", "");
-  }
 }
 </script>
 </body> </html>
